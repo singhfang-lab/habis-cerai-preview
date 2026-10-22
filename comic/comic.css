@@ -102,3 +102,42 @@ html,body{margin:0;height:100%;background:#0d090d;color:#f6eef2;font:15px/1.42 s
 .sheet button{display:block;width:100%;margin-top:8px;padding:14px;border-radius:12px;border:1px solid #ffffff2a;background:#2b2028;color:#fff;font-weight:700;font-size:15px;font-family:inherit}
 .sheet .warn{background:#c2304f;border-color:#c2304f}.sheet .ghost{background:transparent}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+/* v3: text backdrops for off-phone scenes + light interactions */
+#app.noimg .stage{height:0;border-width:0;box-shadow:none}
+#app.noimg .feed{top:56px}
+.setcard{position:relative;overflow:hidden;border-radius:14px;padding:16px 16px 14px;margin:4px 0 10px;background:linear-gradient(160deg,#2b2f45,#15121b);border:1px solid #ffffff22;box-shadow:0 8px 24px #0008}
+.setcard.t-harsh{background:linear-gradient(160deg,#5b4527,#1c1510)}.setcard.t-warm{background:linear-gradient(160deg,#55302a,#1a1012)}.setcard.t-night{background:linear-gradient(160deg,#1b2340,#0b0c14)}.setcard.t-red{background:linear-gradient(160deg,#4a1020,#12080b)}
+.setcard .sbg{position:absolute;inset:-12%;width:124%;height:124%;object-fit:cover;filter:blur(14px) brightness(.38) saturate(.9);z-index:0}
+.setcard>*{position:relative;z-index:1}
+.stag{display:inline-block;background:#fff7c9;color:#1b1410;font-weight:800;font-size:12px;padding:3px 8px;border:2px solid #1b1410;transform:rotate(-1.5deg);box-shadow:2px 2px 0 #1b1410;margin-bottom:10px}
+.setlines p{margin:0 0 8px;text-shadow:0 1px 4px #000}
+.s1{font-size:16.5px;font-weight:800;color:#fff}.s2{font-size:14.5px;color:#e9dde2}.s3{font-size:15px;font-style:italic;color:#f7c1cf;border-left:3px solid #f2a7bb;padding-left:9px;margin-top:10px!important}
+.beat.new .setcard .setlines p{animation:fadeup .5s both}.beat.new .setcard .s2{animation-delay:.25s!important}.beat.new .setcard .s3{animation-delay:.55s!important}
+@keyframes fadeup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.act,.quick{background:#1b1219f2;border:2px dashed #f2a7bb;border-radius:16px;padding:12px;box-shadow:0 8px 24px #000b}
+.act .setcard{margin:-4px -4px 12px}
+.aq{margin:0 0 10px;font-weight:700;font-size:15px}.albl{display:inline-block;font-size:10.5px;font-weight:900;letter-spacing:.06em;background:#f2a7bb;color:#24101a;border-radius:5px;padding:2px 6px;margin-right:4px;vertical-align:2px}
+.adone{margin:0;font-weight:800;color:#bff0c9;font-size:15px}.revealed .adone{animation:pop .35s cubic-bezier(.2,1.4,.4,1)}
+.aw{width:100%;font-family:inherit}.aw.nudge,.qopts.nudge{animation:nudge .4s}
+.aw.tap{border:0;border-radius:14px;padding:16px;font-size:17px;font-weight:900;background:#fff;color:#24101a;box-shadow:0 4px 0 #a2455f;animation:pulse 1.4s ease-in-out infinite}
+.aw.hold{position:relative;display:flex;align-items:center;gap:14px;border:0;border-radius:14px;padding:12px 16px;background:#fff;color:#24101a;font-size:16px;font-weight:900;touch-action:none;-webkit-user-select:none}
+.hold .ring{--p:0;flex:0 0 46px;height:46px;border-radius:50%;background:conic-gradient(#e0466e calc(var(--p)*360deg),#f1d8df 0);display:grid;place-items:center}
+.hold .ring i{width:34px;height:34px;border-radius:50%;background:#fff;display:block}
+.hold.holding .ring i{animation:breath 1.3s ease-in-out}@keyframes breath{50%{transform:scale(.6)}}
+.swipe .trk{position:relative;height:56px;border-radius:28px;background:linear-gradient(90deg,#f2a7bb calc(var(--p,0)*100%),#ffffff26 0);border:1px solid #ffffff44;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.swipe .trk span{font-weight:800;font-size:14px;color:#fff;padding-left:40px}
+.knob{position:absolute;left:4px;top:4px;width:48px;height:48px;border-radius:50%;background:#fff;color:#24101a;display:grid;place-items:center;font-size:22px;box-shadow:0 3px 8px #0007;touch-action:none;cursor:grab}
+.drag{display:flex;align-items:center;gap:12px}.drag span{font-weight:800;font-size:14px}
+.drag .pad{position:relative;flex:0 0 64px;height:150px;border-radius:14px;background:linear-gradient(#ffffff14,#ffffff2e);border:1px solid #ffffff44}
+.drag .knob{left:8px;top:6px;width:48px;height:62px;border-radius:10px;font-size:28px;transition:none}
+.drag .slot{position:absolute;bottom:6px;left:6px;right:6px;text-align:center;font-style:normal;color:#f2a7bb;letter-spacing:-2px}
+.qopts{display:flex;flex-direction:column;gap:8px}
+.qo{font-family:inherit;border:0;background:none;padding:0;text-align:left;color:inherit}
+.quick.say .qo{display:flex;justify-content:flex-end;align-items:flex-end;gap:8px}
+.quick.say .qb{background:#f2a7bb;color:#24101a;padding:10px 13px;border-radius:18px 18px 4px 18px;font-size:15px;font-weight:700;max-width:80%;box-shadow:0 3px 10px #0006}
+.quick.act .qo{background:#fff;color:#24101a;border-radius:12px;padding:13px 14px;font-size:15.5px;font-weight:800;box-shadow:0 3px 0 #a2455f}
+.quick .qo.dim{opacity:.3}.quick .qo.sel .qb,.quick.act .qo.sel{outline:3px solid #fff}
+.quick:not(.done) .qo{animation:pulse 1.6s ease-in-out infinite}
+.quick.say .qo{background:transparent;box-shadow:none;animation:none!important;outline:none}
+.quick.say:not(.done) .qb{animation:pulse 1.6s ease-in-out infinite}
+.quick.say .qo.sel .qb{outline:3px solid #fff}
