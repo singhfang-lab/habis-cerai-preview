@@ -8,13 +8,15 @@
  function create(storage,now=()=>Date.now(),opts={}){
   let data;try{data=JSON.parse(storage.getItem(KEY))||null;}catch{data=null;}
   if(!data||!Array.isArray(data.events))data={v:1,session:Math.random().toString(36).slice(2,10),created:now(),events:[]};
-  data.v=2;if(opts.tester)data.tester=String(opts.tester).slice(0,40);
+  data.v=2;if(opts.tester)data.tester=String(opts.tester).slice(0,40);if(opts.reader)data.reader=String(opts.reader).slice(0,40);
   const sessionStart=now(),sid=Math.random().toString(36).slice(2,10);
   function persist(){try{storage.setItem(KEY,JSON.stringify(data));}catch{}}
-  function log(type,detail={}){const e={t:now(),sid,type,...detail};data.events.push(e);if(data.events.length>MAX)data.events.splice(0,data.events.length-MAX);persist();return e;}
-  function events(type){return type?data.events.filter(e=>e.type===type):data.events.slice();}
+  // v22.1: re-read before appending so two tabs of the same reader never drop each other's events
+  function reload(){try{const d=JSON.parse(storage.getItem(KEY));if(d&&Array.isArray(d.events)){d.tester=data.tester??d.tester;d.reader=data.reader??d.reader;data=d;}}catch{}}
+  function log(type,detail={}){reload();const e={t:now(),sid,type,...detail};data.events.push(e);if(data.events.length>MAX)data.events.splice(0,data.events.length-MAX);persist();return e;}
+  function events(type){reload();return type?data.events.filter(e=>e.type===type):data.events.slice();}
   function setTester(id){data.tester=String(id||'').slice(0,40)||undefined;persist();}
-  function summary(){const all=data.events,by=t=>all.filter(e=>e.type===t);const pay=by('pay_leave');const last={};for(const e of by('panel'))last[e.ep]=Math.max(last[e.ep]??-1,e.idx);
+  function summary(){reload();const all=data.events,by=t=>all.filter(e=>e.type===t);const pay=by('pay_leave');const last={};for(const e of by('panel'))last[e.ep]=Math.max(last[e.ep]??-1,e.idx);
    // per episode: starts, finishes, completion, active reading time (panel dwell, idle-capped) per session
    const eps={};const ep=i=>eps[i]=eps[i]||{starts:0,finishes:0,readMs:{},panels:0};
    for(const e of by('ep_start'))ep(e.ep).starts++;for(const e of by('ep_finish'))ep(e.ep).finishes++;
@@ -30,15 +32,15 @@
    const routes={};for(const e of by('choice'))if(e.key==='reconcile')routes[['A','R','S'][e.n]||e.n]=(routes[['A','R','S'][e.n]||e.n]||0)+1;
    const sessions=[...new Set(all.map(e=>e.sid).filter(Boolean))];
    const taps=by('premium_tap').length,unlocks=by('premium_unlock').length;
-   return {tester:data.tester||null,device:data.session,sessions:sessions.length,languages:[...new Set(all.map(e=>e.lang).filter(Boolean))],
+   return {tester:data.tester||null,reader:data.reader||null,device:data.session,sessions:sessions.length,languages:[...new Set(all.map(e=>e.lang).filter(Boolean))],
     episodesStarted:[...new Set(by('ep_start').map(e=>e.ep))].length,episodesFinished:[...new Set(by('ep_finish').map(e=>e.ep))].length,
     choices:by('choice').length,premiumTaps:taps,premiumUnlocks:unlocks,premiumDeclines:by('premium_decline').length,premiumConversion:rate(unlocks,taps),
     paywallViews:by('pay_view').length,paywallUnlocks:by('pay_unlock').length,paywallConversion:rate(by('pay_unlock').length,by('pay_view').length),
     avgPaywallMs:pay.length?Math.round(pay.reduce((a,e)=>a+(e.ms||0),0)/pay.length):0,
     phoneOpens:by('phone_open').length,phoneThreads:by('phone_thread').length,replays:by('replay').length,teaserViews:by('teaser_view').length,
     leaves:leaves.length,returns:by('return').length,abandonPoints:abandon,endings,routes,perEpisode,decisions,lastPanelByEpisode:last};}
-  function exportJSON(){return JSON.stringify({exported:now(),tester:data.tester||null,session:data.session,sid,created:data.created,sessionStart,summary:summary(),events:data.events},null,1);}
-  function clear(){data.events=[];persist();}
+  function exportJSON(){return JSON.stringify({exported:now(),reader:data.reader||null,tester:data.tester||null,session:data.session,sid,created:data.created,sessionStart,summary:summary(),events:data.events},null,1);}
+  function clear(){reload();data.events=[];persist();}
   return {log,events,summary,exportJSON,clear,setTester,sid,KEY};
  }
  const api={create,KEY,median};if(typeof module!=='undefined')module.exports=api;else root.Analytics=api;
