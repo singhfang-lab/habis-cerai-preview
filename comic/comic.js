@@ -18,7 +18,8 @@ function timeline(){const out=[];for(const b of BEATS){out.push(b);if(b.k==='cho
 
 // ---------- render ----------
 const feed=$('feed');
-function avatar(who,cls=''){const c=CAST[who];return `<div class="av ${cls}${c.old?' old':''}"><img src="assets/${c.av}" alt=""></div>`;}
+const EXS={N:['neutral','hurt','angry','determined'],H:['neutral','hurt','angry','determined'],R:['neutral','hurt','angry','determined'],M:['neutral','hurt'],A:['neutral','soft'],K:['neutral','angry']};
+function avatar(who,cls='',ex){const c=CAST[who];const base=c.old?'N':who;const e=(EXS[base]||[]).includes(ex)?ex:'neutral';return `<div class="av ${cls}${c.old?' old':''}" data-ex="${base}-${e}"><img src="assets/av-${base}-${e}.webp" alt=""></div>`;}
 function phoneHTML(b){
  const time=b.time?`<span class="pt">${esc(L(b.time))}</span>`:'';
  switch(b.app){
@@ -27,7 +28,7 @@ function phoneHTML(b){
   case 'bank':return `<div class="ph notif bank"><div class="phh"><span class="ico">💳</span><b>${esc(L(b.title))}</b>${time}</div><p>${esc(L(b.t))}</p></div>`;
   case 'wa':return `<div class="ph wa${b.mine?' mine':''}"><div class="phh"><span class="ico">💬</span><b>${esc(L(b.title))}</b>${time}</div><p class="wab">${esc(L(b.t))}</p></div>`;
   case 'live':return `<div class="ph live${b.pin?' pin':''}"><div class="phh"><span class="livepill">LIVE</span><b>${esc(L(b.title))}</b></div>${b.pin?`<small class="pinl">📌 ${T('pinned')}</small>`:''}<p>${b.from?`<b class="u">${esc(b.from)}</b> `:''}${esc(L(b.t))}</p></div>`;
-  case 'call':return `<div class="ph call">${avatar('K','big')}<b class="cn">${esc(L(b.title))}</b><small>${T('call')}</small><p>${esc(L(b.t))}</p><div class="cbtn"><i class="no">✕</i><i class="yes">✆</i></div></div>`;
+  case 'call':return `<div class="ph call">${avatar('K','big','neutral')}<b class="cn">${esc(L(b.title))}</b><small>${T('call')}</small><p>${esc(L(b.t))}</p><div class="cbtn"><i class="no">✕</i><i class="yes">✆</i></div></div>`;
   case 'vn':return `<div class="ph vn"><div class="phh"><span class="ico">🎙️</span><b>${esc(L(b.title))}</b></div><div class="wave"><i>▶</i>${'<s></s>'.repeat(22)}<small>${T('vn')}</small></div><p>${esc(L(b.t))}</p></div>`;
   case 'dm':return `<div class="ph dm"><div class="phh"><span class="ico anon">?</span><b>${esc(L(b.title))}</b>${time}</div><p>${esc(L(b.t))}</p></div>`;
  }return '';}
@@ -47,12 +48,11 @@ function endHTML(){const m=Object.values(st.how).filter(h=>h==='me').length;
  return `<div class="end"><h2>${T('endT')}</h2><p class="eq">${T('endQ')}</p><p class="es">${esc(L(UI.endStat).replace('{m}',m))}</p><a class="enext" href="../">${T('novel')}</a><button class="eagain" data-again="1">${T('again')}</button></div>`;}
 function beatHTML(b,i,tl){
  let pre='';
- if(b.bg)pre=`<div class="panel"><img src="assets/${b.bg}" alt=""><span>${esc(L(b.place))}</span></div>`;
  const firstOf=w=>tl.findIndex(x=>x.k==='say'&&x.who===w)===i;
  let h='';
  switch(b.k){
-  case 'say':{const c=CAST[b.who];h=`<div class="row ${c.me?'right':'left'}">${c.me?'':avatar(b.who)}<div class="col"><div class="nm">${esc(L(c.name))}${firstOf(b.who)&&!c.me?` <small>${esc(L(c.tag))}</small>`:''}</div><div class="bub ${c.me?'me':''}">${esc(L(b.t))}</div></div>${c.me?avatar('N'):''}</div>`;break;}
-  case 'think':h=`<div class="row right"><div class="col"><div class="nm">${T('think')}</div><div class="cloud">${esc(L(b.t))}</div></div>${avatar('N','sm')}</div>`;break;
+  case 'say':{const c=CAST[b.who];h=`<div class="row ${c.me?'right':'left'}">${c.me?'':avatar(b.who,'',b.ex)}<div class="col"><div class="nm">${esc(L(c.name))}${firstOf(b.who)&&!c.me?` <small>${esc(L(c.tag))}</small>`:''}</div><div class="bub ${c.me?'me':''}">${esc(L(b.t))}</div></div>${c.me?avatar('N','',b.ex):''}</div>`;break;}
+  case 'think':h=`<div class="row right"><div class="col"><div class="nm">${T('think')}</div><div class="cloud">${esc(L(b.t))}</div></div>${avatar('N','sm',b.ex)}</div>`;break;
   case 'old':h=`<div class="row left">${avatar('O')}<div class="col"><div class="nm old">${esc(L(CAST.O.name))} <small>${esc(L(CAST.O.tag))}</small></div><div class="bub oldb">${esc(L(b.t))}</div></div></div>`;break;
   case 'cap':h=`<div class="cap">${esc(L(b.t))}</div>`;break;
   case 'sfx':h=`<div class="sfx"><b>${esc(L(b.t))}</b>${b.sub?`<small>${esc(L(b.sub))}</small>`:''}</div>`;break;
@@ -62,21 +62,26 @@ function beatHTML(b,i,tl){
  }
  return `<section class="beat k-${b.k}${b.fx==='glitch'?' glitch':''}" data-i="${i}">${pre}${h}</section>`;}
 
-let lastBg=null;
-function applyScene(tl){let bg=null,tint='cold';for(let i=0;i<st.n&&i<tl.length;i++){if(tl[i].bg)bg=tl[i].bg;if(tl[i].tint)tint=tl[i].tint;}
- if(bg&&bg!==lastBg){const im=$('bgimg');im.src='assets/'+bg;im.classList.remove('kb');void im.offsetWidth;im.classList.add('kb');lastBg=bg;}
- $('tint').className='tint '+tint;}
+let lastBg=null,flip=false;
+// a new place/time = a new page: the feed only shows lines from the current scene, so old text never sits under a new picture
+function sceneStart(tl,n){let s=0;for(let i=0;i<n&&i<tl.length;i++)if(tl[i].place)s=i;return s;}
+function sceneAt(tl,n){let img=null,place='',tint='cold';for(let i=0;i<n&&i<tl.length;i++){if(tl[i].img)img=tl[i].img;if(tl[i].place)place=tl[i].place;if(tl[i].tint)tint=tl[i].tint;}return {img,place,tint};}
+function applyScene(tl){const sc=sceneAt(tl,st.n);
+ if(sc.img&&sc.img!==lastBg){const a=$(flip?'pimg2':'pimg'),b=$(flip?'pimg':'pimg2');b.src='assets/'+sc.img;b.classList.remove('kb');void b.offsetWidth;b.classList.add('kb','on');a.classList.remove('on');flip=!flip;
+  const bg=$('bgimg');bg.src='assets/'+sc.img;lastBg=sc.img;$('stage').dataset.img=sc.img;}
+ $('place').textContent=L(sc.place);$('place').hidden=!sc.place;
+ $('tint').className='tint '+sc.tint;$('stage').className='stage t-'+sc.tint;}
 function chrome(tl){document.documentElement.lang=st.lang==='zh'?'zh':'id';$('ttl').textContent=L(UI.title);$('proto').textContent=L(UI.proto);$('btnLang').textContent=st.lang==='zh'?'中':'ID';
  $('btnAuto').textContent=st.auto?'❚❚':'▶';$('btnAuto').classList.toggle('on',!!st.auto);
  const total=tl.length+(BEATS.length-tl.length);$('prog').style.width=Math.min(100,st.n/Math.max(total,1)*100)+'%';
  const last=tl[st.n-1];const blocked=last&&last.k==='choice'&&st.ch[last.key]==null;
  $('hint').textContent=last&&last.k==='end'?'':blocked?'':L(UI.tap)+' ▾';$('hint').classList.toggle('faint',st.n>4);
- $('btnBack').disabled=st.n<=1;}
-function full(){const tl=timeline();st.n=Math.min(Math.max(1,st.n),tl.length);feed.innerHTML=tl.slice(0,st.n).map((b,i)=>beatHTML(b,i,tl)).join('');applyScene(tl);chrome(tl);armChoice(tl);scrollEnd(false);}
+ $('btnBack').disabled=st.n<=1;$('app').classList.toggle('choosing',!!blocked);}
+function full(){const tl=timeline();st.n=Math.min(Math.max(1,st.n),tl.length);const s0=sceneStart(tl,st.n);feed.innerHTML=tl.slice(s0,st.n).map((b,i)=>beatHTML(b,i+s0,tl)).join('');applyScene(tl);chrome(tl);armChoice(tl);scrollEnd(false);}
 function scrollEnd(smooth){requestAnimationFrame(()=>feed.scrollTo({top:feed.scrollHeight,behavior:smooth?'smooth':'auto'}));}
 function fx(b){const app=$('app');if(b.fx==='shake'){app.classList.remove('shake');void app.offsetWidth;app.classList.add('shake');}
  if(b.fx==='flash'||b.fx==='shake'&&b.k==='sfx'){const f=$('flash');f.classList.remove('go');void f.offsetWidth;f.classList.add('go');}
- if(b.fx==='zoom'){const im=$('bgimg');im.classList.remove('punch');void im.offsetWidth;im.classList.add('punch');}
+ if(b.fx==='zoom'){const im=$(flip?'pimg2':'pimg');im.classList.remove('punch');void im.offsetWidth;im.classList.add('punch');}
  if(navigator.vibrate&&b.fx==='shake')try{navigator.vibrate(40)}catch{}}
 
 // ---------- choice / autopilot ----------
@@ -98,7 +103,7 @@ function choose(b,i,how){stopPilot();st.ch[b.key]=i;st.how[b.key]=how;st.seenHel
 function advance(){const tl=timeline();const last=tl[st.n-1];
  if(last&&last.k==='choice'&&st.ch[last.key]==null){const t=feed.querySelector('.take');if(t){t.classList.remove('nudge');void t.offsetWidth;t.classList.add('nudge');}return;}
  if(st.n>=tl.length)return;
- st.n++;const b=tl[st.n-1];const div=document.createElement('div');div.innerHTML=beatHTML(b,st.n-1,tl);const sec=div.firstElementChild;sec.classList.add('new');feed.appendChild(sec);
+ st.n++;const b=tl[st.n-1];const div=document.createElement('div');div.innerHTML=beatHTML(b,st.n-1,tl);const sec=div.firstElementChild;sec.classList.add('new');if(b.place)feed.innerHTML='';feed.appendChild(sec);
  applyScene(tl);chrome(tl);fx(b);armChoice(tl);save();scrollEnd(true);schedule();}
 function back(){if(st.n<=1)return;stopAuto();st.n--;let tl=timeline();const last=tl[st.n-1];
  // back only rewinds what is on screen; decisions stay made (no rerolls)
@@ -135,6 +140,6 @@ document.addEventListener('click',e=>{
  if(st.auto)stopAuto();advance();
 });
 document.addEventListener('keydown',e=>{if(e.key===' '||e.key==='ArrowRight'||e.key==='Enter'){e.preventDefault();advance();}if(e.key==='ArrowLeft')back();});
-window.__comic={get st(){return st},timeline,store,L};
+window.__comic={get st(){return st},timeline,store,L,sceneAt};
 full();schedule();
 })();
