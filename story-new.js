@@ -244,7 +244,7 @@ const V20=typeof module!=='undefined'?require('./story-v20.js'):STORY_V20;
 const PO=(label,text,tag)=>({...O(label,text,tag),sub:L('Pilihan premium · buka gratis (simulasi)|高级选项 · 免费解锁（模拟）'),premium:true});
 function v20Decision(base,p){if(!p)return base;const d={...base,options:base.options.slice()};if(p.prompt)d.prompt=L(p.prompt);
  if(p.replace)d.options=p.replace.map(([a,b,c,f])=>f?.premium?PO(a,b,c):O(a,b,c));
- if(p.opts)for(const [n,[a,b,c]] of Object.entries(p.opts)){const o={...d.options[n]};if(a)o.label=L(a);if(b)o.text=[L(b)];if(c)o.tag=L(c);d.options[n]=o;}
+ if(p.opts)for(const [n,[a,b,c]] of Object.entries(p.opts)){const o={...d.options[n]};if(a)o.label=L(a);if(b)o.text=Array.isArray(b)?b.map(L):[L(b)];if(c)o.tag=L(c);d.options[n]=o;}
  if(p.premium)d.options.push(PO(...p.premium));return d;}
 function v20Episode(e,p){const out={...e};for(const k of ['title','place','quote'])if(p[k])out[k]=L(p[k]);
  for(const k of ['intro','middle','ending'])if(p[k])out[k]=p[k].map(L);
@@ -252,8 +252,16 @@ function v20Episode(e,p){const out={...e};for(const k of ['title','place','quote
  for(const k of ['intro','middle','ending']){const ins=p[k+'Insert'];if(ins){const [i,...lines]=ins;out[k]=[...out[k].slice(0,i),...lines.map(L),...out[k].slice(i)];}
   if(p[k+'Pre'])out[k]=[...p[k+'Pre'].map(L),...out[k]];if(p[k+'Add'])out[k]=[...out[k],...p[k+'Add'].map(L)];}
  for(const [f,i0,...lines] of p.more||[]){let i=i0;if(typeof i0==='string'){const before=i0[0]==='<',key=before?i0.slice(1):i0;const j=out[f].findIndex(x=>(x.id||x).includes(key));if(j<0)throw new Error('v21 anchor not found: '+f+' '+i0);i=before?j:j+1;}out[f]=[...out[f].slice(0,i),...lines.map(L),...out[f].slice(i)];}
+ // v22 seam ops: sub rewrites part of a line (both languages), fix replaces a whole line, move relocates a run of lines.
+ const v22find=(f,key,tag)=>{const j=out[f].findIndex(x=>(x.id||x).includes(key));if(j<0)throw new Error('v22 '+tag+' anchor not found: '+f+' '+key);return j;};
+ for(const [f,find,rep] of p.sub||[]){const j=v22find(f,find.split('|')[0],'sub'),[fi,fz]=find.split('|'),r=L(rep),x=out[f][j];if(!x.zh.includes(fz))throw new Error('v22 sub zh not found: '+fz);out[f]=out[f].map((y,k)=>k===j?{id:x.id.replace(fi,r.id),zh:x.zh.replace(fz,r.zh)}:y);}
+ for(const [f,key,line] of p.fix||[]){const j=v22find(f,key,'fix');out[f]=out[f].map((y,k)=>k===j?L(line):y);}
+ for(const [f,from,n,to] of p.move||[]){const j=v22find(f,from,'move'),run=out[f].slice(j,j+n);out[f]=[...out[f].slice(0,j),...out[f].slice(j+n)];const m=/^(intro|middle|ending):/.exec(to),tf=m?m[1]:f,ta=m?to.slice(m[0].length):to;const before=ta[0]==='<',t=(()=>{const q=out[tf].findIndex(x=>(x.id||x).includes(before?ta.slice(1):ta));if(q<0)throw new Error('v22 move-to anchor not found: '+to);return q;})(),i=before?t:t+1;out[tf]=[...out[tf].slice(0,i),...run,...out[tf].slice(i)];}
+ for(const [f,i0,...lines] of p.more2||[]){const before=i0[0]==='<',j=v22find(f,before?i0.slice(1):i0,'more2'),i=before?j:j+1;out[f]=[...out[f].slice(0,i),...lines.map(L),...out[f].slice(i)];}
  if('introVariant' in p)out.introVariant=p.introVariant;
  if(p.first)out.first=v20Decision(e.first,p.first);if(p.second)out.second=v20Decision(e.second,p.second);
+ if(p.endingSplice){const sp=p.endingSplice,before=sp.at[0]==='<',j=v22find('ending',before?sp.at.slice(1):sp.at,'splice'),i=before?j:j+1;out.endingVariant={key:sp.key,lines:Object.fromEntries(Object.entries(sp.lines).map(([n,l])=>[n,[...out.ending.slice(0,i),...l.map(L),...out.ending.slice(i)]]))};out.endingVariant.spliced=true;out.ending=out.endingVariant.lines[0];}
+ else if(p.ending&&out.endingVariant&&out.endingVariant.spliced)delete out.endingVariant;
  if(p.endingVariant)out.endingVariant={key:p.endingVariant.key,lines:Object.fromEntries(Object.entries(p.endingVariant.lines).map(([n,l])=>[n,l.map(L)]))};
  return out;}
 for(const [i,p] of Object.entries(V20.eps))R[i]=v20Episode(R[i],p);
@@ -283,7 +291,9 @@ const door=[
   'Arya memungut separuh kartu itu dan memasukkannya ke saku jasnya. “Kalau gitu, malam ini kita bikin mereka dengar.”|Arya捡起半张桌卡，放进西装口袋：“那今晚，我们就让他们听见。”']
 ];
 door.push(V20.variants.door3);
-b[8].introByDoor=door.map(lines=>[...lines.map(x=>L(x)[lang]),...b[8].intro.slice(2)]);
+// v22: the base intro now carries a bridge panel between the two door lines; keep it, swap only the two door lines.
+{const rest=b[8].intro.slice(1),j=rest.indexOf(L(door[0][1])[lang]);
+ b[8].introByDoor=door.map(lines=>{const v=lines.map(x=>L(x)[lang]);return j<0?[...v,...b[8].intro.slice(2)]:[v[0],...rest.slice(0,j),...v.slice(1),...rest.slice(j+1)];});}
 // Episode 10 remembers where I asked Arya to wait.
 const wait=[
  'Nada pertama keluar tipis. Lalu aku melirik pintu samping. Arya di sana, mengucapkan lirik tanpa suara. Bait kedua, suaraku pulang.|第一个音很轻。我瞥向侧台门口，Arya在那儿，无声地跟着唱。第二段，我的声音回来了。',
