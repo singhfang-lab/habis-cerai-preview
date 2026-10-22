@@ -4,7 +4,7 @@ const STORY_V20={eps:{},routes:{},docs:{},variants:{}};
 const S20=STORY_V20.eps;
 
 // ───── EP1 · the fall ─────
-S20[0]={title:'Mama Orang Jahat?|妈妈是坏人吗？',place:'Jakarta · 06.12|雅加达 · 06:12',
+S20[0]={title:'Mama Orang Jahat?|妈妈是坏人吗？',place:'Jakarta · 06.40|雅加达 · 06:40',
 quote:'Satu foto palsu. Satu pagi. Dan anakku berhenti memelukku.|一张假照片，一个早上。我的女儿不再抱我了。',
 intro:[
 '“Bu, ini mamanya Hana, kan? Pantes cerai.” Pesan itu masuk ke grup wali murid jam 06.12. Fotonya: aku, di jok depan mobil, mencium laki-laki. Aku nggak pernah ada di mobil itu.|“各位，这是Hana的妈妈吧？难怪离婚。”这条消息早上6:12发进家长群。照片里：我坐在车前座，在吻一个男人。我从没上过那辆车。',
@@ -1458,4 +1458,64 @@ SUB(19,'ending','Di luar, lima ribu orang masih menyanyikan namaku.|外面，五
 FIX(8,'ending','Bu Ratna mengangkat gelas sedikit','Bu Ratna mengangkat gelas sedikit ke arahku. Seperti bersulang. Seperti berkata: begini caranya diam. Di meja paling depan, dua kursi kecil berpita masih kosong. Menunggu.|Bu Ratna朝我微微举杯。像在敬酒。像在说：这就是沉默的方式。最前面那张桌子旁，两把系着缎带的小椅子还空着。在等。');
 FIX(8,'ending','Dia melihatku. Dia melambai kecil','Bima berbisik ke petugas: “Anak-anak turun setelah lagu. Buat foto.” Hana sudah memilih baju untuk foto itu. Map biru boleh hilang. Rencana Bu Ratna nggak pernah ditulis di kertas: anakku turun tangga, berpita rambut, tepat saat aku bilang iya.|Bima对工作人员低声说：“孩子们唱完歌再下来。拍照用。”Hana已经为那张照片挑好了衣服。蓝色文件夹丢了也无所谓。Bu Ratna的计划从来不写在纸上：我女儿扎着发带走下楼梯，正好赶上我说“好”。');
 M2(8,['middle','Di ujung lorong, di dekat pintu ballroom','Dia mengangkat kamera ke arahku, memotret sekali, lalu menurunkannya dan tersenyum sopan, seperti tetangga. Orang yang memotret ciumanku di parkiran sekolah, sekarang memotretku dengan izin panitia.|他把相机对准我，拍了一张，然后放下，礼貌地笑了笑，像个邻居。在学校停车场拍下我那个吻的人，现在拿着筹委会的许可在拍我。']);
+// ── v24 · ep1 opening rebuilt for a first-time phone reader: hook on screen 1, who/what she lost/what she wants by ~75s,
+// four names before the first choice (Hana, Bu Ratna, Mila, Arya; Raka is only "mantan suamiku" until he calls),
+// first decision after 11 screens instead of 26. The slower texture (fridge drawing, hair tie, syrup) moves to the night.
+X22(0).final={intro:[
+'“Mama… orang jahat?” Hana, sembilan tahun, berdiri di pintu dapur memegang ponsel pengasuh. Di layarnya, fotoku mencium laki-laki di jok mobil. Aku nggak pernah ada di mobil itu.|“妈妈……是坏人吗？”九岁的Hana攥着保姆的手机站在厨房门口。屏幕上，是我在车里亲一个男人的照片。我从没坐过那辆车。',
+'Aku Nadira. Dulu penyanyi girlband. Sembilan tahun jadi istri orang, tiga bulan jadi janda. Foto palsu itu masuk grup wali murid jam 06.12. Jam 06.40, anakku sudah percaya.|我是Nadira。以前是女团歌手。做了九年别人的妻子，离婚三个月。那张假照片6:12发进了家长群。6:40，我女儿已经信了。',
+'Aku berlutut. “Itu bukan Mama, Sayang. Ada orang yang bikin foto bohong.” Hana mundur selangkah dari tanganku. “Tapi Nenek bilang foto nggak bisa bohong.”|我跪下来。“那不是妈妈，宝贝。有人做了假照片。”Hana从我手边退了一步。“可是奶奶说，照片不会骗人。”',
+'Nenek. Bu Ratna, mantan mertuaku. Jam tujuh dia sudah menunggu di gerbang sekolah: kerudung krem, senyum orang yang datang menolong. Di belakangnya, dua puluh ibu mengangkat ponsel. Merekam.|奶奶。Bu Ratna，我的前婆婆。七点，她已经等在校门口：米色头巾，一副来帮忙的笑。她身后，二十个妈妈举起手机。在录。',
+'“Hana, Mila, sini sama Nenek. Mulai hari ini Nenek yang antar-jemput. Mama lagi banyak urusan.” Dia mengambil tangan kedua anakku dari tanganku. Pelan. Gerbang besi ditutup tepat di depan mukaku.|“Hana，Mila，来奶奶这儿。从今天起奶奶接送。妈妈事情多。”她把我两个女儿的手从我手里接过去。很轻。铁门在我面前关上。',
+'Satu foto palsu. Dua jam. Jam sepuluh, Lumière, brand skincare-ku, memutus kontrak: denda Rp250 juta. Jam sebelas, kartu debitku ditolak di apotek waktu membeli obat demam Mila.|一张假照片。两个小时。十点，我代言的护肤品牌Lumière解约：违约金两亿五千万。十一点，我在药店给Mila买退烧药，借记卡被拒。',
+'Rekening bersama dibekukan keluarga mantan suamiku. Kembalianku delapan ribu rupiah. Di parkiran apotek, aku menghitung yang tersisa. Anak-anak: di rumah Bu Ratna. Uang: nggak ada. Pekerjaan: satu.|共同账户被前夫家冻结了。找回来的零钱是八千盾。在药店停车场，我算了算还剩什么。孩子：在Bu Ratna家。钱：没有。工作：一份。',
+'Live jualan parfum, jam sembilan malam, komisi sepuluh persen. Cukup untuk satu hal: pengacara. Supaya waktu Hana bertanya lagi, aku menjawab dari dalam gerbang itu. Bukan dari luarnya.|晚上九点直播卖香水，提成百分之十。够做一件事：请律师。这样Hana再问我的时候，我能在那扇门里面回答她。而不是在门外。',
+'Partner live-ku, Arya. Delapan tahun lebih muda. Satu-satunya orang hari ini yang nggak bertanya foto itu benar atau nggak. Dia merapikan kerah blusku. “Satu jam. Habis itu kamu boleh hancur. Sama aku.”|我的直播搭档，Arya。比我小八岁。今天唯一一个没问我照片是真是假的人。他帮我理了理衬衫领子。“一个小时。之后你可以崩溃。在我这儿。”',
+'Live dimulai. Komentar teratas: “Janda dua anak pacaran sama brondong. Duit mantan buat beliin dia parfum ya, Kak?” Di bawah meja, tangan Arya mendarat di lututku. Hangat. Jangan jatuh di sini.|直播开始。置顶评论：“两个孩子的离婚妈妈和小狼狗谈恋爱。拿前夫的钱给他买香水吧，姐？”桌子底下，Arya的手落在我膝盖上。很暖。别在这儿倒下。',
+'Lalu screenshot tagihan sekolah anak-anakku muncul: Rp187 juta, caption “Ini yang dia minta dari mantan.” Bukti aku sudah bayar Rp92 juta? Dipotong. Dan di kepalaku, suara lama itu bangun.|接着，我孩子学费账单的截图冒了出来：一亿八千七百万，配文“这就是她找前夫要的”。我已经付了九千二百万的证明？被裁掉了。我脑子里，那个老声音醒了。',
+'Suara yang selama pernikahanku memilih untukku setiap kali ada yang menatap: jelaskan, minta maaf, mengalah. Nadira yang lama. Kalau aku diam, dia yang memilih.|结婚那些年，每当有人盯着我，都是这个声音替我选：解释，道歉，退让。以前的Nadira。我不出手，她就替我选。'
+]};
+SUB(0,'middle','Salma. DM orang asing.|Salma，陌生人的私信。','Salma, sahabatku. DM orang asing.|闺蜜Salma，陌生人的私信。');
+M2(0,['middle','<Notifikasi menumpuk',
+ 'Penonton naik ke dua puluh ribu. Naik tiap kali suaraku hampir pecah. Ternyata orang paling suka menonton perempuan yang nyaris jatuh, bukan yang sudah jatuh.|观看人数涨到两万。每次我声音快破的时候，数字就往上跳。原来人们最爱看的，是快要倒下的女人，不是已经倒下的。',
+ 'Arya mengangkat botol nomor tiga ke ring light. “Melati pagi. Buat yang tetap harus bangun walaupun semalam nggak tidur.” Empat belas terjual dalam dua menit. Dia nggak melihatku waktu mengatakannya. Nggak perlu.|Arya把三号瓶举到环形灯前。“清晨茉莉。给那些一夜没睡、还是得起床的人。”两分钟卖出十四瓶。说这话时他没看我。不需要。',
+ 'Seharian aku menelepon mantan suamiku enam kali. Yang ketujuh dia angkat cuma untuk bilang, “Aku lagi rapat, Nad. Ibu cuma jaga anak-anak sebentar.” Di belakangnya, suara ibunya: “Raka, sudah.”|今天我给前夫打了六次电话。第七次他接了，只说：“我在开会，Nad。妈只是帮忙看几天孩子。”他身后是他妈妈的声音：“Raka，行了。”']);
+M2(0,['ending','Sembilan kali. Aku menghitungnya.',
+ 'Lewat jam satu, dia mengantarku pulang naik motor. Rumah bau sabun bayi dan nasi yang nggak jadi dimasak. Dia nggak minta masuk. Dia menunggu di gerbang sampai lampu dapur menyala, lalu pergi.|一点多，他骑摩托送我回家。屋里是婴儿香皂和没煮成的米饭的味道。他没要求进门。他在门口等到厨房的灯亮了，才走。',
+ 'Di kulkas, gambar Hana masih tertempel: empat orang bergandengan. Papa, Mama, Hana, Mila. Wajah Mama diwarnai paling rapi. Tadi pagi, anak yang sama mundur selangkah dari tanganku.|冰箱上还贴着Hana的画：四个人手拉手。爸爸、妈妈、Hana、Mila。妈妈的脸涂得最仔细。今天早上，同一个孩子从我手边退了一步。',
+ 'Ikat rambut kupu-kupunya masih di sakuku, jatuh waktu dia menarik kepalanya dariku. Kutaruh di meja makan, di kursinya, seperti orang menaruh janji yang belum sanggup ditepati.|她的蝴蝶发圈还在我口袋里，是她把头从我手里抽开时掉的。我把它放在餐桌上，她的椅子前，像放下一个还没能兑现的承诺。',
+ 'Sirup demam Mila tertinggal di jok mobil. Rasa jeruk, yang cuma mau dia minum kalau aku pura-pura itu jus. Malam ini siapa yang pura-pura untuknya? Bu Ratna nggak pernah pura-pura apa pun.|Mila的退烧糖浆落在车座上。橘子味，只有我假装那是果汁她才肯喝。今晚谁会为她假装？Bu Ratna从来不假装任何事。',
+ 'Aku membuka grup wali murid lagi, padahal itu seperti menekan memar. Seseorang melingkari wajahku dengan spidol merah digital. Di bawahnya: “Masih berani jemput anak.” Dua puluh tiga orang menyukainya.|我又点开家长群，明知道这像在按自己的淤青。有人用红色电子笔圈出了我的脸。下面写着：“还有脸来接孩子。”二十三个人点了赞。']);
+FIX(0,'ending','Waktu dia akhirnya pulang','Jam dua kurang sepuluh, satu DM masuk dari akun tanpa foto: “Kak, bukti transfer Rp92 juta-mu ada di aku. Foto mobil itu juga. Mau tahu siapa yang bikin? :)”|一点五十，一个没有头像的账号发来私信：“姐，你那九千二百万的转账证明在我这儿。那张车里的照片也是。想知道是谁做的吗？:)”');
+// ── v24 · pacing pass: episode re-hooks, sag trims, dangling clue removed, Maya/Salma motives seeded earlier, ep16 routes apart ──
+const MOVE2=(i,f,from,n,to)=>{const e=X22(i);(e.move2=e.move2||[]).push([f,from,n,to]);};
+const DROP=(i,f,key)=>{const e=X22(i);(e.drop=e.drop||[]).push([f,key]);};
+const OV=(arr,k)=>arr[k]=arr[k]||{};
+// ep2: open on the eviction, not on a quiet kitchen; fold the two pencil-mark panels into one
+M2(1,['intro','<Rumah terlalu sunyi','Tiga puluh hari. Itu isi amplop cokelat dari notaris sore tadi: sertifikat rumah ini atas nama Ratna Wibisana, dan aku harus keluar. Rumah tempat Hana belajar jalan.|三十天。这是今天下午公证处那只牛皮纸信封里的内容：这栋房子的房产证写的是Ratna Wibisana，我得搬出去。Hana学会走路的房子。']);
+DROP(1,'intro','Ironis. Karena sore tadi');
+FIX(1,'intro','Sembilan tahun aku mengecat ulang','Tinggi badan Hana kutandai di kusen pintu dapur, garis pensil dari umur satu sampai sembilan. Yang terakhir dua bulan lalu: “Mama curang, biar aku kelihatan pendek.” Semuanya ternyata numpang.|厨房门框上，我用铅笔记下Hana的身高，从一岁到九岁。最后一道是两个月前画的：“妈妈作弊，想让我看起来矮。”原来全都是借住。');
+DROP(1,'intro','Garis terakhir, umur sembilan');
+// ep3: open on the stolen seat
+FIX(2,'intro','Auditorium sekolah bau cat poster','Tas Bu Ratna mendarat di kursi sebelahku, kursi yang kusiapkan untuk Raka. “Ini kursi keluarga, kan?” Auditorium bau cat poster dan bedak bayi. Tiga ibu di barisan depan langsung berbisik.|Bu Ratna的包落在我旁边的座位上，那是我给Raka留的位子。“这是家属座吧？”礼堂里是海报颜料和婴儿爽身粉的味道。前排三个妈妈立刻交头接耳。');
+FIX(2,'intro','Lalu Bu Ratna masuk, menggandeng Raka','Raka berdiri di belakang ibunya seperti piala. Arya baru datang membawa kostum Mila, kemeja putih, lengan digulung. Mata Bu Ratna menyapu dia dari sepatu sampai rambut. “Umur berapa, Nak? Masih kuliah?”|Raka像奖杯一样站在他妈妈身后。Arya刚到，拎着Mila的演出服，白衬衫，袖子卷着。Bu Ratna的目光把他从鞋扫到头发。“几岁了，孩子？还在上大学？”');
+DROP(2,'middle','Ponselku bergetar di pangkuan sebelum lampu panggung');
+// ep4: Salma seed (fan club, the apology she never got); the cliff becomes a second live at 03.10 instead of a time-jump back
+M2(3,['ending','masih bisa cemburu pada sebuah bantal','Kukirim foto itu ke Salma, sahabatku. Dia membalas dalam sepuluh detik: “Merch konser terakhir. Aku yang jual di pintu masuk, umur empat belas.” Lalu: “Malam itu Kakak minta maaf ke semua orang. Ke aku nggak.”|我把照片发给闺蜜Salma。她十秒就回了：“最后一场演唱会的周边。是我十四岁时在门口卖的。”接着：“那晚姐姐跟所有人都道了歉。唯独没跟我。”']);
+SUB(3,'ending','Lalu Bu Ratna menatap kamera. “Malam ini Raka|然后Bu Ratna直视镜头。“今晚Raka会去跟Nadira谈。','Jam tiga lewat sepuluh, notifikasi lagi: Bu Ratna live lagi. Mila tidur di pangkuannya. Dia menatap kamera. “Besok pagi Raka|三点十分，又一条通知：Bu Ratna又开播了。Mila睡在她腿上。她直视镜头。“明天一早Raka会去跟Nadira谈。');
+// ep7: Maya's motive, seeded before the ep9/ep11 reveals
+M2(6,['middle','jagain kamu tidur','Di balik foto itu, tulisan Maya umur dua puluh: “Suatu hari aku bawa kamu balik ke panggung.” Malam Seroja bubar, Bu Ratna membayar penalti kami tunai, di meja Maya. Maya nggak pernah lupa.|照片背面，是Maya二十岁时的字：“总有一天我会把你带回舞台。”Seroja解散那晚，Bu Ratna在Maya的桌上用现金付清了我们的违约金。Maya从没忘记。']);
+// ep14: the red-nail reflection led nowhere on the Arya and Raka routes (only the solo route follows it up) — cut there
+DROP(13,'ending','Dan di pantulan kaca spion');
+// ep16: 14 screens before the first choice → 11; Arya's place on set differs per route
+DROP(15,'intro','Dia memakai kemeja biru muda');DROP(15,'intro','Di sudut studio, Maya berbisik');DROP(15,'intro','Di balik monitor, Arya berdiri');
+{const o=OV(RT_R,4);(o.fix=o.fix||[]).push(['intro','Arya datang jam sembilan','Arya datang jam sebelas, terlambat, kemejanya masih bau asap knalpot. Dia menaruh kopi di tanganku tanpa bicara, lalu membaca daftar tamu di meja kru. Satu nama di jam kunjungan sore: Raka Wibisana.|Arya十一点才到，迟了，衬衫上还有尾气味。他一句话没说，把咖啡塞到我手里，然后去看剧组桌上的访客名单。下午探访时段有一个名字：Raka Wibisana。']);
+ (o.sub=o.sub||[]).push(['intro','Arya sudah berdiri sebelum aku sempat menoleh.|我还没回头，Arya已经站了起来。','Dari balik monitor, Maya sudah berdiri, ponsel terangkat, merekam tangan itu.|监视器后面，Maya已经站了起来，举着手机，录下了那只手。']);}
+{const o=OV(RT_S,4);(o.fix=o.fix||[]).push(['intro','Arya datang jam sembilan','Arya datang jam sembilan, tapi berhenti di garis lakban kru dan nggak melangkah lebih jauh. “Ini panggungmu,” katanya. “Hari ini aku penonton.” Untuk pertama kalinya hari itu, napasku turun sampai perut.|Arya九点就到了，却停在剧组的胶带线外，没再往前走。“这是你的舞台，”他说，“今天我只是观众。”那天第一次，我的呼吸沉到了腹部。']);
+ (o.sub=o.sub||[]).push(['intro','Arya sudah berdiri sebelum aku sempat menoleh.|我还没回头，Arya已经站了起来。','Aku sendiri yang mendorongnya. Pelan, profesional, di depan tiga kamera.|是我自己推开了他。很轻，很专业，当着三台摄像机。']);}
+{const o=OV(RT_R,2);(o.drop=o.drop||[]).push(['ending','Dan di pantulan kaca spion']);}
+// ep14 opens on Bu Laras's first line, the house description follows once the scene is moving
+MOVE2(13,'intro','Rumah Bu Laras kecil',2,'“Ibu,” protes Arya');
+// ep18: two screens in a row opened on “Tiga pintu” — the first one now ends on the clock instead
+SUB(17,'intro','Tiga pintu, dan aku cuma punya satu malam.|三扇门，而我只有一个晚上。','Jam di microwave berkedip 21.47. Jawabannya harus ada sebelum tengah malam.|微波炉上的钟闪着21:47。午夜之前，我必须给出答案。');
 if(typeof module!=='undefined')module.exports=STORY_V20;

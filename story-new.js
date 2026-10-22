@@ -258,6 +258,12 @@ function v20Episode(e,p){const out={...e};for(const k of ['title','place','quote
  for(const [f,key,line] of p.fix||[]){const j=v22find(f,key,'fix');out[f]=out[f].map((y,k)=>k===j?L(line):y);}
  for(const [f,from,n,to] of p.move||[]){const j=v22find(f,from,'move'),run=out[f].slice(j,j+n);out[f]=[...out[f].slice(0,j),...out[f].slice(j+n)];const m=/^(intro|middle|ending):/.exec(to),tf=m?m[1]:f,ta=m?to.slice(m[0].length):to;const before=ta[0]==='<',t=(()=>{const q=out[tf].findIndex(x=>(x.id||x).includes(before?ta.slice(1):ta));if(q<0)throw new Error('v22 move-to anchor not found: '+to);return q;})(),i=before?t:t+1;out[tf]=[...out[tf].slice(0,i),...run,...out[tf].slice(i)];}
  for(const [f,i0,...lines] of p.more2||[]){const before=i0[0]==='<',j=v22find(f,before?i0.slice(1):i0,'more2'),i=before?j:j+1;out[f]=[...out[f].slice(0,i),...lines.map(L),...out[f].slice(i)];}
+ // v24: drop removes one panel (pacing trims)
+ for(const [f,key] of p.drop||[]){const j=v22find(f,key,'drop');out[f]=out[f].filter((_,k)=>k!==j);}
+ // v24: move2 = move, but after more2/drop (for panels that were inserted late)
+ for(const [f,from,n,to] of p.move2||[]){const j=v22find(f,from,'move2'),run=out[f].slice(j,j+n);out[f]=[...out[f].slice(0,j),...out[f].slice(j+n)];const m=/^(intro|middle|ending):/.exec(to),tf=m?m[1]:f,ta=m?to.slice(m[0].length):to;const before=ta[0]==='<',t=(()=>{const q=out[tf].findIndex(x=>(x.id||x).includes(before?ta.slice(1):ta));if(q<0)throw new Error('v24 move2-to anchor not found: '+to);return q;})(),i=before?t:t+1;out[tf]=[...out[tf].slice(0,i),...run,...out[tf].slice(i)];}
+ // v24: a field rewritten as a whole after every seam op (used for the new ep1 opening)
+ for(const [f,lines] of Object.entries(p.final||{}))out[f]=lines.map(L);
  if('introVariant' in p)out.introVariant=p.introVariant;
  if(p.first)out.first=v20Decision(e.first,p.first);if(p.second)out.second=v20Decision(e.second,p.second);
  if(p.endingSplice){const sp=p.endingSplice,before=sp.at[0]==='<',j=v22find('ending',before?sp.at.slice(1):sp.at,'splice'),i=before?j:j+1;out.endingVariant={key:sp.key,lines:Object.fromEntries(Object.entries(sp.lines).map(([n,l])=>[n,[...out.ending.slice(0,i),...l.map(L),...out.ending.slice(i)]]))};out.endingVariant.spliced=true;out.ending=out.endingVariant.lines[0];}

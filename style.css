@@ -118,3 +118,5 @@ body:not(.motion-off) .ringing .phone-avatar,body:not(.motion-off) .ring-orbit .
 .autopilot .ap-take{width:100%;background:#e7a2af;color:#2a1820;font-weight:700}.autopilot .ap-take:hover{background:#f3bcc6}
 .pilot-locked .choices .choice,.pilot-locked .phone-portal{opacity:.55;pointer-events:none}.pilot-locked .choice-auto{opacity:1;border:2px dashed #a04453;background:var(--tint)}
 .takeover p{font-size:15px;color:var(--ink)}.takeover .takeover-line{font-size:18px;line-height:1.7;font-weight:600;color:var(--wine);border-left:3px solid var(--wine);padding-left:14px}.takeover .takeover-reward{color:var(--wine)!important}
+/* v24: one-line onboarding on the first autopilot */
+.autopilot .ap-help{margin:4px 0 8px;font-size:12px;color:#f3dfe4;line-height:1.35;opacity:.92;border-left:3px solid currentColor;padding-left:.55rem}

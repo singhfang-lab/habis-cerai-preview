@@ -26,22 +26,32 @@
    if(raw.get('hcp:'+target+':rev')===null)raw.set('hcp:'+target+':rev','1');
    raw.set('hcp:migrated',target);migrated=target;}
   // namespaced access
-  const get=k=>raw.get(key(k)),set=(k,v)=>raw.set(key(k),v),del=k=>raw.del(key(k));
+  // v24: reset generation. A wipe (this reader, or every reader on the device) bumps a marker; any tab still holding
+  // pre-wipe state sees the marker change and refuses to write, so nothing old is resurrected.
+  const genOf=()=>(raw.get(key('wiped'))||'')+'/'+(raw.get('hcp:wiped-all')||'');let gen=genOf(),dead=false;
+  function alive(){if(dead)return false;if(genOf()!==gen){dead=true;try{opts.onWiped&&opts.onWiped();}catch{}return false;}return true;}
+  const get=k=>raw.get(key(k)),set=(k,v)=>alive()?raw.set(key(k),v):false,del=k=>raw.del(key(k));
   const scoped={getItem:get,setItem:set,removeItem:del};
   // revision guard
   let rev=Number(get('rev'))||0;
   const storedRev=()=>Number(get('rev'))||0;
   function isStale(){return storedRev()>rev;}
-  function commit(entries){// entries: {key:value}. Returns 'ok' | 'same' | 'stale'
-   if(isStale())return 'stale';
+  function commit(entries){// entries: {key:value}. Returns 'ok' | 'same' | 'stale' | 'wiped'
+   if(!alive())return 'wiped';if(isStale())return 'stale';
    const changed=Object.entries(entries).filter(([k,v])=>get(k)!==v);if(!changed.length)return 'same';
    rev=storedRev()+1;for(const [k,v] of changed)if(!set(k,v))throw new Error('storage full');set('rev',String(rev));return 'ok';}
+  const allKeys=()=>{const out=[];try{for(let i=0;i<storage.length;i++){const k=storage.key(i);if(k!==null)out.push(k);}}catch{}return out;};
+  // v24: full reset of the current reader: every hcp:<id>:* key and the un-namespaced legacy keys. rev stays monotonic.
+  function wipe(){const pre='hcp:'+id+':',old=storedRev(),gone=allKeys().filter(k=>k.startsWith(pre));for(const k of gone)raw.del(k);for(const k of LEGACY)raw.del(k);
+   raw.set(pre+'rev',String(old+1));raw.set(pre+'wiped',Date.now()+'-'+rnd());dead=true;return gone.length;}
+  // v24: every reader on this device (directory, current reader, default id, all slots, legacy keys)
+  function wipeAll(){const gone=allKeys().filter(k=>k.startsWith('hcp:')||LEGACY.includes(k));for(const k of gone)raw.del(k);raw.set('hcp:migrated','wiped');raw.set('hcp:wiped-all',Date.now()+'-'+rnd());dead=true;return gone.length;}
   function adopt(){rev=storedRev();return rev;}
   function switchUrl(rid,loc){const p=new URLSearchParams(loc.search);p.delete('tester');p.delete('reader');p.set('reader',rid);return loc.pathname+'?'+p.toString()+loc.hash;}
   function newReader(name){const base=slug(name)||'pembaca';let rid=base,i=2;while(readers().some(r=>r.id===rid))rid=base+'-'+i++;addReader(rid,name);return rid;}
   function choose(rid){raw.set('hcp:current',rid);}
   const me=()=>readers().find(r=>r.id===id)||{id,name:id};
-  return {id,source,key,get,set,del,scoped,readers,newReader,choose,switchUrl,me,commit,adopt,isStale,rev:()=>rev,storedRev,migrated,deviceDefault,LEGACY};
+  return {id,source,key,get,set,del,scoped,wipe,wipeAll,seed:(k,v,device)=>raw.set(device?k:key(k),v),deviceGet:k=>raw.get(k),alive,isDead:()=>dead,readers,newReader,choose,switchUrl,me,commit,adopt,isStale,rev:()=>rev,storedRev,migrated,deviceDefault,LEGACY};
  }
  const api={create,slug,LEGACY};if(typeof module!=='undefined')module.exports=api;else root.ReaderStore=api;
 })(typeof globalThis!=='undefined'?globalThis:this);

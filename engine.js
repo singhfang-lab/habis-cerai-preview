@@ -2,7 +2,7 @@
  const KEY='nadira-emotional-arc-v8';
  function fresh(){return {v:3,ep:0,step:0,page:0,max:0,choices:{},view:'reader',finished:false,unlocked:false,unlockedEarly:false,vip:{},preview:false,pilot:{auto:[],took:null},metrics:{starts:0,choices:0,finish:0,intent:0}}}
  // v23 autopilot: the first decisions are taken by 'Nadira yang lama' (nine years of keeping the peace) unless the reader takes over.
- const PILOT={keys:['live','call','money','invite'],auto:{live:1,call:2,money:1},force:'invite',ms:{live:9000,call:7000,money:6000,invite:5000}};
+ const PILOT={keys:['live','call','money','invite'],auto:{live:1,call:2,money:1},force:'invite',ms:{live:14000,call:10000,money:9000,invite:8000}};
  function pilotActive(s,key){const p=s.pilot||{};return !p.took&&PILOT.keys.includes(key)&&s.choices[key]===undefined;}
  function pilotState(s){const p=s.pilot||{};if(p.took==='legacy'||!p.took&&!(p.auto||[]).length&&s.choices.live!==undefined)return 'legacy';if(p.took==='forced')return 'forced';if(p.took==='live')return 'early';if(p.took)return 'mid';return (p.auto||[]).length?'running':'fresh';}
  function pilotAuto(s,episodes,key){if(!pilotActive(s,key)||!(key in PILOT.auto))return false;const ok=choose(s,episodes,key,PILOT.auto[key]);if(ok)s.pilot.auto=[...(s.pilot.auto||[]),key];return ok;}
