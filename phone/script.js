@@ -1,17 +1,19 @@
 // Phone-first prototype, ep1 opening → 01:50 DM. The screen IS Nadira's phone. Every string 'id|zh'.
 // Beat kinds: lock · msg · typing · sys · inner · mail · wallet · lensa · home · live · call · line · notes · dark · scene · say · scap · act · quick · choice · end
+// v3 adds (ep2–6 in script-eps.js): ep · epend · paywall · unblur · gallery · draft · replay · scrollup; msg img/loc/gone/shot; when:'key=1&heat>=4&seen:x'
 (function(root){
 const TH={ // chat threads in 'Pesan'
  group:{name:'Wali Murid 2B|2B班家长群',sub:'48 anggota|48位成员',av:'👥'},
  ratna:{name:'Bu Ratna|Ratna太太',sub:'mantan mertua|前婆婆',av:'R'},
  raka:{name:'Raka|Raka',sub:'mantan suami · dulu “Suamiku ❤”|前夫 · 以前备注“老公❤”',av:'K'},
- maya:{name:'Maya|Maya',sub:'manajer|经纪人',av:'Y'},
+ maya:{name:'Maya|Maya',sub:'manajer|经纪人',av:'My'},
  salma:{name:'Salma|Salma',sub:'sahabat|闺蜜',av:'S'},
  arya:{name:'Arya|Arya',sub:'partner live|直播搭档',av:'A'},
  nanny:{name:'Mbak Tari (pengasuh)|Tari（保姆）',sub:'pengasuh anak-anak|孩子们的保姆',av:'T'},
- anon:{name:'akun_tanpa_nama|akun_tanpa_nama',sub:'Lensa · bukan pengikutmu|Lensa · 不是你的粉丝',av:'?',app:'lensa'}
+ anon:{name:'akun_tanpa_nama|akun_tanpa_nama',sub:'Lensa · bukan pengikutmu|Lensa · 不是你的粉丝',av:'?',app:'lensa'},
+ sheila:{name:'sheila.kirana|sheila.kirana',sub:'Lensa · 2 jt pengikut|Lensa · 200万粉丝',av:'Sh',app:'lensa'}
 };
-const SAY={N:{name:'Nadira|Nadira',me:true},H:{name:'Hana|Hana',tag:'anakku · 9 th|女儿 · 9岁'},R:{name:'Bu Ratna|Ratna太太',tag:'mantan mertua|前婆婆'},M:{name:'Mila|Mila',tag:'si bungsu · 6 th|小女儿 · 6岁'},A:{name:'Arya|Arya',tag:'partner live|直播搭档'}};
+const SAY={N:{name:'Nadira|Nadira',me:true},H:{name:'Hana|Hana',tag:'anakku · 9 th|女儿 · 9岁'},R:{name:'Bu Ratna|Ratna太太',tag:'mantan mertua|前婆婆'},M:{name:'Mila|Mila',tag:'si bungsu · 6 th|小女儿 · 6岁'},A:{name:'Arya|Arya',tag:'partner live|直播搭档'},K:{name:'Raka|Raka',tag:'mantan suami|前夫'},Y:{name:'Maya|Maya',tag:'manajer|经纪人',ini:'My'},SH:{name:'Sheila|Sheila',tag:'mantan Arya · 25|Arya的前任 · 25岁',ini:'Sh'}};
 const BEATS=[
  {k:'act',key:'unlock',mode:'unlock',in:'lock',btn:'Geser ke atas untuk membuka|上滑解锁',done:'',clock:'06.40',notifs:[
    {app:'Pesan',title:'Wali Murid 2B|2B班家长群',thumb:'p-fakephoto.webp',t:'Bu Sinta: 📷 Foto · Bu, ini mamanya Hana, kan? Pantes cerai 🤭|Sinta太太：📷 照片 · 各位，这是Hana的妈妈吧？难怪离婚 🤭',time:'06.12'},
@@ -79,7 +81,7 @@ const BEATS=[
      {k:'live',viewers:12100,gift:'👏',cmt:'@kolom_komentar: MAMPUS TANTE 😭🔥|@kolom_komentar：阿姨被怼了😭🔥'},
      {k:'inner',t:'“Rp92 juta sudah kubayar, Tante. Mau lihat struknya?”|“9200万我已经付了，阿姨。要看收据吗？”'}]}],
   ifPilot:[{k:'inner',fx:'shake',t:'Lagi-lagi dia yang memilih.|又是她替我选了。'}],ifMe:[{k:'inner',t:'Tanganku sendiri. Akhirnya.|用我自己的手。终于。'}]},
- {k:'call',clock:'21.38',who:'K',name:'RAKA|RAKA',sub:'dulu tersimpan: “Suamiku ❤”|以前的备注：“老公❤”'},
+ {k:'call',ep1:true,clock:'21.38',who:'K',name:'RAKA|RAKA',sub:'dulu tersimpan: “Suamiku ❤”|以前的备注：“老公❤”'},
  {k:'choice',key:'call',in:'call',ms:9000,pilot:0,old:'Angkat. Dia ayah anak-anakmu. Jangan bikin dia marah.|接。他是孩子的爸爸。别惹他生气。',
   opts:[
    {t:'✆ Angkat (live berakhir)|✆ 接听（直播结束）',re:[
@@ -100,11 +102,11 @@ const BEATS=[
  {k:'act',key:'erase',mode:'hold',in:'notes',btn:'Tahan untuk menghapus|按住删除',done:'Dihapus. Seperti semua yang lain.|删掉了。和其他的一样。'},
  {k:'act',key:'facedown',clock:'01.48',notifs:[],q:'Tidur. Jangan lihat apa-apa lagi malam ini.|睡吧。今晚什么都别再看了。',mode:'drag',in:'lock',btn:'Seret ke bawah: telungkupkan ponsel|往下拖：把手机扣在桌上',done:''},
  {k:'dark',fx:'shake',t:'BZZT.|嗡——',sub:'Ponsel yang telungkup itu bergetar di meja.|扣着的手机在桌上震了起来。'},
- {k:'lock',clock:'01.50',fx:'flash',notifs:[{app:'Lensa',title:'akun_tanpa_nama|akun_tanpa_nama',thumb:'p-fakephoto.webp',t:'Kak, bukti transfer Rp92 juta-mu ada di aku. Foto mobil itu juga.|姐，你那9200万的转账凭证在我这儿。车里那张照片也是。',time:'01.50'}]},
+ {k:'lock',clock:'01.50',day:'Jumat|星期五',fx:'flash',notifs:[{app:'Lensa',title:'akun_tanpa_nama|akun_tanpa_nama',thumb:'p-fakephoto.webp',t:'Kak, bukti transfer Rp92 juta-mu ada di aku. Foto mobil itu juga.|姐，你那9200万的转账凭证在我这儿。车里那张照片也是。',time:'01.50'}]},
  {k:'msg',th:'anon',time:'01.50',att:true,t:'Kak, bukti transfer Rp92 juta-mu ada di aku. Foto mobil itu juga.|姐，你那9200万的转账凭证在我这儿。车里那张照片也是。'},
  {k:'typing',th:'anon'},
  {k:'msg',th:'anon',time:'01.50',fx:'shake',t:'Mau tahu siapa yang bikin? :)|想知道是谁做的吗？:)'},
- {k:'end'}
+ {k:'epend',ep:1,tease:'Jam 01.52. Akun itu menunggu jawabanmu — dan seseorang berdiri di dekat pagarmu.|01:52。那个账号在等你回复——而有人站在你家门外不远处。'}
 ];
 const BILL={school:'SD Tunas Bangsa · Rincian Biaya 2026/27|Tunas Bangsa小学 · 2026/27学年费用明细',rows:[['Uang pangkal (2 anak)|入学费（2个孩子）','Rp96.000.000'],['SPP 12 bulan × 2|学费 12个月 × 2','Rp62.400.000'],['Les & ekskul|补习与课外活动','Rp18.600.000'],['Seragam & buku|校服与书本','Rp10.000.000']],total:['TOTAL TAGIHAN|账单总计','Rp187.000.000'],cut:'— dipotong —|——截图到此——',by:'diunggah @akungosip|@akungosip 上传',paid:['Sudah dibayar Nadira|Nadira已支付','Rp92.000.000']};
 const UI={
@@ -114,7 +116,7 @@ const UI={
  photo:'foto.jpg · diteruskan 48×|照片 · 已转发48次',read:'Dibaca|已读',vn:'Pesan suara|语音消息',inbox:'Kotak masuk|收件箱',wallet:'DompetKu|钱包',lensaDraft:'Story baru · draf|新动态 · 草稿',
  live:'LIVE|直播中',viewers:'penonton|人在看',incoming:'Panggilan masuk…|来电……',oncall:'Sedang menelepon · 00:4|通话中 · 00:4',notes:'Catatan|备忘录',notesT:'Draf yang nggak pernah kukirim|从没发出去的草稿',
  unlockHint:'',end1:'Bersambung…|未完待续……',end2:'Lanjut?|继续？',endStat:'Kamu memilih sendiri {m} dari 3 kali.|三次选择里，你亲手选了 {m} 次。',again:'Ulangi dari awal|从头再玩',novel:'Baca lanjutannya (versi novel)|去看后续（小说版）',
- proto:'PROTOTIPE · versi ponsel|原型 · 手机版',apps:['Pesan|信息','Lensa|Lensa','LiveKu|LiveKu','Email|邮件','DompetKu|钱包','Galeri|相册','Catatan|备忘录','Kamera|相机']
+ proto:'PROTOTIPE · versi ponsel|原型 · 手机版',apps:['Pesan|信息','Lensa|Lensa','LiveKu|LiveKu','Email|邮件','DompetKu|钱包','Galeri|相册','Catatan|备忘录','Kamera|相机','Telepon|电话']
 };
-const api={TH,SAY,BEATS,UI,BILL};if(typeof module!=='undefined')module.exports=api;else root.PHONE=api;
+const api={TH,SAY,BEATS,UI,BILL,EPS:[{n:1,title:'Foto Palsu di Grup Wali Murid|家长群里的假照片'}]};if(typeof module!=='undefined')module.exports=api;else root.PHONE=api;
 })(this);
