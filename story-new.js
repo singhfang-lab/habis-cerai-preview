@@ -301,6 +301,8 @@ const wait=[
  'Nada pertama keluar tipis. Di kursi keluarga, Arya duduk tegak di antara tatapan sinis, merekam dengan ponselku. Bait kedua, suaraku pulang.|第一个音很轻。家属席上，Arya在一片冷眼中坐得笔直，用我的手机录着。第二段，我的声音回来了。'
 ];
 b[9].introByWait=wait.map(x=>[L(x)[lang],...b[9].intro.slice(1)]);
+// v23 autopilot texts
+if(V20.pilot){const P=V20.pilot,conv=x=>typeof x==='string'?L(x)[lang]:Array.isArray(x)?x.map(conv):Object.fromEntries(Object.entries(x).map(([k,v])=>[k,conv(v)]));b.pilotBeats=conv(P.beats);b.pilotNotes=P.notes.map(n=>({...n,at:typeof n.at==='string'?L(n.at)[lang]:n.at,lines:conv(n.lines)}));b.pilotText={take:L(P.takeLine)[lang],voice:L(P.voice)[lang]};}
 return b;}
 let EPISODES=storyLanguage('id');
 if(typeof module!=='undefined')module.exports={EPISODES,storyLanguage,STORY_BILL};

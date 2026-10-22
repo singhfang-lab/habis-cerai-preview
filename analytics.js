@@ -31,6 +31,9 @@
    const endings={};for(const e of by('ending'))endings[e.id]=(endings[e.id]||0)+1;
    const routes={};for(const e of by('choice'))if(e.key==='reconcile')routes[['A','R','S'][e.n]||e.n]=(routes[['A','R','S'][e.n]||e.n]||0)+1;
    const sessions=[...new Set(all.map(e=>e.sid).filter(Boolean))];
+   // v23 autopilot: how many readers let 'Nadira yang lama' choose, where they took over, and how fast
+   const apOv=by('autopilot_override'),apF=by('autopilot_forced'),takeAt={};for(const e of apOv)takeAt[e.key]=(takeAt[e.key]||0)+1;if(apF.length)takeAt.forced=apF.length;
+   const autopilot={shown:by('autopilot_shown').length,autoPicks:by('autopilot_auto').length,overrides:apOv.length,forced:apF.length,takeoverAt:takeAt,medianTimeToTakeoverMs:median(apOv.map(e=>e.ms).filter(x=>x>0)),avgAutosBeforeTakeover:apOv.length+apF.length?Math.round(10*[...apOv,...apF].reduce((a,e)=>a+(e.autos||0),0)/(apOv.length+apF.length))/10:0};
    const taps=by('premium_tap').length,unlocks=by('premium_unlock').length;
    return {tester:data.tester||null,reader:data.reader||null,device:data.session,sessions:sessions.length,languages:[...new Set(all.map(e=>e.lang).filter(Boolean))],
     episodesStarted:[...new Set(by('ep_start').map(e=>e.ep))].length,episodesFinished:[...new Set(by('ep_finish').map(e=>e.ep))].length,
@@ -38,7 +41,7 @@
     paywallViews:by('pay_view').length,paywallUnlocks:by('pay_unlock').length,paywallConversion:rate(by('pay_unlock').length,by('pay_view').length),
     avgPaywallMs:pay.length?Math.round(pay.reduce((a,e)=>a+(e.ms||0),0)/pay.length):0,
     phoneOpens:by('phone_open').length,phoneThreads:by('phone_thread').length,replays:by('replay').length,teaserViews:by('teaser_view').length,
-    leaves:leaves.length,returns:by('return').length,abandonPoints:abandon,endings,routes,perEpisode,decisions,lastPanelByEpisode:last};}
+    leaves:leaves.length,returns:by('return').length,abandonPoints:abandon,autopilot,endings,routes,perEpisode,decisions,lastPanelByEpisode:last};}
   function exportJSON(){return JSON.stringify({exported:now(),reader:data.reader||null,tester:data.tester||null,session:data.session,sid,created:data.created,sessionStart,summary:summary(),events:data.events},null,1);}
   function clear(){reload();data.events=[];persist();}
   return {log,events,summary,exportJSON,clear,setTester,sid,KEY};
