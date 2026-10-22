@@ -1,12 +1,13 @@
 (function(){
 'use strict';
-const {CAST,BEATS,UI}=window.COMIC;
+const {CAST,BEATS,UI,BILL}=window.COMIC;
 const store=ComicStore.create(window.localStorage,location.search,{onWiped:()=>location.reload()});
 const $=id=>document.getElementById(id);
 const qs=new URLSearchParams(location.search);
-const fresh=lang=>({v:1,n:1,ch:{},how:{},done:{},lang:lang||'id',auto:false,t0:Date.now()});
+const fresh=lang=>({v:1,n:1,ch:{},how:{},done:{},lang:lang||'id',auto:true,autoV:2,speed:1,t0:Date.now()});
 let st=store.get('state',null);
 if(!st||st.v!==1){const dl=(qs.get('lang')||store.deviceGet('hcp:last-lang')||'').replace(/"/g,'');st=fresh(dl==='zh'?'zh':'id');}
+if(st.autoV!==2){st.auto=true;st.autoV=2;st.speed=st.speed||1;}
 if(!st.done)st.done={};
 if(qs.get('lang')==='zh'||qs.get('lang')==='id')st.lang=qs.get('lang');
 const L=s=>{if(s==null)return '';s=String(s);if(!s.includes('|'))return s;const p=s.split('|');return st.lang==='zh'?p[1]:p[0];};
@@ -27,14 +28,14 @@ function avatar(who,cls='',ex){const c=CAST[who];const base=c.old?'N':who;const 
 function phoneHTML(b){
  const time=b.time?`<span class="pt">${esc(L(b.time))}</span>`:'';
  switch(b.app){
-  case 'group':return `<div class="ph group"><div class="phh"><span class="ico">👥</span><b>${esc(L(b.title))}</b>${time}</div><div class="gmsg"><small>${esc(L(b.from))}</small>${b.photo?`<div class="fakephoto"><span>${T('photo')}</span></div>`:''}<p>${esc(L(b.t))}</p></div></div>`;
+  case 'group':return `<div class="ph group"><div class="phh"><span class="ico">👥</span><b>${esc(L(b.title))}</b>${time}</div><div class="gmsg"><small>${esc(L(b.from))}</small>${b.photo?`<div class="cphoto"><img src="assets/p-fakephoto.webp" alt=""><span>${T('photo')}</span></div>`:''}<p>${esc(L(b.t))}</p></div></div>`;
   case 'notif':return `<div class="ph notif"><div class="phh"><span class="ico">✉️</span><b>${esc(L(b.title))}</b>${time}</div><p>${esc(L(b.t))}</p></div>`;
   case 'bank':return `<div class="ph notif bank"><div class="phh"><span class="ico">💳</span><b>${esc(L(b.title))}</b>${time}</div><p>${esc(L(b.t))}</p></div>`;
   case 'wa':return `<div class="ph wa${b.mine?' mine':''}"><div class="phh"><span class="ico">💬</span><b>${esc(L(b.title))}</b>${time}</div><p class="wab">${esc(L(b.t))}</p></div>`;
-  case 'live':return `<div class="ph live${b.pin?' pin':''}"><div class="phh"><span class="livepill">LIVE</span><b>${esc(L(b.title))}</b></div>${b.pin?`<small class="pinl">📌 ${T('pinned')}</small>`:''}<p>${b.from?`<b class="u">${esc(b.from)}</b> `:''}${esc(L(b.t))}</p></div>`;
+  case 'live':return `<div class="ph live${b.pin?' pin':''}"><div class="phh"><span class="livepill">LIVE</span><b>${esc(L(b.title))}</b></div>${b.pin?`<small class="pinl">📌 ${T('pinned')}</small>`:''}<p>${b.from?`<b class="u">${esc(b.from)}</b> `:''}${esc(L(b.t))}</p>${b.bill?billHTML():''}</div>`;
   case 'call':return `<div class="ph call">${avatar('K','big','neutral')}<b class="cn">${esc(L(b.title))}</b><small>${T('call')}</small><p>${esc(L(b.t))}</p><div class="cbtn"><i class="no">✕</i><i class="yes">✆</i></div></div>`;
   case 'vn':return `<div class="ph vn"><div class="phh"><span class="ico">🎙️</span><b>${esc(L(b.title))}</b></div><div class="wave"><i>▶</i>${'<s></s>'.repeat(22)}<small>${T('vn')}</small></div><p>${esc(L(b.t))}</p></div>`;
-  case 'dm':return `<div class="ph dm"><div class="phh"><span class="ico anon">?</span><b>${esc(L(b.title))}</b>${time}</div><p>${esc(L(b.t))}</p></div>`;
+  case 'dm':return `<div class="ph dm"><div class="phh"><span class="ico anon">?</span><b>${esc(L(b.title))}</b>${time}</div>${b.att?attHTML():''}<p>${esc(L(b.t))}</p></div>`;
  }return '';}
 function choiceHTML(b,live){
  const c=st.ch[b.key],done=c!=null,how=st.how[b.key];
@@ -49,6 +50,8 @@ function choiceHTML(b,live){
  if(taken)h+=`<div class="stamp">${T('stamp')}</div>`;
  return h+'</div>';}
 function setLines(b){const ls=(b.lines||[]).map(L);if(!ls.length)return '';return `<div class="setlines"><p class="s1">${esc(ls[0])}</p>${ls[1]?`<p class="s2">${esc(ls[1])}</p>`:''}${ls[2]?`<p class="s3">${esc(ls[2])}</p>`:''}</div>`;}
+function attHTML(){return `<div class="atts"><div class="att1"><div class="rcpt"><b>✓</b><span>${T('attAmt')}</span><i></i><i></i><i></i></div><small>🔒 ${T('attT')}</small></div><div class="att1"><img src="assets/p-fakephoto.webp" alt=""><small>🔒 ${T('attC')}</small></div></div>`;}
+function billHTML(){const B=BILL;return `<div class="bill"><div class="bh">${esc(L(B.school))}</div>${B.rows.map(r=>`<div class="br"><span>${esc(L(r[0]))}</span><b>${esc(r[1])}</b></div>`).join('')}<div class="br tot"><span>${esc(L(B.total[0]))}</span><b>${esc(B.total[1])}</b></div><div class="bcut">${esc(L(B.cut))}</div><div class="br paid"><span>${esc(L(B.paid[0]))}</span><b>−${esc(B.paid[1])}</b></div><small class="bby">${esc(L(B.by))}</small></div>`;}
 function setHTML(b,bg){return `<div class="setcard t-${b.tint||'cold'}">${bg?`<img class="sbg" src="assets/${bg}" alt="">`:''}${b.place?`<span class="stag">${esc(L(b.place))}</span>`:''}${setLines(b)}</div>`;}
 function widget(b){const k=b.key,bt=esc(L(b.btn));
  switch(b.mode){
@@ -125,7 +128,7 @@ function sceneCut(b,sec){const type=RM?'fade':(b.tx||'dip');const ghost=feed.clo
  else {dip.style.background=getComputedStyle($('tint')).backgroundColor==='rgba(0, 0, 0, 0)'?'#0d090d':'';anim(dip,[{opacity:0},{opacity:.92,offset:.45},{opacity:0}],{d:700});anim(ghost,[{opacity:1},{opacity:0}],{d:320,done:rm});anim(feed,[{opacity:0},{opacity:1}],{d:380,delay:320});}
  if(type!=='push'&&lastLine)carry(lastLine.textContent.trim().slice(0,90));}
 function chrome(tl){document.documentElement.lang=st.lang==='zh'?'zh':'id';$('ttl').textContent=L(UI.title);$('proto').textContent=L(UI.proto);$('btnLang').textContent=st.lang==='zh'?'中':'ID';
- $('btnAuto').textContent=st.auto?'❚❚':'▶';$('btnAuto').classList.toggle('on',!!st.auto);
+ $('btnAuto').textContent=st.auto?'❚❚':'▶';$('btnAuto').classList.toggle('on',!st.auto);$('btnSpeed').textContent=(st.speed||1)+'×';
  const total=tl.length+(BEATS.length-tl.length);$('prog').style.width=Math.min(100,st.n/Math.max(total,1)*100)+'%';
  const last=tl[st.n-1];const blocked=isBlocked(last);
  $('hint').textContent=last&&last.k==='end'?'':blocked?'':L(UI.tap)+' ▾';$('hint').classList.toggle('faint',st.n>4);
@@ -182,9 +185,13 @@ function back(){if(st.n<=1)return;stopAuto();st.n--;let tl=timeline();const last
  // back only rewinds what is on screen; decisions stay made (no rerolls)
  pilot.key=null;stopPilot();save();full();}
 let autoT=null;
-function stopAuto(){clearTimeout(autoT);autoT=null;if(st.auto){st.auto=false;save();chrome(timeline());}}
-function schedule(){clearTimeout(autoT);if(!st.auto)return;const tl=timeline();const b=tl[st.n-1];if(!b||b.k==='end')return;if(isBlocked(b))return;
- const len=L(b.t||'').length;autoT=setTimeout(advance,1300+len*(st.lang==='zh'?90:38));}
+const plain=x=>L(x||'').replace(/[“”"()（）]/g,'');
+function beatText(b){return [b.place,...(b.lines||[]),b.t,b.sub,b.q,b.done].filter(Boolean).map(plain).join(' ');}
+function dwell(b){const t=beatText(b);let ms=st.lang==='zh'?t.replace(/\s/g,'').length/8*1000:t.split(/\s+/).filter(Boolean).length/220*60000;ms=Math.max(1200,ms);
+ if(b.place)ms+=1100;else if(b.img)ms+=700;if(b.photo)ms+=1800;if(b.bill)ms+=2600;if(b.att)ms+=1200;if(b.k==='sfx')ms=Math.max(ms,1600);return ms;}
+function schedule(){clearTimeout(autoT);autoT=null;if(!st.auto||document.hidden)return;const tl=timeline();const b=tl[st.n-1];if(!b||b.k==='end')return;if(isBlocked(b))return;
+ autoT=setTimeout(()=>{autoT=null;advance();},dwell(b)/(st.speed||1));}
+document.addEventListener('visibilitychange',()=>{if(document.hidden){clearTimeout(autoT);autoT=null;}else schedule();});
 
 // ---------- menu / reset ----------
 function sheet(html){const s=$('sheet');s.innerHTML=`<div class="card">${html}</div>`;s.hidden=false;}
@@ -206,6 +213,7 @@ document.addEventListener('click',e=>{
   if(a==='reset-ask')resetAsk();if(a==='reset')doReset();return;}
  if(t){if(t.id==='btnLang'){st.lang=st.lang==='zh'?'id':'zh';save();full();return;}
   if(t.id==='btnMenu')return menu();if(t.id==='btnBack')return back();
+  if(t.id==='btnSpeed'){const sp=[1,1.5,2];st.speed=sp[(sp.indexOf(st.speed||1)+1)%3];save();chrome(timeline());schedule();return;}
   if(t.id==='btnAuto'){st.auto=!st.auto;save();chrome(timeline());schedule();return;}
   if(t.dataset.take)return takeover();
   if(t.dataset.actgo)return completeAct(t.dataset.actgo);if(t.dataset.hold)return;
@@ -216,9 +224,9 @@ document.addEventListener('click',e=>{
  if(e.target.closest('header'))return;
  if(Date.now()-justActed<450)return;
  if(e.target.closest('.act:not(.done) .aw,.quick:not(.done) .qopts'))return;
- if(st.auto)stopAuto();advance();
+ advance();
 });
 document.addEventListener('keydown',e=>{if(e.key===' '||e.key==='ArrowRight'||e.key==='Enter'){e.preventDefault();advance();}if(e.key==='ArrowLeft')back();});
-window.__comic={get st(){return st},timeline,store,L,sceneAt,get tx(){return tx.active}};
+window.__comic={get st(){return st},get waiting(){return !!autoT},timeline,store,L,sceneAt,get tx(){return tx.active}};
 full();schedule();
 })();

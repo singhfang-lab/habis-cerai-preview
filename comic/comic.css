@@ -156,3 +156,15 @@ html,body{margin:0;height:100%;background:#0d090d;color:#f6eef2;font:15px/1.42 s
 .carry{position:absolute;left:18px;right:18px;bottom:96px;z-index:7;pointer-events:none;text-align:center;font-style:italic;font-size:15px;color:#fff;text-shadow:0 1px 6px #000}
 .carry.sfxw{bottom:auto;top:70px;left:auto;right:20px;font-style:normal;font-weight:900;font-size:22px;color:#ffcf8a;transform:rotate(-6deg)}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.12s!important}}
+/* v5: real image + rendered screenshots in phone cards */
+.cphoto{position:relative;margin:6px 0;height:150px;border-radius:10px;overflow:hidden;background:#222}
+.cphoto img{width:100%;height:100%;object-fit:cover;filter:blur(1.2px) saturate(.9)}
+.cphoto span{position:absolute;bottom:6px;left:8px;font-size:11px;color:#fff;background:#0009;padding:2px 6px;border-radius:6px}
+.atts{display:flex;gap:6px;margin:6px 0}.att1{flex:1;position:relative;height:96px;border-radius:8px;overflow:hidden;background:#eef}
+.att1 img{width:100%;height:100%;object-fit:cover;filter:blur(5px)}.att1 small{position:absolute;left:4px;right:4px;bottom:4px;font-size:9.5px;color:#fff;background:rgba(0,0,0,.55);border-radius:5px;padding:1px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rcpt{position:absolute;inset:0;background:#fff;padding:9px 8px;filter:blur(2.2px);display:flex;flex-direction:column;gap:5px;align-items:center}.rcpt b{width:24px;height:24px;border-radius:50%;background:#1aa260;color:#fff;display:grid;place-items:center}.rcpt span{font-size:10px;font-weight:700;color:#1a5;text-align:center}.rcpt i{display:block;width:80%;height:5px;background:#ccd;border-radius:3px}
+.bill{margin-top:6px;background:#fffdf6;border-radius:6px;padding:7px 9px 6px;font-size:11.5px;color:#222;font-weight:500;box-shadow:inset 0 0 0 1px #e4dcc4;transform:rotate(-.6deg)}
+.bill .bh{font-weight:800;font-size:11px;border-bottom:1px dashed #bbb;padding-bottom:3px;margin-bottom:3px}.bill .br{display:flex;justify-content:space-between;gap:8px;line-height:1.45}.bill .tot{border-top:1px solid #333;margin-top:2px;padding-top:2px;font-weight:800;color:#b00}
+.bill .bcut{margin:4px -9px 2px;height:14px;background:linear-gradient(135deg,transparent 33%,#ffd60a 33% 66%,transparent 66%) 0 0/12px 14px;text-align:center;font-size:9.5px;color:#7a5;font-weight:700;line-height:14px}
+.bill .paid{opacity:.22;filter:blur(1.4px)}.bill .bby{display:block;text-align:right;font-size:9.5px;color:#888}
+#btnSpeed{font-size:12px;font-weight:700}

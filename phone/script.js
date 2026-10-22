@@ -14,7 +14,7 @@ const TH={ // chat threads in 'Pesan'
 const SAY={N:{name:'Nadira|Nadira',me:true},H:{name:'Hana|Hana',tag:'anakku · 9 th|女儿 · 9岁'},R:{name:'Bu Ratna|Ratna太太',tag:'mantan mertua|前婆婆'},M:{name:'Mila|Mila',tag:'si bungsu · 6 th|小女儿 · 6岁'},A:{name:'Arya|Arya',tag:'partner live|直播搭档'}};
 const BEATS=[
  {k:'act',key:'unlock',mode:'unlock',in:'lock',btn:'Geser ke atas untuk membuka|上滑解锁',done:'',clock:'06.40',notifs:[
-   {app:'Pesan',title:'Wali Murid 2B|2B班家长群',t:'Bu Sinta: 📷 Foto · Bu, ini mamanya Hana, kan? Pantes cerai 🤭|Sinta太太：📷 照片 · 各位，这是Hana的妈妈吧？难怪离婚 🤭',time:'06.12'},
+   {app:'Pesan',title:'Wali Murid 2B|2B班家长群',thumb:'p-fakephoto.webp',t:'Bu Sinta: 📷 Foto · Bu, ini mamanya Hana, kan? Pantes cerai 🤭|Sinta太太：📷 照片 · 各位，这是Hana的妈妈吧？难怪离婚 🤭',time:'06.12'},
    {app:'Pesan',title:'Wali Murid 2B|2B班家长群',t:'+46 pesan baru|+46条新消息',time:'06.38'},
    {app:'Pesan',title:'Salma|Salma',t:'Kak?? Kamu udah lihat grup??|姐？？你看到群消息了吗？？',time:'06.31'}]},
  {k:'msg',th:'group',from:'Bu Sinta|Sinta太太',time:'06.12',photo:true,t:'Bu, ini mamanya Hana, kan? Pantes cerai 🤭|各位，这是Hana的妈妈吧？难怪离婚 🤭'},
@@ -40,7 +40,6 @@ const BEATS=[
  {k:'say',who:'N',ex:'hurt',t:'Itu bukan Mama, Sayang. Ada orang bikin foto bohong.|那不是妈妈，宝贝。有人做了假照片。'},
  {k:'say',who:'H',ex:'angry',t:'Tapi kata Nenek, foto nggak bisa bohong.|可是奶奶说，照片不会骗人。'},
  {k:'scene',clock:'07.00',tag:'07.00 · Gerbang sekolah|07:00 · 校门口',tint:'harsh',img:'p-gate.webp',lines:['Bu Ratna sudah menunggu, kerudung krem, senyum menolong.|Ratna太太已经在等了，米色头巾，一脸来帮忙的笑。','Di belakangnya, ponsel-ponsel terangkat.|她身后，一部部手机举了起来。'],inner:'Jangan lari. Anak-anakmu di balik pagar itu.|别跑。你的孩子就在那道门后面。'},
- {k:'act',key:'crowd',mode:'swipe',in:'scene',btn:'Geser untuk menerobos →|滑动，挤过人群 →',done:'Bahu-bahu menyingkir. Ada yang merekam dari dekat.|肩膀一个个让开。有人凑到我脸前拍。'},
  {k:'say',who:'R',ex:'neutral',t:'Hana, Mila, sini sama Nenek.|Hana，Mila，到奶奶这儿来。'},
  {k:'quick',key:'ratna',in:'scene',style:'say',q:'Dia sudah memegang tangan anak-anakku.|她已经牵起了我女儿们的手。',opts:[
    {t:'“Bu. Hari ini saya yang antar mereka.”|“妈。今天是我送她们。”',re:[{k:'say',who:'N',ex:'determined',t:'Bu. Hari ini saya yang antar mereka.|妈。今天是我送她们。'}]},
@@ -63,10 +62,10 @@ const BEATS=[
    {t:'📤 Posting|📤 发布',re:[{k:'lensa',posted:true,cmts:['@tante_julid: Ngeles 🙄|@tante_julid：又在狡辩🙄','@hanya_lewat: Kak, aku percaya kamu 💗|@hanya_lewat：姐，我信你💗']},{k:'msg',th:'maya',time:'11.40',t:'NAD!!! 😤|NAD！！！😤'}]}]},
  {k:'msg',th:'salma',clock:'19.50',time:'19.50',t:'Kak, kamu udah makan? Jangan cuma nangis. Aku pesenin makanan ya.|姐，你吃饭了吗？别光顾着哭。我给你点个外卖。'},
  {k:'msg',th:'arya',clock:'20.40',time:'20.40',t:'Live jam 9. Satu jam. Habis itu kamu boleh hancur. Sama aku.|九点直播。就一个小时。之后你可以崩溃。我陪你。'},
- {k:'act',key:'golive',mode:'app',in:'home',clock:'20.59',btn:'Buka LiveKu|打开LiveKu',done:''},
+ {k:'home',clock:'20.59',t:'Buka LiveKu|打开LiveKu'},
  {k:'live',clock:'21.00',img:'p-live.webp',viewers:8214,cmt:'@tante_julid: Janda dua anak pacaran sama brondong? Pakai duit mantan ya, Kak? 😂|@tante_julid：两个孩子的离婚妈妈泡小鲜肉？花的是前夫的钱吧，姐？😂'},
  {k:'act',key:'breath',mode:'hold',in:'live',q:'Di bawah meja, tangan Arya di lututku. Jangan jatuh di sini.|桌子底下，Arya的手放在我膝盖上。别在这里倒下。',btn:'Tahan untuk menarik napas|按住，深呼吸',done:'Satu. Dua. Senyum lagi ke kamera.|一，二。重新对着镜头笑。'},
- {k:'live',viewers:9950,gift:'🌹',pin:'📄 Tagihan sekolah Rp187 juta — “Ini yang dia minta dari mantan.”|📄 学费账单1.87亿——“这就是她找前夫要的钱。”',fx:'flash',img:'p-live-shock.webp',cmt:'@akungosip: SPILL ini kak 👀|@akungosip：姐解释一下这个👀'},
+ {k:'live',viewers:9950,gift:'🌹',pin:'“Ini yang dia minta dari mantan.”|“这就是她找前夫要的钱。”',bill:true,fx:'flash',img:'p-live-shock.webp',cmt:'@akungosip: SPILL ini kak 👀|@akungosip：姐解释一下这个👀'},
  {k:'inner',t:'Bukti aku sudah bayar Rp92 juta? Dipotong.|我已经付了9200万的证明？被裁掉了。'},
  {k:'choice',key:'live',in:'live',ms:10000,pilot:1,old:'Jelaskan. Minta maaf. Lepaskan tangannya.|解释。道歉。松开他的手。',
   opts:[
@@ -93,8 +92,7 @@ const BEATS=[
      {k:'inner',t:'Dia akan menelepon lagi. Selalu.|他还会再打来的。一直都是。'}]}],
   ifPilot:[{k:'inner',t:'Nadira yang lama mengangkatnya. Seperti biasa.|以前的Nadira接了。和往常一样。'}],ifMe:[{k:'inner',t:'Dua kali. Tanganku sendiri.|两次了。用我自己的手。'}]},
  {k:'msg',th:'raka',clock:'23.04',time:'23.04',t:'Besok Mila pentas di sekolah. Aku belum dapat undangan, Nad. Lagi.|明天Mila在学校演出。我又没收到邀请，Nad。又一次。'},
- {k:'msg',th:'nanny',clock:'23.06',time:'23.06',vn:'0:07',t:'',},
- {k:'act',key:'vn',mode:'play',in:'chat',th:'nanny',btn:'▶ Putar pesan suara|▶ 播放语音',done:'“Ma… kata Nenek kami tidur di sini dulu. Mama jangan nangis, ya. Mila udah tidur.”|“妈……奶奶说我们先睡这儿。妈妈别哭哦。Mila已经睡了。”'},
+ {k:'msg',th:'nanny',clock:'23.06',time:'23.06',vn:'0:07',t:'',tr:'“Ma… kata Nenek kami tidur di sini dulu. Mama jangan nangis, ya. Mila udah tidur.”|“妈……奶奶说我们先睡这儿。妈妈别哭哦。Mila已经睡了。”'},
  {k:'scene',clock:'23.08',tag:'23.08 · Sesudah live, lampu mati|23:08 · 下播后，灯已关',tint:'night',img:'p-floor.webp',lines:['Ring light mati. Tinggal lampu jalan dari jendela.|环形灯灭了，只剩窗外的路灯。','Kuputar pesan itu dua kali. Arya duduk di sebelahku.|那条语音我放了两遍。Arya在我身边坐下。'],inner:'Jangan nangis di depan dia. Terlambat.|别在他面前哭。已经来不及了。'},
  {k:'say',who:'A',ex:'soft',t:'Aku di sini.|我在。'},
  {k:'scap',t:'Sembilan kali dia bilang itu. Aku menghitungnya.|他说了九次。我数着。'},
@@ -102,20 +100,21 @@ const BEATS=[
  {k:'act',key:'erase',mode:'hold',in:'notes',btn:'Tahan untuk menghapus|按住删除',done:'Dihapus. Seperti semua yang lain.|删掉了。和其他的一样。'},
  {k:'act',key:'facedown',clock:'01.48',notifs:[],q:'Tidur. Jangan lihat apa-apa lagi malam ini.|睡吧。今晚什么都别再看了。',mode:'drag',in:'lock',btn:'Seret ke bawah: telungkupkan ponsel|往下拖：把手机扣在桌上',done:''},
  {k:'dark',fx:'shake',t:'BZZT.|嗡——',sub:'Ponsel yang telungkup itu bergetar di meja.|扣着的手机在桌上震了起来。'},
- {k:'lock',clock:'01.50',fx:'flash',notifs:[{app:'Lensa',title:'akun_tanpa_nama|akun_tanpa_nama',t:'Kak, bukti transfer Rp92 juta-mu ada di aku. Foto mobil itu juga.|姐，你那9200万的转账凭证在我这儿。车里那张照片也是。',time:'01.50'}]},
- {k:'msg',th:'anon',time:'01.50',t:'Kak, bukti transfer Rp92 juta-mu ada di aku. Foto mobil itu juga.|姐，你那9200万的转账凭证在我这儿。车里那张照片也是。'},
+ {k:'lock',clock:'01.50',fx:'flash',notifs:[{app:'Lensa',title:'akun_tanpa_nama|akun_tanpa_nama',thumb:'p-fakephoto.webp',t:'Kak, bukti transfer Rp92 juta-mu ada di aku. Foto mobil itu juga.|姐，你那9200万的转账凭证在我这儿。车里那张照片也是。',time:'01.50'}]},
+ {k:'msg',th:'anon',time:'01.50',att:true,t:'Kak, bukti transfer Rp92 juta-mu ada di aku. Foto mobil itu juga.|姐，你那9200万的转账凭证在我这儿。车里那张照片也是。'},
  {k:'typing',th:'anon'},
  {k:'msg',th:'anon',time:'01.50',fx:'shake',t:'Mau tahu siapa yang bikin? :)|想知道是谁做的吗？:)'},
  {k:'end'}
 ];
+const BILL={school:'SD Tunas Bangsa · Rincian Biaya 2026/27|Tunas Bangsa小学 · 2026/27学年费用明细',rows:[['Uang pangkal (2 anak)|入学费（2个孩子）','Rp96.000.000'],['SPP 12 bulan × 2|学费 12个月 × 2','Rp62.400.000'],['Les & ekskul|补习与课外活动','Rp18.600.000'],['Seragam & buku|校服与书本','Rp10.000.000']],total:['TOTAL TAGIHAN|账单总计','Rp187.000.000'],cut:'— dipotong —|——截图到此——',by:'diunggah @akungosip|@akungosip 上传',paid:['Sudah dibayar Nadira|Nadira已支付','Rp92.000.000']};
 const UI={
- tap:'Ketuk untuk lanjut|点击继续',menu:'Menu|菜单',reset:'Mulai ulang dari awal|从头开始',resetQ:'Mulai ulang? Progres & pilihan versi ponsel untuk pembaca ini dihapus. (Versi komik & novel tidak tersentuh.)|重新开始？本读者手机版的进度和选择都会被删除。（漫画版和小说版不受影响。）',yes:'Ya, mulai ulang|确定重置',no:'Batal|取消',
+ tap:'Ketuk untuk lewati jeda|点一下可跳过等待',paused:'Dijeda|已暂停',newmsg:'Pesan baru ↓|新消息 ↓',tr:'Transkrip|转写',attT:'bukti_transfer.jpg|转账凭证.jpg',attC:'mobil.jpg|车里.jpg',attAmt:'Transfer berhasil · Rp92.000.000|转账成功 · Rp92.000.000',zoomCap:'Aku nggak pernah ada di mobil itu.|我从没坐过那辆车。',fake:'Foto ini palsu (rekayasa) — Nadira tidak pernah di mobil itu.|这张照片是伪造的——Nadira从没坐过那辆车。',menu:'Menu|菜单',reset:'Mulai ulang dari awal|从头开始',resetQ:'Mulai ulang? Progres & pilihan versi ponsel untuk pembaca ini dihapus. (Versi komik & novel tidak tersentuh.)|重新开始？本读者手机版的进度和选择都会被删除。（漫画版和小说版不受影响。）',yes:'Ya, mulai ulang|确定重置',no:'Batal|取消',
  typing:'sedang mengetik…|正在输入…',online:'online|在线',old:'Nadira yang lama mengetik…|以前的Nadira正在输入…',take:'Aku yang pilih!|我来选！',stamp:'AKU YANG PILIH|我来选',auto:'AUTO|AUTO',
- picked:'dipilih Nadira yang lama|以前的Nadira选的',mine:'pilihanku|我选的',quick:'Balas cepat|快速回复',act:'Aksi|动作',inner:'suara hati · ketuk|心声 · 点开',innerL:'suara hatiku|我的心声',
+ picked:'dipilih Nadira yang lama|以前的Nadira选的',mine:'pilihanku|我选的',quick:'Balas cepat|快速回复',act:'Aksi|动作',inner:'suara hati · ketuk bila mau|心声 · 想看就点',innerL:'suara hatiku|我的心声',
  photo:'foto.jpg · diteruskan 48×|照片 · 已转发48次',read:'Dibaca|已读',vn:'Pesan suara|语音消息',inbox:'Kotak masuk|收件箱',wallet:'DompetKu|钱包',lensaDraft:'Story baru · draf|新动态 · 草稿',
  live:'LIVE|直播中',viewers:'penonton|人在看',incoming:'Panggilan masuk…|来电……',oncall:'Sedang menelepon · 00:4|通话中 · 00:4',notes:'Catatan|备忘录',notesT:'Draf yang nggak pernah kukirim|从没发出去的草稿',
  unlockHint:'',end1:'Bersambung…|未完待续……',end2:'Lanjut?|继续？',endStat:'Kamu memilih sendiri {m} dari 3 kali.|三次选择里，你亲手选了 {m} 次。',again:'Ulangi dari awal|从头再玩',novel:'Baca lanjutannya (versi novel)|去看后续（小说版）',
  proto:'PROTOTIPE · versi ponsel|原型 · 手机版',apps:['Pesan|信息','Lensa|Lensa','LiveKu|LiveKu','Email|邮件','DompetKu|钱包','Galeri|相册','Catatan|备忘录','Kamera|相机']
 };
-const api={TH,SAY,BEATS,UI};if(typeof module!=='undefined')module.exports=api;else root.PHONE=api;
+const api={TH,SAY,BEATS,UI,BILL};if(typeof module!=='undefined')module.exports=api;else root.PHONE=api;
 })(this);

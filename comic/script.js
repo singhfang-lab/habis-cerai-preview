@@ -18,7 +18,8 @@ const BEATS=[
  {k:'say',who:'N',ex:'hurt',t:'Itu bukan Mama, Sayang. Ada orang bikin foto bohong.|那不是妈妈，宝贝。有人做了假照片。'},
  {k:'say',who:'H',ex:'angry',t:'Tapi kata Nenek, foto nggak bisa bohong.|可是奶奶说，照片不会骗人。'},
  {k:'set',lines:['Aku Nadira. Dulu idol, sekarang janda tiga bulan.|我是Nadira。以前是偶像，现在离婚三个月。','Kopi semalam masih dingin di meja. Tali sepatu Mila belum diikat.|昨晚的咖啡还冷在桌上。Mila的鞋带还没系。','Dalam satu jam, foto itu sampai ke gerbang sekolah lebih dulu dariku.|一个小时后，那张照片会比我先到校门口。']},
- {k:'act',key:'crowd',place:'07.00 · Gerbang sekolah|07:00 · 校门口',tx:'whip',tint:'harsh',blur:'p-gate.webp',lines:['Gerbang SD Tunas Bangsa. Matahari sudah galak.|Tunas Bangsa小学校门口。太阳已经很毒。','Barisan orang tua. Ponsel terangkat seperti pagar kedua.|家长们排成一排，举起的手机像第二道围墙。','Jangan lari. Anak-anakmu ada di balik pagar itu.|别跑。你的孩子就在那道墙后面。'],mode:'swipe',q:'Mereka nggak memberi jalan.|没人给我让路。',btn:'Geser untuk menerobos →|滑动，挤过人群 →',done:'Bahu-bahu menyingkir. Ada yang tetap merekam dari dekat.|肩膀一个个让开。有人凑到我脸前继续拍。'},
+ {k:'set',place:'07.00 · Gerbang sekolah|07:00 · 校门口',tx:'whip',tint:'harsh',blur:'p-gate.webp',lines:['Gerbang SD Tunas Bangsa. Matahari sudah galak.|Tunas Bangsa小学校门口。太阳已经很毒。','Barisan orang tua. Ponsel terangkat seperti pagar kedua.|家长们排成一排，举起的手机像第二道围墙。','Jangan lari. Anak-anakmu ada di balik pagar itu.|别跑。你的孩子就在那道墙后面。']},
+ {k:'cap',t:'Bahu-bahu menyingkir. Ada yang tetap merekam dari dekat.|肩膀一个个让开。有人凑到我脸前继续拍。'},
  {k:'sfx',img:'p-gate.webp',fx:'flash',t:'● REC|● REC',sub:'Semua kamera menoleh padaku.|所有镜头都转向了我。'},
  {k:'say',who:'R',ex:'neutral',t:'Hana, Mila, sini sama Nenek.|Hana，Mila，到奶奶这儿来。'},
  {k:'quick',key:'ratna',style:'say',q:'Bu Ratna sudah memegang tangan anak-anakku.|Ratna太太已经牵起了我女儿们的手。',opts:[
@@ -38,7 +39,7 @@ const BEATS=[
  {k:'say',who:'A',ex:'neutral',img:'p-live.webp',t:'Satu jam. Habis itu kamu boleh hancur. Sama aku.|就一个小时。之后你可以崩溃。我陪你。'},
  {k:'phone',app:'live',title:'LIVE · 8.214|直播中 · 8,214',from:'@tante_julid',t:'Janda dua anak pacaran sama brondong? Pakai duit mantan ya, Kak? 😂|两个孩子的离婚妈妈泡小鲜肉？花的是前夫的钱吧，姐？😂'},
  {k:'act',key:'breath',mode:'hold',ex:'hurt',q:'Di bawah meja, tangan Arya mendarat di lututku. Jangan jatuh di sini.|桌子底下，Arya的手落在我膝盖上。别在这里倒下。',btn:'Tahan untuk menarik napas|按住，深呼吸',done:'Satu. Dua. Senyum lagi ke kamera.|一，二。重新对着镜头笑。'},
- {k:'phone',img:'p-live-shock.webp',app:'live',title:'LIVE · 9.950|直播中 · 9,950',from:'@akungosip',pin:true,fx:'flash',t:'📄 Tagihan sekolah Rp187 juta. “Ini yang dia minta dari mantan.”|📄 学费账单1.87亿。“这就是她找前夫要的钱。”'},
+ {k:'phone',img:'p-live-shock.webp',app:'live',title:'LIVE · 9.950|直播中 · 9,950',from:'@akungosip',pin:true,bill:true,fx:'flash',t:'“Ini yang dia minta dari mantan.”|“这就是她找前夫要的钱。”'},
  {k:'think',ex:'hurt',t:'Bukti aku sudah bayar Rp92 juta? Dipotong.|我已经付了9200万的证明？被裁掉了。'},
  {k:'old',fx:'glitch',t:'Jelaskan. Minta maaf. Lepaskan tangannya. Biar aku yang pilih.|解释。道歉。松开他的手。让我来选。'},
  {k:'choice',key:'live',ms:14000,pilot:1,help:'Kalau aku diam, dia yang memilih — selalu yang bikin orang lain nyaman. Rebut!|我不出手，她就替我选——永远选让别人舒服的那个。抢回来！',
@@ -89,13 +90,14 @@ const BEATS=[
  {k:'think',ex:'hurt',t:'Sembilan kali dia bilang itu. Aku menghitungnya.|他说了九次。我数着。'},
  {k:'act',key:'facedown',place:'01.50 · Kamarku, rumah kosong|01:50 · 我的卧室，空荡的家',tx:'black',tint:'night',blur:'p-bedroom.webp',lines:['Arya mengantarku pulang. Rumah terlalu sunyi.|Arya送我回家。家里太安静了。','Ikat rambut kupu-kupu Hana masih di sakuku.|Hana的蝴蝶发圈还在我口袋里。','Tidur. Besok kamu harus jadi ibu lagi.|睡吧。明天你还得接着当妈妈。'],mode:'drag',q:'Satu notifikasi lagi dan aku akan pecah.|再来一条通知，我就要崩溃了。',btn:'Seret ponsel ke bawah, telungkupkan|把手机往下拖，扣在桌上',done:'Layar gelap. Tiga detik sunyi.|屏幕黑了。安静了三秒。'},
  {k:'sfx',fx:'shake',t:'BZZT.|嗡——',sub:'Ponsel yang telungkup itu bergetar di meja kayu.|扣着的手机在木桌上震了起来。'},
- {k:'phone',img:'p-bedroom.webp',app:'dm',title:'akun tanpa foto|无头像账号',time:'01.50|01:50',fx:'shake',tint:'red',t:'Kak, bukti transfer Rp92 juta-mu ada di aku. Foto mobil itu juga.|姐，你那9200万的转账凭证在我这儿。车里那张照片也是。'},
+ {k:'phone',img:'p-bedroom.webp',app:'dm',att:true,title:'akun tanpa foto|无头像账号',time:'01.50|01:50',fx:'shake',tint:'red',t:'Kak, bukti transfer Rp92 juta-mu ada di aku. Foto mobil itu juga.|姐，你那9200万的转账凭证在我这儿。车里那张照片也是。'},
  {k:'phone',app:'dm',title:'akun tanpa foto|无头像账号',time:'01.50|01:50',fx:'flash',t:'Mau tahu siapa yang bikin? :)|想知道是谁做的吗？:)'},
  {k:'end'}
 ];
-const UI={
+const BILL={school:'SD Tunas Bangsa · Rincian Biaya 2026/27|Tunas Bangsa小学 · 2026/27学年费用明细',rows:[['Uang pangkal (2 anak)|入学费（2个孩子）','Rp96.000.000'],['SPP 12 bulan × 2|学费 12个月 × 2','Rp62.400.000'],['Les & ekskul|补习与课外活动','Rp18.600.000'],['Seragam & buku|校服与书本','Rp10.000.000']],total:['TOTAL TAGIHAN|账单总计','Rp187.000.000'],cut:'— dipotong —|——截图到此——',by:'diunggah @akungosip|@akungosip 上传',paid:['Sudah dibayar Nadira|Nadira已支付','Rp92.000.000']};
+const UI={attT:'bukti_transfer.jpg|转账凭证.jpg',attC:'mobil.jpg|车里.jpg',attAmt:'Transfer berhasil · Rp92.000.000|转账成功 · Rp92.000.000',tr:'Transkrip|转写',
  quickL:'Reaksi cepat|快速反应',actL:'Aksi|动作',holdL:'Tahan…|按住…',
- title:'Ep 1 · Mama Orang Jahat?|第1章 · 妈妈是坏人吗？',tap:'Ketuk untuk lanjut|点击继续',back:'Kembali|上一步',
+ title:'Ep 1 · Mama Orang Jahat?|第1章 · 妈妈是坏人吗？',tap:'Ketuk untuk lewati jeda|点一下可跳过等待',back:'Kembali|上一步',
  auto:'AUTO|AUTO',picking:'Nadira lama memilih untukku|以前的Nadira正在替我选',take:'Aku yang pilih!|我来选！',stamp:'AKU YANG PILIH|我来选',
  picked:'dipilih Nadira lama|以前的Nadira选的',mine:'pilihanku|我选的',think:'batin|心声',
  menu:'Menu|菜单',reset:'Mulai ulang dari awal|从头开始',resetQ:'Mulai ulang komik ini? Progres & pilihan komik pembaca ini dihapus. (Versi novel tidak tersentuh.)|重新开始？本读者的漫画进度和选择都会被删除。（小说版不受影响。）',
@@ -104,6 +106,6 @@ const UI={
  again:'Ulangi dari awal|从头再看',novel:'Baca lanjutannya (versi novel)|去看后续（小说版）',proto:'PROTOTIPE · format komik|原型 · 漫画版',
  photo:'foto.jpg · diteruskan 48×|照片 · 已转发48次',vn:'Pesan suara · 0:07|语音消息 · 0:07',call:'Panggilan masuk…|来电……',pinned:'DISEMATKAN|置顶'
 };
-const api={CAST,BEATS,UI};
+const api={CAST,BEATS,UI,BILL};
 if(typeof module!=='undefined')module.exports=api;else root.COMIC=api;
 })(this);

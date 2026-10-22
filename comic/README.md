@@ -20,3 +20,9 @@
 - Feed is bottom-anchored and glides (transform) when lines arrive; only the newest ~3 beats stay fully visible, the 4th fades, older ones leave. No scroll jumps.
 - Panel no longer animates `height`: image beat → expanded, dialogue → slides up + dims (transform/opacity), choice → further up. The new picture fades in 180–400 ms after the line that motivates it; first line after a picture gets a tail toward it and bubbles slide in from the speaker's side.
 - Scene changes use a transition chosen per place (`tx` in script.js): whip (kitchen→gate), push into phone with "ting!" (gate→10.02), dip (time skips), fade-to-black + sound word (live→23.08 "klik.", 01.50). The place tag ticks its clock and types the location; the last line carries over the cut. Tap during a transition fast-forwards it only. `prefers-reduced-motion` respected. Next-scene assets preloaded.
+
+## v5 — autoplay by default + real in-message images (23 Oct 2026)
+- Autoplay is ON by default; older saved states are migrated once. Timing: reading pace (ID 220 wpm, ZH 8 chars/s, min 1.2 s), with extra time for scene cards, panels, the photo, the bill and attachments. Tap = skip the wait, and autoplay keeps running. ❚❚ pauses; 1×/1.5×/2× sets the speed; both are saved per reader. It pauses while the tab is hidden.
+- The decorative "swipe through the crowd" gesture is now a normal scene card plus a caption. The remaining gestures are kneel, breath and facedown.
+- The group photo is now `assets/p-fakephoto.webp` (it replaces the CSS placeholder). The live pin shows the HTML school bill (Rp187.000.000, matching the text). The 01:50 DM shows a blurred transfer receipt and the car photo.
+- Smoke test: `node smoke/auto.js BASE OUT lang`.

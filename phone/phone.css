@@ -140,3 +140,26 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 
 .cmts p,.caps p,.m,.sysm{will-change:transform}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.12s!important}.media img.kenb{animation:none}}
+/* v2: real images / rendered screenshots inside messages */
+.photo{position:relative;width:230px;height:172px;border-radius:8px;overflow:hidden;margin:-2px -4px 6px;cursor:zoom-in;background:#222}
+.photo img{width:100%;height:100%;object-fit:cover;filter:blur(1.2px) contrast(1.05) saturate(.9)}
+.photo::after{content:'';position:absolute;inset:0;background:repeating-radial-gradient(circle at 30% 40%,rgba(255,255,255,.05) 0 1px,transparent 1px 3px);pointer-events:none}
+.photo span{position:absolute;left:6px;bottom:6px;font-size:10.5px;color:#fff;background:rgba(0,0,0,.55);padding:1px 6px;border-radius:6px}
+.photo.big{width:340px;height:255px;margin:0}.photo.big img{filter:blur(.6px)}
+.lthumb{position:absolute;right:12px;bottom:10px;width:46px;height:46px;border-radius:8px;object-fit:cover;filter:blur(1.5px)}.ln{min-height:64px}.ln:has(.lthumb) p{padding-right:54px}
+.atts{display:flex;gap:6px;margin:-2px -4px 6px}.att1{flex:1;position:relative;height:110px;border-radius:8px;overflow:hidden;background:#eef}
+.att1 img{width:100%;height:100%;object-fit:cover;filter:blur(5px)}.att1 small{position:absolute;left:4px;right:4px;bottom:4px;font-size:9.5px;color:#fff;background:rgba(0,0,0,.55);border-radius:5px;padding:1px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rcpt{position:absolute;inset:0;background:#fff;padding:10px 8px;filter:blur(2.2px);display:flex;flex-direction:column;gap:5px;align-items:center}.rcpt b{width:26px;height:26px;border-radius:50%;background:#1aa260;color:#fff;display:grid;place-items:center}.rcpt span{font-size:10px;font-weight:700;color:#1a5;text-align:center}.rcpt i{display:block;width:80%;height:5px;background:#ccd;border-radius:3px}
+.pin{max-height:52%;overflow:hidden}.pin>b{font-weight:800}
+.bill{margin-top:6px;background:#fffdf6;border-radius:6px;padding:7px 9px 6px;font-size:11.5px;color:#222;font-weight:500;box-shadow:inset 0 0 0 1px #e4dcc4;transform:rotate(-.6deg);position:relative}
+.bill .bh{font-weight:800;font-size:11px;border-bottom:1px dashed #bbb;padding-bottom:3px;margin-bottom:3px}.bill .br{display:flex;justify-content:space-between;gap:8px;line-height:1.45}.bill .tot{border-top:1px solid #333;margin-top:2px;padding-top:2px;font-weight:800;color:#b00}
+.bill .bcut{margin:4px -9px 2px;height:14px;background:linear-gradient(135deg,transparent 33%,#ffd60a 33% 66%,transparent 66%) 0 0/12px 14px;text-align:center;font-size:9.5px;color:#7a5;font-weight:700;line-height:14px}
+.bill .paid{opacity:.22;filter:blur(1.4px)}.bill .bby{display:block;text-align:right;font-size:9.5px;color:#888}
+.vnm.playing s{animation:wv .9s ease-in-out infinite}.vnm.playing s:nth-child(2n){animation-delay:.2s}.vnm.playing s:nth-child(3n){animation-delay:.4s}@keyframes wv{50%{transform:scaleY(.35)}}
+.vt b{font-style:normal;font-size:10px;color:#888;display:block}.vt.late{animation:vtin .5s 1.6s both}@keyframes vtin{from{opacity:0;transform:translateY(4px)}}
+.newpill{position:absolute;left:50%;bottom:76px;transform:translateX(-50%);z-index:12;background:#1a7f64;color:#fff;font-weight:700;font-size:13px;border-radius:18px;padding:7px 14px;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.fingertap{position:absolute;left:calc(18px + (100% - 36px)*2.5/4 - 32px);top:58px;width:64px;height:64px;border-radius:50%;border:3px solid rgba(255,255,255,.9);pointer-events:none;animation:ft 1.4s .3s ease-out both}
+.home .grid .ic.target .ai{animation:press 1.4s .3s both}@keyframes press{60%{transform:scale(1)}75%{transform:scale(.86)}100%{transform:scale(1)}}
+.rbar #btnPause,.rbar #btnSpeed{font-size:13px;font-weight:700}.rbar #btnPause.on{background:#ff3d6e;color:#fff}
+@keyframes ft{0%{opacity:0;transform:scale(1.6)}60%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.8)}}
+.photo.big::after{display:none}
