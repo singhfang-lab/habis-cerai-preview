@@ -177,7 +177,7 @@ function runTx(type,g,a,b){const rm=()=>g.remove();const sc=screen;
   case 'dip':g.style.zIndex=3;anim(g,[{opacity:1,filter:'brightness(1)'},{opacity:0,filter:'brightness(.2)'}],{d:340,e:'ease-in',done:rm});anim(sc,[{opacity:0,filter:'brightness(.2)'},{opacity:1,filter:'brightness(1)'}],{d:420,delay:260,e:'ease-out'});break;
   case 'black':g.style.zIndex=3;anim(g,[{opacity:1},{opacity:0}],{d:520,e:'ease-in',done:rm});anim(sc,[{opacity:0},{opacity:1}],{d:300,delay:420});break;
   case 'fade':g.style.zIndex=3;anim(g,[{opacity:1},{opacity:0}],{d:220,done:rm});break;}}
-function fx(b){if(!b)return;if(b.fx==='shake'||b.k==='wallet'){const p=$('phone');p.classList.remove('shake');void p.offsetWidth;p.classList.add('shake');try{navigator.vibrate&&navigator.vibrate(40)}catch{}}
+function fx(b){if(!b)return;if(b.fx==='shake'||b.k==='wallet'){const p=$('phone');p.classList.remove('shake');void p.offsetWidth;p.classList.add('shake');try{navigator.vibrate&&(!navigator.userActivation||navigator.userActivation.hasBeenActive)&&navigator.vibrate(40)}catch{}}
  if(b.fx==='flash'){const f=$('flash');f.classList.remove('go');void f.offsetWidth;f.classList.add('go');}}
 
 // ---------- autopilot ----------
@@ -193,7 +193,7 @@ let pendingAdv=null,justActed=0;
 function choose(b,i,how){stopPilot();st.ch[b.key]=i;st.how[b.key]=how;st.seenHelp=true;if(!st.tChoice)st.tChoice=Date.now()-st.t0;pilot.key=null;pilot.taken=false;save();justActed=Date.now();advance(true);}
 function chooseQuick(i){const tl=timeline();const b=tl[st.n-1];if(!b||b.k!=='quick'||st.ch[b.key]!=null)return;st.ch[b.key]=i;save();justActed=Date.now();
  if(b.in==='scene')render();else advance(true);}
-function completeAct(key){const tl=timeline();const b=tl[st.n-1];if(!b||b.k!=='act'||b.key!==key||st.done[key])return;st.done[key]=true;save();justActed=Date.now();try{navigator.vibrate&&navigator.vibrate(25)}catch{}
+function completeAct(key){const tl=timeline();const b=tl[st.n-1];if(!b||b.k!=='act'||b.key!==key||st.done[key])return;st.done[key]=true;save();justActed=Date.now();try{navigator.vibrate&&(!navigator.userActivation||navigator.userActivation.hasBeenActive)&&navigator.vibrate(25)}catch{}
  if(b.done&&b.in==='scene')render();else advance(true);}
 
 // ---------- auto-flow: the story moves on its own; the reader only acts at decisions ----------

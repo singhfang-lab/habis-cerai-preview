@@ -138,7 +138,7 @@ function scrollEnd(){age();}
 function fx(b){const app=$('app');if(b.fx==='shake'){app.classList.remove('shake');void app.offsetWidth;app.classList.add('shake');}
  if(b.fx==='flash'||b.fx==='shake'&&b.k==='sfx'){const f=$('flash');f.classList.remove('go');void f.offsetWidth;f.classList.add('go');}
  if(b.fx==='zoom'){const im=$(flip?'pimg2':'pimg');im.classList.remove('punch');void im.offsetWidth;im.classList.add('punch');}
- if(navigator.vibrate&&b.fx==='shake')try{navigator.vibrate(40)}catch{}}
+ if(navigator.vibrate&&(!navigator.userActivation||navigator.userActivation.hasBeenActive)&&b.fx==='shake')try{navigator.vibrate(40)}catch{}}
 
 // ---------- choice / autopilot ----------
 const pilot={timer:null,raf:null,key:null,end:0,taken:false};
@@ -158,7 +158,7 @@ function choose(b,i,how){stopPilot();st.ch[b.key]=i;st.how[b.key]=how;st.seenHel
 // ---------- light interactions (act / quick) ----------
 function completeAct(key){const tl=timeline();const b=tl[st.n-1];if(!b||b.k!=='act'||b.key!==key||st.done[key])return;st.done[key]=true;
  const h0=feed.offsetHeight;const sec=feed.lastElementChild;sec.outerHTML=beatHTML(b,st.n-1,tl);glide(h0);feed.lastElementChild.classList.add('revealed');save();chrome(timeline());scrollEnd(true);
- if(navigator.vibrate)try{navigator.vibrate(25)}catch{};justActed=Date.now();pendingAdv=setTimeout(()=>advance(),900);}
+ if(navigator.vibrate&&(!navigator.userActivation||navigator.userActivation.hasBeenActive))try{navigator.vibrate(25)}catch{};justActed=Date.now();pendingAdv=setTimeout(()=>advance(),900);}
 function chooseQuick(i){const tl=timeline();const b=tl[st.n-1];if(!b||b.k!=='quick'||st.ch[b.key]!=null)return;st.ch[b.key]=i;
  const h0=feed.offsetHeight;const sec=feed.lastElementChild;sec.outerHTML=beatHTML(b,st.n-1,timeline());glide(h0);save();chrome(timeline());pendingAdv=setTimeout(()=>advance(),380);}
 let drag=null,hold=null,justActed=0,pendingAdv=null;
