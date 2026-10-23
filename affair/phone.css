@@ -393,3 +393,29 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 /* affair: dark titles fit 390px */
 .bz{padding:0 20px}.bz b{font-size:34px;letter-spacing:2px;line-height:1.2}
 .act .aq.sq{font-size:14px;color:#ffe6c0;font-weight:600;font-style:italic;margin:0 0 6px}
+/* ---- v2: pop overlay, calculator vault, vault view, deductions ---- */
+.pop{position:absolute;left:8px;right:8px;top:40px;z-index:21;background:rgba(250,250,252,.97);color:#111;border-radius:18px;padding:10px 14px;box-shadow:0 8px 24px rgba(0,0,0,.4);animation:drop .4s}
+.pop .la{display:block;font-size:11.5px;color:#666;font-weight:600;margin-bottom:2px}.pop p{font-size:14.5px;line-height:1.35;font-weight:600}
+.pop.shout{top:auto;bottom:130px;left:18px;right:18px;background:rgba(18,32,48,.96);color:#e8f6ff;border:1.5px solid #5ab6ff;text-align:center;border-radius:16px;animation:shoutin .35s cubic-bezier(.2,.9,.3,1.3)}
+.pop.shout .la{color:#8fd0ff}.pop.shout p{font-size:18px;font-weight:800;font-style:italic}
+@keyframes shoutin{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
+.hubic.decor.ping{opacity:1}.hubic.decor.ping .ai{background:#ff9f0a;box-shadow:0 0 0 0 rgba(255,159,10,.8);animation:pingc 1.1s ease-out infinite}
+@keyframes pingc{0%{box-shadow:0 0 0 0 rgba(255,159,10,.8)}100%{box-shadow:0 0 0 14px rgba(255,159,10,0)}}
+.app.calc{background:#000;color:#fff}.calc .ah{background:#111;color:#ff9f0a;border-color:#222}.cdisp{font-size:54px;font-weight:300;text-align:right;padding:18px 22px 4px;color:#666}
+.calc .lk-h{margin-top:auto;padding:0 10px 12px}.calc .actkb{color:#fff}.calc .actkb .aq{color:#ffd9a0;text-align:center;font-size:14px;font-style:italic;margin-bottom:2px}
+.calc .pk{background:#333!important;color:#fff!important}.calc .pk:nth-child(3n){background:#ff9f0a!important}
+.app.vault{background:#0d0d12;color:#eee;overflow:hidden}.vault .ah{background:#15151d;color:#ffd24a;border-color:#222}
+.vcard{margin:10px 14px 6px;padding:12px 14px;border-radius:12px;background:linear-gradient(135deg,#2b3d5c,#141f33);border:1px solid #3d5680;transition:opacity .3s}
+.vcard small{display:block;font-size:10.5px;letter-spacing:1.5px;color:#9fb6dd}.vcard b{display:block;font-size:12px;color:#cfd9ea;margin-top:2px}.vcard em{display:block;font-style:normal;font-size:24px;font-weight:800;letter-spacing:2px;color:#fff;margin:4px 0}.vcard p{font-size:13px;color:#ffd24a;font-weight:700;letter-spacing:.5px}
+.vcard.hl{box-shadow:0 0 0 2px #ffd24a,0 0 22px rgba(255,210,74,.35)}.vcard.new{animation:pop .45s}
+.vgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:4px 14px}.vtl{position:relative;border-radius:8px;overflow:hidden;aspect-ratio:4/3;background:#222;animation:fadein .4s both}
+.vtl i{position:absolute;inset:-6px;background-size:cover;background-position:50% 70%;filter:grayscale(1) blur(2.5px) brightness(.7)}.vtl small{position:absolute;left:5px;bottom:4px;font-size:10.5px;color:#fff;text-shadow:0 1px 3px #000;font-weight:600}
+.vgrid.hl .vtl{box-shadow:0 0 0 2px #ff5a6e}.vault.f-card .vgrid,.vault.f-card .vnewt{opacity:.45}.vault.f-old .vcard{opacity:.45}.vault.f-new .vcard,.vault.f-new .vgrid{opacity:.25}
+.vnewt{margin:8px 14px;padding:8px 10px;border-radius:8px;background:#1c1c26;font-size:12px;color:#aaa}.vnewt b{color:#ff5a6e;margin-right:4px}
+.vnew{position:absolute;left:12px;right:12px;top:52px;bottom:auto;border-radius:12px;overflow:hidden;box-shadow:0 0 0 2px #ff5a6e,0 12px 40px rgba(0,0,0,.7);z-index:3}
+.vnew img{display:block;width:100%;aspect-ratio:864/934;object-fit:cover}.vnew .vnb{position:absolute;top:8px;left:8px;background:#ff3b30;color:#fff;font-size:11px;padding:2px 8px;border-radius:6px}
+.vnew .vts{position:absolute;left:0;right:0;bottom:0;padding:6px 10px;background:linear-gradient(transparent,rgba(0,0,0,.85));font-size:13px;font-weight:700;color:#fff;font-family:ui-monospace,monospace}.vnew .vts{color:#ff8a8a}
+.vnew.new{animation:zin .5s cubic-bezier(.2,.8,.2,1)}@keyframes zin{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.fav.ini.c-B{background:linear-gradient(135deg,#d9467a,#7a2a8c)}
+.dedl{display:flex;flex-direction:column;gap:3px;align-items:center;margin:2px 0 4px}.dedl span{font-size:12px;opacity:.6}.dedl span.on{opacity:1;color:#b8f5c4}

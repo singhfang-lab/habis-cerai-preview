@@ -1,6 +1,6 @@
 (function(){
 'use strict';
-const {TH,SAY,BEATS,UI,EPS,APPS,DECOR,TICKET,ANSWER,IMAGES}=window.PHONE;const BILL=null;const SHOWER_END='22.46';
+const {TH,SAY,BEATS,UI,EPS,APPS,DECOR,TICKET,ANSWER,IMAGES,VAULT}=window.PHONE;const BILL=null;const SHOWER_END='22.46';
 APPS.forEach(a=>a.re.forEach(x=>{x._ep=1;}));
 // tag every beat (and nested branch beats) with its episode + top-level index
 (function(){let ep=1;const t=(a,e)=>a&&a.forEach(x=>{x._ep=e;(x.opts||[]).forEach(o=>t(o.re,e));t(x.ifPilot,e);t(x.ifMe,e);});BEATS.forEach((b,i)=>{if(b.k==='ep')ep=b.ep;b._ep=ep;b._bi=i;(b.opts||[]).forEach(o=>t(o.re,ep));t(b.ifPilot,ep);t(b.ifMe,ep);});})();
@@ -34,13 +34,13 @@ function ok(w){if(!w)return true;return w.split('&').every(c=>{let m;
 const fmtMin=v=>{v=((v%1440)+1440)%1440;return String(Math.floor(v/60)).padStart(2,'0')+'.'+String(v%60).padStart(2,'0');};
 function timeline(){const out=[];const got=new Set();GOT=got;let cur=null;
  const stamp=x=>{if(x.clock)cur=toMin(x.clock);if(x.cost&&cur!=null)cur+=x.cost;x._clk=cur!=null?fmtMin(cur):null;};
- const push=x=>{if(ok(x.when)){stamp(x);out.push(x);}};
+ const push=x=>{if(ok(x.when)){stamp(x);out.push(x);if(x.k==='vault')got.add('vault');}};
  for(const b of BEATS){if(!ok(b.when))continue;
   if(b.k==='hub'){const left=toMin(b.end||SHOWER_END)-(cur||0);const avail=APPS.filter(a=>!got.has(a.id)&&a.cost<=left);
    if(!b.peek&&!avail.length)continue;stamp(b);b._left=left;b._got=[...got];out.push(b);if(b.peek)continue;
    const c=st.ch[b.key];const a=c!=null?APPS[c]:null;if(!a||b._got.includes(a.id)||a.cost>left)break;
    got.add(a.id);cur+=a.cost;a.re.forEach((x,j)=>{if(ok(x.when)){x._clk=fmtMin(cur);x._app=a.id;out.push(x);}});continue;}
-  stamp(b);out.push(b);
+  stamp(b);out.push(b);if(b.k==='vault')got.add('vault');
   if(b.k==='choice'||b.k==='quick'){const c=st.ch[b.key];if(c==null)break;const o=b.opts[c];
    if(o.send)out.push({k:'msg',th:o.th||b.th,mine:true,time:null,t:o.send,_sent:true,_ep:b._ep});
    (o.re||[]).forEach(push);if(b.k==='choice')((st.how[b.key]==='pilot'?b.ifPilot:b.ifMe)||[]).forEach(push);}
@@ -53,7 +53,7 @@ const toMin=c=>{const [h,m]=String(c).split('.').map(Number);let v=h*60+m;if(h<5
 
 // ---------- derive phone state by replaying the visible beats ----------
 function derive(tl,n){const S={day:'Kamis|星期四',clock:'06.40',view:'lock',lockN:[],threads:{},scene:null,live:{cmts:[],viewers:0,img:'p-live.webp',pin:null,gift:null},call:null,mail:null,wallet:null,notes:null,lensa:null,last:tl[n-1],lastI:n-1,inner:null,typing:null,dark:null,thread:null};
- S.shower=0;S.got=new Set();S.memo=null;
+ S.shower=0;S.got=new Set();S.memo=null;S.pop=null;
  for(let i=0;i<n&&i<tl.length;i++){const b=tl[i];if(b._clk)S.clock=b._clk;else if(b.clock)S.clock=b.clock;if(b.day)S.day=b.day;if(b.shower!=null)S.shower=b.shower;if(b.k==='hub')S.hubOn=true;if(b._app)S.got.add(b._app);
   switch(b.k){
    case 'lock':S.view='lock';S.lockN=b.notifs||[];S.lockSolo=!!b.solo;S.lockExp=!!b.exp;S.lockB=b;if(b.sleepy)S.sleepy=true;break;
@@ -68,6 +68,8 @@ function derive(tl,n){const S={day:'Kamis|星期四',clock:'06.40',view:'lock',l
    case 'hub':S.view='hub';S.hub={...b,_i:i};break;
    case 'ride':case 'bank':case 'shop':S.view=b.k;S.app={...b,_i:i};break;
    case 'memo':if(i===n-1)S.memo=b;break;
+   case 'pop':if(i===n-1)S.pop={...b,_i:i};if(b.hub&&S.hub)S.view='hub';break;
+   case 'vault':S.view='vault';S.vault={...b,_i:i};S.got.add('vault');break;
    case 'ep':S.view='ep';S.epc={...b,_i:i};break;
    case 'epend':S.view='epend';S.epe={...b,_i:i};break;
    case 'mail':S.view='mail';S.mail=b;break;
@@ -83,10 +85,11 @@ function derive(tl,n){const S={day:'Kamis|星期四',clock:'06.40',view:'lock',l
    case 'end':S.view='end';break;
    case 'home':S.view='home';break;
    case 'quick':if(b.in==='lensa'){S.view='lensa';S.lensa={draft:b.draft,key:b.key};}if(b.in==='call')S.view='call';if(b.in==='scene'&&S.scene)S.scene.items.push({...b,_i:i});if(b.in==='chat'){S.view='chat';S.thread=b.th;}break;
-   case 'act':if(b.in==='lock'){S.view='lock';if(b.notifs){S.lockN=b.notifs;S.lockExp=false;S.lockB=b;}if(b.sleepy)S.sleepy=true;}if(b.in==='lensa')S.view='lensa';if(b.in==='scene'&&S.scene)S.scene.items.push({...b,_i:i});if(b.in==='home')S.view='home';if(b.in==='chat'){S.view='chat';S.thread=b.th;}
+   case 'act':if(b.in==='calc'){S.view='calc';S.calc=b;}if(b.in==='lock'){S.view='lock';if(b.notifs){S.lockN=b.notifs;S.lockExp=false;S.lockB=b;}if(b.sleepy)S.sleepy=true;}if(b.in==='lensa')S.view='lensa';if(b.in==='scene'&&S.scene)S.scene.items.push({...b,_i:i});if(b.in==='home')S.view='home';if(b.in==='chat'){S.view='chat';S.thread=b.th;}
      if(b.key==='facedown'&&st.done.facedown)S.view='dark';break;
    case 'choice':if(b.in==='live')S.view='live';if(b.in==='call')S.view='call';if(b.th){S.view='chat';S.thread=b.th;}break;
   }
+  if(b.hub&&S.hub&&b.k!=='pop'&&b.k!=='hub')S.view='hub';
   if(b.k==='inner')S.inner=(i===n-1)?b:null;if(b.wake)S.awake=true;
   if(b.k==='typing'&&i===n-1)S.typing=b;
  }
@@ -98,7 +101,7 @@ function derive(tl,n){const S={day:'Kamis|星期四',clock:'06.40',view:'lock',l
 // ---------- pieces ----------
 function av(key,cls=''){const t=TH[key];if(t&&t.img)return `<span class="pav ${cls}"><img src="assets/${t.img}" alt=""></span>`;return `<span class="pav ini ${cls} c-${key}">${esc(t?t.av:key)}</span>`;}
 function faceAv(who,ex,cls=''){const c=SAY[who]||{};if(c.img)return `<span class="fav ${cls}"><img src="assets/${c.img}" alt=""></span>`;return `<span class="fav ini ${cls} c-${who}">${esc(c.ini||who)}</span>`;}
-function statusBar(S){const m=toMin(S.clock),bat=Math.max(6,Math.round(82-(m-400)*0.06));return `<div class="sb${S.view==='live'||S.view==='lock'||S.view==='call'||S.view==='dark'||S.view==='scene'||S.view==='ep'||S.view==='epend'||S.view==='gallery'||S.view==='hub'?' light':''}"><b>${esc(clk(S.clock))}</b><span class="isl"></span><span class="sig">▂▄▆ 4G</span><span class="bat${bat<20?' low':''}"><i style="width:${bat}%"></i></span><small>${bat}%</small></div>`;}
+function statusBar(S){const m=toMin(S.clock),bat=Math.max(6,Math.round(82-(m-400)*0.06));return `<div class="sb${S.view==='live'||S.view==='lock'||S.view==='call'||S.view==='dark'||S.view==='scene'||S.view==='ep'||S.view==='epend'||S.view==='gallery'||S.view==='hub'||S.view==='vault'||S.view==='calc'?' light':''}"><b>${esc(clk(S.clock))}</b><span class="isl"></span><span class="sig">▂▄▆ 4G</span><span class="bat${bat<20?' low':''}"><i style="width:${bat}%"></i></span><small>${bat}%</small></div>`;}
 const isNew=i=>i===st.n-1;
 function msgHTML(m,th){if(m.k==='sys')return `<div data-k="m${m._i}" class="sysm${isNew(m._i)?' new':''}">${esc(L(m.t))}</div>`;
  const mine=!!m.mine;const from=th==='group'&&!mine?`<small class="fr">${esc(L(m.from))}</small>`:'';
@@ -139,18 +142,25 @@ function lockHTML(S){const B=S.lockB||{};const tg=S.tgt&&S.tgt.in==='lock'?S.tgt
  return `<div class="app lock wall${cls}${pinning?' pinning':''}${lo?' locked':''}"><div class="wallimg"><img src="assets/p-wall.webp" alt=""></div><div class="lk-t">${esc(clk(S.clock))}</div><div class="lk-d">${esc(L(S.day))}</div>${cnt}<div class="lk-n">${S.lockN.map(one).join('')}</div>${lo}<div class="lk-h" id="lkh"></div></div>`;}
 function ticketHTML(mini,cls=''){const K=TICKET;return `<div class="ticket${mini?' mini':''} ${cls}"${mini?' data-ticket="1"':''}><div class="tk-l"><small>${esc(K.cin)}</small><b>${esc(K.film)}</b><div class="tk-g"><span><i>${T('tkDay')}</i>${esc(L(K.day))}</span><span class="tk-date"><i>${T('tkDate')}</i>${esc(K.date)}</span><span><i>${T('tkTime')}</i>${esc(clk(K.time))}</span></div><div class="tk-g"><span><i>STUDIO</i>2</span><span><i>${T('tkSeat')}</i>${esc(K.seat)}</span></div></div><div class="tk-r"><span>ADMIT 2</span></div></div>`;}
 const evN=S=>(S&&S.got?S.got.size:0);
-function showerHTML(S){if(!S.shower||!['lock','hub','chat','gallery','ride','bank','shop','dark'].includes(S.view))return '';const left=Math.max(0,toMin(SHOWER_END)-toMin(S.clock));const on=S.shower===1;
- const strip=['chat','gallery','ride','bank','shop'].includes(S.view);
- return `<div class="shower${strip?' strip':''}${on?'':' off'}${on&&left<=3?' low':''}"><span class="sw">${on?'🚿':'🔇'}</span><b>${on?T('showerOn'):T('showerOff')}</b>${on?`<em>${esc(L(UI.left).replace('{m}',left))}</em>`:''}${S.hubOn?`<span class="evc">${T('evid')} ${evN(S)}/${APPS.length}</span>`:''}</div>`;}
-function hubHTML(S){const h=S.hub;const live=!h.peek&&S.last&&S.last.k==='hub'&&S.last.key===h.key;const got=new Set(h._got||[]);const nw=isNew(h._i);
+function showerHTML(S){if(!S.shower||!['lock','hub','chat','gallery','ride','bank','shop','dark','call','calc','vault'].includes(S.view))return '';const left=Math.max(0,toMin(SHOWER_END)-toMin(S.clock));const on=S.shower===1;
+ const strip=['chat','gallery','ride','bank','shop','call','calc','vault'].includes(S.view);
+ return `<div class="shower${strip?' strip':''}${on?'':' off'}${on&&left<=3?' low':''}"><span class="sw">${on?'🚿':'🔇'}</span><b>${on?T('showerOn'):T('showerOff')}</b>${on?`<em>${esc(L(UI.left).replace('{m}',left))}</em>`:''}${S.hubOn?`<span class="evc">${T('evid')} ${evN(S)}/${APPS.length+1}</span>`:''}</div>`;}
+function hubHTML(S){const h=S.hub;const live=!h.peek&&S.last&&S.last.k==='hub'&&S.last.key===h.key;const got=new Set([...(h._got||[]),...(S.got||[])]);const nw=isNew(h._i);
  const ic=(a,j)=>{const done=got.has(a.id);const can=live&&!done&&a.cost<=h._left;const cls=done?' done':can?' can':live?' cant':'';
   return `<div class="ic hubic${cls}" ${can?`data-hub="${j}"`:''}><i class="ai" style="background:${a.col}">${a.ic}</i>${a.badge&&!done?`<em>${a.badge}</em>`:''}<small>${esc(L(a.name))}</small>${live||done?`<span class="cost">${done?'✓':(can?'⏱ ':'✕ ')+a.cost+' '+T('min')}</span>`:''}</div>`;};
- const dec=DECOR.map(d=>`<div class="ic hubic decor"><i class="ai">${d.ic}</i><small>${esc(L(d.name))}</small></div>`).join('');
+ const ping=S.pop&&S.pop.ic==='🧮';const dec=DECOR.map((d,j)=>`<div class="ic hubic decor${j===0&&ping?' ping':''}"><i class="ai">${d.ic}</i><small>${esc(L(d.name))}</small></div>`).join('');
  const txt=live?L(h.t).replace('{m}',h._left):'';
  return `<div class="app hub${nw?' new':''}"><div class="wallimg dimw"><img src="assets/p-wall.webp" alt=""></div><div class="grid hubgrid">${APPS.map(ic).join('')}${dec}</div>${live?`<div class="hubq" data-k="hq${h._i}"><p>${esc(txt)}</p></div>`:''}</div>`;}
 function rideHTML(S){const a=S.app;return `<div class="app ride"><div class="ah">🛵 Jalanku · ${T('rideHist')}</div><div class="rmap" data-zoom="${a.img}" data-cap="${esc(L(a.cap))}"><img src="assets/${a.img}" alt=""><span class="gz">⤢ ${T('zoomHint')}</span></div><div class="rlist">${a.rows.map((r,j)=>`<div class="rrow" style="animation-delay:${.15+j*.18}s"><b>${esc(L(r[0]))}</b><p>${esc(L(r[1]))}</p><em>${esc(r[2])}</em></div>`).join('')}</div></div>`;}
 function bankHTML(S){const a=S.app;return `<div class="app bank"><div class="ah">🏦 Arta Mobile</div><div class="bacc"><small>${T('bankAcc')}</small><b>${esc(L(a.t))}</b></div><div class="blist">${a.rows.map((r,j)=>`<div class="brow" style="animation-delay:${.15+j*.16}s"><div><b>${esc(L(r[1]))}</b><small>${esc(L(r[0]))}</small></div><em>−Rp8.500.000</em></div>`).join('')}</div><div class="bdet">${a.det.map(d=>`<p class="${d[2]?'hl':''}"><small>${esc(L(d[0]))}</small><b>${esc(L(d[1]))}</b></p>`).join('')}</div></div>`;}
 function shopHTML(S){const a=S.app;return `<div class="app shop"><div class="ah">🛍 Tokoria · ${T('orderT')}</div><div class="sbadge">✓ ${esc(L(a.t))}</div><div class="sitem" data-zoom="${a.img}" data-cap="${esc(L(a.item))}"><img src="assets/${a.img}" alt=""><div><b>${esc(L(a.item))}</b><em>${esc(a.price)}</em></div></div><div class="saddr"><small>${T('shipTo')}</small><b>${esc(L(a.addr))}</b><p>${esc(L(a.addr2))}</p></div></div>`;}
+function calcHTML(S){return `<div class="app calc"><div class="ah">🧮 ${T('calcT')} · 🔒 ${T('vaultT')}</div><div class="cdisp">0</div><div class="lk-h" id="lkh"></div></div>`;}
+function vaultHTML(S){const v=S.vault,V=VAULT,f=v.focus,nw=isNew(v._i);
+ return `<div class="app vault f-${f}"><div class="ah">🔒 ${T('vaultT')} · ${esc(L(v.t))}</div>
+ <div class="vcard${f==='card'?' hl':''}${f==='card'&&nw?' new':''}"><small>${esc(V.card.t)}</small><b>${esc(L(V.card.k))}</b><em>${esc(V.card.unit)}</em><p>a.n. ${esc(V.card.name)}</p></div>
+ <div class="vgrid${f==='old'?' hl':''}">${V.old.map((o,j)=>`<div class="vtl" style="animation-delay:${f==='old'&&nw?.1+j*.18:0}s"><i style="background-image:url(assets/${V.img})"></i><small>${esc(L(o))}</small></div>`).join('')}</div>
+ ${f==='new'?`<div class="vnew${nw?' new':''}" data-zoom="${V.img}" data-cap="${esc(L(V.cap))}"><img src="assets/${V.img}" alt=""><b class="vnb">${T('newL')}</b><span class="vts">● ${esc(L(V.cap))}</span></div>`:`<div class="vnewt"><b>${T('newL')}</b> ${esc(L(V.cap))} <i>🔒</i></div>`}</div>`;}
+function popHTML(S){const p=S.pop;if(!p)return '';return `<div class="pop new${p.style?' '+p.style:''}${p.fx==='shake'?' jolt':''}"><span class="la">${p.ic||''} ${esc(L(p.from))}${p.sub?' · '+esc(L(p.sub)):''}</span><p>${esc(L(p.t))}</p></div>`;}
 function memoHTML(S){const m=S.memo;if(!m)return '';return `<div class="memo new"><div class="memoc">${ticketHTML(false,'big')}<p>${esc(L(m.t))}</p></div></div>`;}
 function homeHTML(S){const badges=[7,1,0,1,1,0,0,0];const tg=APPN[(S.last&&S.last.app)||'LiveKu'];return `<div class="app home"><div class="grid">${UI.apps.slice(0,8).map((a,j)=>`<div class="ic${j===tg?' target':''}" ${j===tg?'data-app="go"':''}><i class="ai a${j}">${['💬','◎','●','✉','💳','🖼','📝','📷'][j]}</i>${badges[j]?`<em>${badges[j]}</em>`:''}<small>${esc(L(a))}</small></div>`).join('')}</div><div class="dock-hint">${esc(L(S.last&&S.last.t||''))}</div><i class="fingertap"></i></div>`;}
 function mailHTML(S){const m=S.mail;return `<div class="app mail"><div class="ah">‹ ${T('inbox')}</div><div class="mm new"><small>${esc(L(m.from))}</small><h3>${esc(L(m.subject))}</h3><p>${esc(L(m.t))}</p><div class="att">📎 ${esc(m.file||'Surat_Pemutusan.pdf')}</div></div></div>`;}
@@ -187,11 +197,16 @@ function widget(b){const k=b.key,bt=esc(L(b.btn));
   case 'hold':return `<button class="aw hold" data-hold="${k}"><i class="ring"><i></i></i><span>${bt}</span></button>`;
   case 'swipe':return `<div class="aw swipe" data-swipe="${k}"><div class="trk"><span>${bt}</span><b class="knob">➜</b></div></div>`;
   case 'drag':return `<div class="aw drag" data-drag="${k}"><div class="pad"><b class="knob">📱</b><i class="slot">▁▁▁</i></div><span>${bt}</span></div>`;
-  case 'pin':{const keys=['1','2','3','4','5','6','7','8','9','','0','⌫'];return `<div class="aw pinw" data-pinw="${k}"><small class="pinl">${T('pinEnter')}</small><div class="pdots">${'<i></i>'.repeat(6)}</div><p class="perr"></p>${b.chip?`<button class="pchip" data-chip="${b.chip.code}">💡 ${esc(L(b.chip.label))}</button>`:''}${b.ticket?`<div class="ptk">${ticketHTML(true)}<small class="ptkh">👆 ${T('ticketTap')}</small></div>`:''}<div class="pkeys">${keys.map(x=>x===''?'<span></span>':`<button class="pk" data-pin="${x}">${x}</button>`).join('')}</div></div>`;}
+  case 'pin':{const keys=['1','2','3','4','5','6','7','8','9','','0','⌫'];return `<div class="aw pinw${b.code?' short':''}" data-pinw="${k}"><small class="pinl">${b.lab?esc(L(b.lab)):T('pinEnter')}</small><div class="pdots">${'<i></i>'.repeat((b.code||ANSWER).length)}</div><p class="perr"></p>${b.chip?`<button class="pchip" data-chip="${b.chip.code}">💡 ${esc(L(b.chip.label))}</button>`:''}${b.ticket?`<div class="ptk">${ticketHTML(true)}<small class="ptkh">👆 ${T('ticketTap')}</small></div>`:''}<div class="pkeys">${keys.map(x=>x===''?'<span></span>':`<button class="pk" data-pin="${x}">${x}</button>`).join('')}</div></div>`;}
   case 'unlock':return `<div class="aw unlock" data-up="${k}"><b class="knob">⌃</b><span>${bt}</span></div>`;}return '';}
-function statsHTML(){timeline();const g=GOT;const pil=PILOTS.filter(b=>st.ch[b.key]!=null);const pc=pil.filter(b=>st.how[b.key]==='pilot').length;
- const sv=st.ch.save;const dim=st.ch.water===1?UI.dimB:UI.dimA;
- return `<div class="estats"><p class="evt">${T('stEv')}: <b>${g.size}/${APPS.length}</b></p><div class="evchips">${APPS.map(a=>`<span class="${g.has(a.id)?'on':''}">${a.ic} ${esc(L(UI.evName[a.id]))}</span>`).join('')}</div>${sv!=null?`<p>${T('stSave')}: ${esc(L(sv===0?UI.saveF:UI.saveP))}</p>`:''}${st.ch.water!=null?`<p>${T('stDim')}: ${esc(L(dim))}</p>`:''}${pil.length?`<p class="old">${esc(L(UI.stOld).replace('{p}',pc).replace('{t}',pil.length))}</p>`:''}</div>`;}
+function statsHTML(){timeline();const g=GOT;const pil=PILOTS.filter(b=>st.ch[b.key]!=null);const pc=pil.filter(b=>st.how[b.key]==='pilot').length;const c=st.ch;
+ const sv=c.save;const evs=[...APPS.map(a=>[a.id,a.ic]),['vault','🔒']];
+ const dd=[];if(st.done.pin3||c.pinfast){dd.push([T('dPin'),!c.pinH]);}if(c.who!=null)dd.push([T('dWho'),c.who!==0,L([UI.dWho0,UI.dWho1,UI.dWho2][c.who])]);if(st.done.vault)dd.push([T('dVault'),!c.vaultH]);
+ const dn=dd.filter(x=>x[1]).length;
+ let sus=0;if(c.save===0&&c.water===0)sus++;if(c.ring===0)sus+=2;else if(c.ring===1)sus++;if(c.towel===1)sus++;
+ const dim=c.water===1?UI.dimB:sus===0?UI.dim0:sus<=2?UI.dim1:UI.dim2;
+ const pr=[c.ring!=null?L(UI.pRing[c.ring]):null,c.towel!=null?L(UI.pTowel[c.towel]):null].filter(Boolean);
+ return `<div class="estats"><p class="evt">${T('stEv')}: <b>${g.size}/${APPS.length+1}</b></p><div class="evchips">${evs.map(([id,ic])=>`<span class="${g.has(id)?'on':''}">${ic} ${esc(L(UI.evName[id]))}</span>`).join('')}</div>${dd.length?`<p class="evt">${T('stDed')}: <b>${dn}/${dd.length}</b></p><div class="dedl">${dd.map(x=>`<span class="${x[1]?'on':''}">${x[1]?'✓':'✗'} ${x[0]}: ${esc(x[2]||L(x[1]?UI.dSelf:UI.dHint))}</span>`).join('')}</div>`:''}${pr.length?`<p>${T('stPress')}: ${esc(pr.join(' · '))}</p>`:''}${sv!=null?`<p>${T('stSave')}: ${esc(L(sv===0?UI.saveF:UI.saveP))}</p>`:''}${c.water!=null?`<p>${T('stDim')}: ${esc(L(dim))}</p>`:''}${pil.length?`<p class="old">${esc(L(UI.stOld).replace('{p}',pc).replace('{t}',pil.length))}</p>`:''}</div>`;}
 function endHTML(S){const b=S.last||{};return `<div class="app endv"><div class="endc"><small class="epk">${T('epK')} ${b._ep||1}</small><h2>${T('end1')}</h2><p class="eq">${esc(L(b.t||UI.end2))}</p>${statsHTML()}<button class="eagain" data-chap="1">${T('chapters')}</button><button class="eagain" data-again="1">${T('again')}</button></div></div>`;}
 function epHTML(S){const e=S.epc;const E=EPS[e.ep-1]||{};return `<div class="app epv${isNew(e._i)?' new':''}"><div class="epc"><small class="epk">${T('epK')} ${e.ep}${E.paid?' · '+T('epPaid'):''}</small><h2>${esc(L(E.title))}</h2>${e.prev?`<p class="epp">${esc(L(e.prev))}</p>`:''}<i class="epline"></i></div></div>`;}
 function ependHTML(S){const e=S.epe;const N=EPS[e.ep]||{};const nw=isNew(e._i);return `<div class="app epv end${nw?' new':''}"><div class="epc"><small class="epk">${T('epK')} ${e.ep} · ${T('epDone')}</small><h2>${esc(L((EPS[e.ep-1]||{}).title))}</h2>${statsHTML()}<div class="epnext"><small>${T('epNext')} · ${T('epK')} ${e.ep+1}</small><b>${esc(L(N.title))}</b><p>${esc(L(e.tease||''))}</p><i class="autobar${nw?' run':''}" style="--d:${dwell(e)/(st.speed||1)}ms"></i><small class="autol">${T('autoNext')}</small></div><div class="epbtns"><button class="epgo" data-next="1">${T('epGo')} ▶</button><button class="epch" data-chap="1">${T('chapters')}</button></div></div></div>`;}
@@ -201,7 +216,7 @@ function galleryHTML(S){const g=S.gallery;const items=g.items||[];return `<div c
 function fadeHTML(b){return `<div class="fadeold"><div class="oldbar"><span class="autopill">${T('auto')}</span><span class="ot">${T('old')}</span></div><p class="ftype"><span>${esc(L(b.oldfade))}</span></p><p class="fgone">${T('fadeGone')}</p><div class="stamp big">${T('fadeStamp')}</div></div>`;}
 function kbHTML(S){const b=S.last;if(!b)return '';
  if(b.k==='paywall')return paywallHTML(b);
- if(b.k==='choice'&&b.pilot==null){if(st.ch[b.key]!=null)return '';return `<div class="pilotkb self${b.oldfade?' fading':''}">${b.oldfade?fadeHTML(b):''}<p class="ql">${b.oldfade?T('fadeNow'):T('yours')}</p><div class="ropts">${b.opts.map((x,j)=>`<button class="ro" data-opt="${j}">${esc(L(x.t))}</button>`).join('')}</div></div>`;}
+ if(b.k==='choice'&&b.pilot==null){if(st.ch[b.key]!=null)return '';return `<div class="pilotkb self${b.oldfade?' fading':''}">${b.oldfade?fadeHTML(b):''}<p class="ql">${b.oldfade?T('fadeNow'):b.lab?esc(L(b.lab)):T('yours')}</p><div class="ropts">${b.opts.map((x,j)=>ok(x.when)?`<button class="ro" data-opt="${j}">${esc(L(x.t))}</button>`:'').join('')}</div></div>`;}
  if(b.k==='choice'){const d=st.ch[b.key]!=null;if(d)return '';const o=b.opts[b.pilot];
   return `<div class="pilotkb"><div class="oldbar"><span class="autopill">${T('auto')}</span><span class="ot">${T('old')}</span><b id="cd">${Math.ceil(b.ms/1000)}</b></div>${b.help&&!st.seenHelp?`<p class="help">${esc(L(b.help))}</p>`:''}${b.old?`<p class="oldq">“${esc(L(b.old))}”</p>`:''}
    <div class="typing-in"><span id="autotype"></span><i class="caret"></i></div><div class="bar"><i id="cdbar"></i></div>
@@ -252,9 +267,9 @@ function flip(old){if(RM||!old.size)return;screen.querySelectorAll('[data-k]').f
 function render(opt){opt=opt||{};finishTx();const tl=timeline();st.n=Math.min(Math.max(1,st.n),tl.length);if(st.n!==beatN){beatN=st.n;beatAt=Date.now();}const S=derive(tl,st.n);
  const type=opt.noTx?null:pickTx(prevR,S,opt.back);let ghost=null;const old=type?null:snapshot();
  if(type){ghost=screen.cloneNode(true);ghost.removeAttribute('id');ghost.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));ghost.classList.add('ghost');ghost.setAttribute('aria-hidden','true');phoneEl.insertBefore(ghost,type==='slide'||type==='push'?screen.nextSibling:screen.nextSibling);}
- let body='';switch(S.view){case 'lock':body=lockHTML(S);break;case 'chat':body=chatHTML(S);break;case 'home':body=homeHTML(S);break;case 'mail':body=mailHTML(S);break;case 'wallet':body=walletHTML(S);break;case 'lensa':body=lensaHTML(S);break;case 'live':body=liveHTML(S);break;case 'call':body=callHTML(S);break;case 'notes':body=notesHTML(S);break;case 'dark':body=darkHTML(S);break;case 'scene':body=sceneHTML(S);break;case 'end':body=endHTML(S);break;case 'ep':body=epHTML(S);break;case 'epend':body=ependHTML(S);break;case 'gallery':body=galleryHTML(S);break;case 'hub':body=hubHTML(S);break;case 'ride':body=rideHTML(S);break;case 'bank':body=bankHTML(S);break;case 'shop':body=shopHTML(S);break;}
+ let body='';switch(S.view){case 'lock':body=lockHTML(S);break;case 'chat':body=chatHTML(S);break;case 'home':body=homeHTML(S);break;case 'mail':body=mailHTML(S);break;case 'wallet':body=walletHTML(S);break;case 'lensa':body=lensaHTML(S);break;case 'live':body=liveHTML(S);break;case 'call':body=callHTML(S);break;case 'notes':body=notesHTML(S);break;case 'dark':body=darkHTML(S);break;case 'scene':body=sceneHTML(S);break;case 'end':body=endHTML(S);break;case 'ep':body=epHTML(S);break;case 'epend':body=ependHTML(S);break;case 'gallery':body=galleryHTML(S);break;case 'hub':body=hubHTML(S);break;case 'ride':body=rideHTML(S);break;case 'bank':body=bankHTML(S);break;case 'shop':body=shopHTML(S);break;case 'calc':body=calcHTML(S);break;case 'vault':body=vaultHTML(S);break;}
  screen.className='screen v-'+S.view;phoneEl.dataset.tint=S.view==='scene'?(S.scene.tint||'cold'):'';
- screen.innerHTML=statusBar(S)+showerHTML(S)+body+memoHTML(S)+innerHTML(S)+bannerHTML(S)+tbannerHTML(S)+(S.banner&&isNew(S.banner._i)?'<span class="ting">ting!</span>':'');
+ screen.innerHTML=statusBar(S)+showerHTML(S)+body+memoHTML(S)+popHTML(S)+innerHTML(S)+bannerHTML(S)+tbannerHTML(S)+(S.banner&&isNew(S.banner._i)?'<span class="ting">ting!</span>':'');
  const kb=document.getElementById('kb'),lkh=document.getElementById('lkh');const k=kbHTML(S);if(kb)kb.innerHTML=k;else if(lkh)lkh.innerHTML=k;else if(k&&(S.view!=='scene'||(S.last&&S.last.k==='choice'))){screen.insertAdjacentHTML('beforeend',`<div class="kb float">${k}</div>`);screen.classList.add('has-kb');}
  const ms=document.getElementById('msgs');if(ms){if(S.scrollup!=null&&isNew(S.scrollup)){ms.scrollTop=ms.scrollHeight;later(()=>{ms.scrollTo({top:0,behavior:RM?'auto':'smooth'});},700);}else ms.scrollTop=ms.scrollHeight;}
  if(old)flip(old);
@@ -298,20 +313,20 @@ function fx(b){if(!b)return;if(b.fx==='shake'||b.k==='wallet'){const p=$('phone'
  if(b.fx==='flash'){const f=$('flash');f.classList.remove('go');void f.offsetWidth;f.classList.add('go');}}
 
 // ---------- passcode pad ----------
-const pin={buf:'',key:null,busy:false,timers:[]};
+const pin={buf:'',key:null,busy:false,timers:[],hint:false};
 function pinClear(){pin.timers.forEach(clearTimeout);pin.timers=[];}
 function armPin(S){const b=S.last;const on=b&&b.k==='act'&&b.mode==='pin'&&!st.done[b.key];if(!on){pinClear();pin.key=null;pin.buf='';pin.busy=false;return;}
- if(pin.key!==b.key){pinClear();pin.key=b.key;pin.buf='';pin.busy=false;}
+ if(pin.key!==b.key){pinClear();pin.key=b.key;pin.buf='';pin.busy=false;pin.hint=false;}
  pinDots();const sp=st.speed||1;
  if(b.chip){const t=setTimeout(()=>{const c=screen.querySelector('.pchip');if(c&&!pin.buf)c.classList.add('show');},(b.chipAfter||3500)/sp);pin.timers.push(t);}
  if(b.ticket){const t=setTimeout(()=>{const c=screen.querySelector('.ptk');if(c)c.classList.add('glow');},(b.ticketAfter||7000)/sp);pin.timers.push(t);}}
 function pinDots(cls){const w=screen.querySelector('.aw.pinw');if(!w)return;w.querySelectorAll('.pdots i').forEach((d,j)=>{d.className=j<pin.buf.length?'on':'';});if(cls){w.classList.remove('bad','good');void w.offsetWidth;w.classList.add(cls);}}
 function pinInput(el){const tl=timeline(),b=tl[st.n-1];if(!b||b.k!=='act'||b.mode!=='pin'||st.done[b.key]||pin.busy)return;
- if(el.dataset.chip||el.dataset.ticket){const code=el.dataset.chip||ANSWER;pin.busy=true;pin.buf='';pinDots();let j=0;const step=()=>{pin.buf+=code[j++];pinDots();if(j<code.length)pin.timers.push(setTimeout(step,130));else pin.timers.push(setTimeout(()=>{pin.busy=false;pinCheck(b);},200));};pin.timers.push(setTimeout(step,120));return;}
- const k=el.dataset.pin;if(k==='⌫'){pin.buf=pin.buf.slice(0,-1);pinDots();return;}if(pin.buf.length>=6)return;pin.buf+=k;pinDots();const c=screen.querySelector('.pchip');if(c)c.classList.remove('show');
- if(pin.buf.length===6){pin.busy=true;pin.timers.push(setTimeout(()=>{pin.busy=false;pinCheck(b);},160));}}
-function pinCheck(b){const code=pin.buf;track('pin',{key:b.key,ok:code===ANSWER});const err=screen.querySelector('.perr');
- if(code===ANSWER){pinDots('good');['pin1','pin2','pin3'].forEach(k=>st.done[k]=true);if(b.key==='pin1')st.ch.pinfast=1;else if(b.key==='pin2')st.ch.pinfast=2;save();justActed=Date.now();pin.busy=true;
+ if(el.dataset.chip||el.dataset.ticket){const code=el.dataset.chip||b.code||ANSWER;pin.hint=true;pin.busy=true;pin.buf='';pinDots();let j=0;const step=()=>{pin.buf+=code[j++];pinDots();if(j<code.length)pin.timers.push(setTimeout(step,130));else pin.timers.push(setTimeout(()=>{pin.busy=false;pinCheck(b);},200));};pin.timers.push(setTimeout(step,120));return;}
+ const k=el.dataset.pin;if(k==='⌫'){pin.buf=pin.buf.slice(0,-1);pinDots();return;}const N=(b.code||ANSWER).length;if(pin.buf.length>=N)return;pin.buf+=k;pinDots();const c=screen.querySelector('.pchip');if(c)c.classList.remove('show');
+ if(pin.buf.length===N){pin.busy=true;pin.timers.push(setTimeout(()=>{pin.busy=false;pinCheck(b);},160));}}
+function pinCheck(b){const code=pin.buf,A=b.code||ANSWER;track('pin',{key:b.key,ok:code===A,hint:pin.hint});const err=screen.querySelector('.perr');
+ if(code===A){pinDots('good');if(b.code){st.done[b.key]=true;if(pin.hint)st.ch[b.key+'H']=1;else delete st.ch[b.key+'H'];}else{['pin1','pin2','pin3'].forEach(k=>st.done[k]=true);if(b.key==='pin1')st.ch.pinfast=1;else if(b.key==='pin2')st.ch.pinfast=2;else delete st.ch.pinfast;if(pin.hint&&b.final)st.ch.pinH=1;else delete st.ch.pinH;}save();justActed=Date.now();pin.busy=true;
   pin.timers.push(setTimeout(()=>{pin.busy=false;advance(true);},RM?100:520));return;}
  const p=$('phone');p.classList.remove('shake');void p.offsetWidth;p.classList.add('shake');try{navigator.vibrate&&(!navigator.userActivation||navigator.userActivation.hasBeenActive)&&navigator.vibrate(60)}catch{}
  pinDots('bad');if(err)err.textContent=L(UI.pinWrong);
@@ -340,14 +355,14 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)track('leav
 const plain=x=>L(x||'').replace(/[“”"()]/g,'');
 function readMs(txt){const t=plain(txt);if(!t)return 0;const ms=st.lang==='zh'?t.replace(/\s/g,'').length/8*1000:t.split(/\s+/).filter(Boolean).length/220*60000;return Math.max(1200,ms);}
 function beatText(b){if(!b)return '';switch(b.k){case 'scene':return [b.tag,...b.lines].map(plain).join(' ');case 'mail':return plain(b.subject)+' '+plain(b.t);case 'wallet':return plain(b.merchant)+' '+plain(b.t);case 'live':return plain(b.cmt)+' '+plain(b.pin);
- case 'act':return b.done?plain(b.done):'';case 'quick':return plain(b.q);case 'notes':return b.old.map(plain).join(' ')+' '+plain(b.draft);case 'dark':return plain(b.t)+' '+plain(b.sub);case 'call':return plain(b.sub);case 'msg':return plain(b.t)+' '+plain(b.tr)+' '+plain(b.loc);case 'ep':return plain((EPS[b.ep-1]||{}).title)+' '+plain(b.prev);case 'gallery':return plain(b.t)+' '+plain(b.cap);case 'ride':return plain(b.t)+' '+plain(b.cap);case 'bank':return plain(b.t)+' '+b.det.map(d=>plain(d[1])).join(' ');case 'shop':return plain(b.item)+' '+plain(b.addr)+' '+plain(b.addr2);case 'hub':return '';case 'scrollup':return b.old.map(o=>plain(o.t)).join(' ');case 'unblur':return plain(b.t);case 'draft':return plain(b.t);
+ case 'act':return b.done?plain(b.done):'';case 'quick':return plain(b.q);case 'notes':return b.old.map(plain).join(' ')+' '+plain(b.draft);case 'dark':return plain(b.t)+' '+plain(b.sub);case 'call':return plain(b.sub);case 'msg':return plain(b.t)+' '+plain(b.tr)+' '+plain(b.loc);case 'ep':return plain((EPS[b.ep-1]||{}).title)+' '+plain(b.prev);case 'gallery':return plain(b.t)+' '+plain(b.cap);case 'ride':return plain(b.t)+' '+plain(b.cap);case 'bank':return plain(b.t)+' '+b.det.map(d=>plain(d[1])).join(' ');case 'shop':return plain(b.item)+' '+plain(b.addr)+' '+plain(b.addr2);case 'hub':return '';case 'pop':return plain(b.from)+' '+plain(b.t);case 'vault':return '';case 'scrollup':return b.old.map(o=>plain(o.t)).join(' ');case 'unblur':return plain(b.t);case 'draft':return plain(b.t);
  case 'lensa':return b.post?plain(b.post.cap)+' '+(b.cmts||[]).map(plain).join(' '):b.story?plain(b.story.t):(b.cmts||[]).map(plain).join(' ');default:return plain(b.t)+' '+plain(b.cap)+' '+plain(b.hot)+' '+plain(b.frame);}}
 function dwell(b,S){if(!b)return 1200;const r=st.lang==='zh'?beatText(b).replace(/\s/g,'').length/8*1000:beatText(b).split(/\s+/).filter(Boolean).length/220*60000;let ms=Math.max(1200,r);
  if(b.k==='scene')ms+=900;if(b.photo)ms+=1800;if(b.vn)ms+=2400;if(b.k==='live'&&b.pin)ms+=2600;if(b.k==='mail'||b.k==='wallet')ms+=700;if(b.k==='call')ms=Math.max(ms,2600);if(b.k==='home')ms=1600;if(b.k==='typing')ms=1400;if(b.k==='dark')ms=b.title?2500:Math.max(1900,ms);if(b.k==='inner')ms+=300;if(b.k==='msg'&&b.mine)ms=Math.max(1200,ms*.6);
  if(b.k==='lock')ms=b.exp?(b.ms||2600):Math.max(ms,b.solo?2800:2200)+(b.notifs&&b.notifs.length>1?900:0);
  if(b.k==='ep')ms=Math.max(2800,ms*.8);if(b.k==='epend')ms=5600;if(b.k==='gallery')ms+=2400;if(b.img&&b.k==='msg')ms+=1800;if(b.loc)ms+=1000;if(b.k==='replay')ms=2800;if(b.k==='typing'&&b.stop)ms=2700;if(b.k==='scrollup')ms+=2600;if(b.k==='unblur')ms+=1600;if(b.gone)ms+=1400;
  if(b.k==='live'&&b.frame)ms+=3400;if(b.k==='live'&&b.hot)ms+=1400;if(b.k==='lensa'&&b.post)ms+=2600;if(b.k==='lensa'&&b.story)ms+=1600;if(b.shot)ms+=2400;if(b.k==='scap'&&b.img)ms+=800;if(b.k==='lensa'&&b.faceid)ms=readMs(b.post.cap)+1100;if(b.k==='lensa'&&b.add)ms=1100+b.add.length*750;if(b.k==='inner'&&b.wake)ms=1700;
- if(b.k==='hub'&&b.peek)ms=1700;if(b.k==='memo')ms+=2600;if(b.k==='lock'&&b.lockout)ms=Math.max(ms,3400);if(b.k==='ride'||b.k==='bank'||b.k==='shop')ms+=2800;if(b.k==='scap'&&b.ticket)ms+=1800;if(b.k==='scap'&&b.bn)ms+=600;if(b.k==='sys')ms+=500;return ms;}
+ if(b.k==='hub'&&b.peek)ms=1700;if(b.k==='memo')ms+=2600;if(b.k==='lock'&&b.lockout)ms=Math.max(ms,3400);if(b.k==='ride'||b.k==='bank'||b.k==='shop')ms+=2800;if(b.k==='scap'&&b.ticket)ms+=1800;if(b.k==='scap'&&b.bn)ms+=600;if(b.k==='sys')ms+=500;if(b.k==='pop')ms+=900;if(b.k==='vault')ms=b.focus==='new'?3400:2200;if(b.k==='call')ms=Math.max(ms,2400);return ms;}
 const typingMs=b=>Math.max(800,Math.min(2500,plain(b.t).length*(st.lang==='zh'?90:38)));
 function clearFlow(){clearTimeout(flowT);flowT=null;flowFn=null;}
 function wait(ms,fn){clearFlow();flowFn=()=>{flowT=null;flowFn=null;fn();};flowT=setTimeout(flowFn,ms/(st.speed||1));}
@@ -399,7 +414,7 @@ function menu(){sheet(`<h3>${T('menu')}</h3><button data-act="chap">📚 ${T('ch
 function chapters(){const tl=timeline();const cur=curEp();sheet(`<h3>📚 ${T('chapters')}</h3><div class="chlist">${EPS.map(e=>{const idx=epStart(e.n,tl);const reached=idx>=0&&idx<st.n;const lockd=e.paid&&!st.unlock;const isCur=e.n===cur;
  return `<button class="chi${isCur?' cur':''}${!reached?' dis':''}" ${reached&&!isCur?`data-act="replay-${e.n}"`:isCur?'data-act="close"':''}><small>${T('epK')} ${e.n}${e.paid?' · '+(lockd?'🔒 ':'')+T('epPaid'):''}</small><b>${esc(L(e.title))}</b><em>${isCur?T('chCur'):reached?T('chReplay'):lockd&&e.n===6?T('chPw'):T('chLocked')}</em></button>`;}).join('')}</div><p class="chnote">${T('chNote')}</p><button data-act="close" class="ghost">${T('no')}</button>`);}
 function replayAsk(N){sheet(`<h3>${T('epK')} ${N}</h3><p>${esc(L(UI.replayQ).replace('{n}',N))}</p><button data-act="replay!${N}" class="warn">${T('chReplay')}</button><button data-act="close" class="ghost">${T('no')}</button>`);}
-function replayEp(N){const tl=timeline();const idx=epStart(N,tl);if(idx<0)return;BEATS.forEach(b=>{if(b._ep>=N&&b.key){delete st.ch[b.key];delete st.how[b.key];delete st.done[b.key];}});
+function replayEp(N){const tl=timeline();const idx=epStart(N,tl);if(idx<0)return;BEATS.forEach(b=>{if(b._ep>=N&&b.key){delete st.ch[b.key];delete st.how[b.key];delete st.done[b.key];}});if(N<=1)['pinfast','pinH','vaultH'].forEach(k=>delete st.ch[k]);
  ['opened','inner'].forEach(k=>Object.keys(st[k]).forEach(x=>{if(+x>=idx)delete st[k][x];}));st.n=idx+1;stopPilot();pilot.key=null;track('replay',{ep:N});save();$('sheet').hidden=true;prevR=null;render();}
 function statsSheet(){const ev=store.get('events',[]);const c=(e,ep)=>ev.filter(x=>x.e===e&&(ep==null||x.ep===ep)).length;
  const rows=EPS.map(e=>`<tr><td>${e.n}</td><td>${c('ep_start',e.n)}</td><td>${c('ep_end',e.n)}</td><td>${ev.filter(x=>x.e==='leave'&&x.ep===e.n).length}</td></tr>`).join('');
@@ -452,6 +467,6 @@ document.addEventListener('click',e=>{
  if(Date.now()-justActed<450)return;
  tapStep();});
 document.addEventListener('keydown',e=>{if(e.key===' '||e.key==='ArrowRight'){e.preventDefault();tapStep();}if(e.key==='ArrowLeft')back();});
-window.__phone={get got(){return [...gotNow()]},APPS,ANSWER,pinInput,get st(){return st},timeline,derive,L,isBlocked,heat,meCount,curEp,events:()=>store.get('events',[]),get tx(){return tx.active},get waiting(){return !!flowFn},get beatAt(){return beatAt},tapStep,entering,render,save,schedule};
+window.__phone={dwell,get got(){return [...gotNow()]},APPS,ANSWER,ok,get pin(){return pin},pinInput,get st(){return st},timeline,derive,L,isBlocked,heat,meCount,curEp,events:()=>store.get('events',[]),get tx(){return tx.active},get waiting(){return !!flowFn},get beatAt(){return beatAt},tapStep,entering,render,save,schedule};
 render();
 })();
