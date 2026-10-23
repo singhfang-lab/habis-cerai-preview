@@ -55,6 +55,9 @@ function build(){
     case 'call':base({k:'call',name:b.name,num:b.num,sub:b.sub,who:b.who});push(b,{txt:b.name});break;
     case 'clog':base({k:'clog',row:b.row,swipe:b.swipe,gone:b.gone,at:st.last&&st.last.callAt});push(b,{txt:b.gone?UI.deleted:(b.row&&b.row.t)});break;
     case 'contact':base({k:'contact',num:b.num,name:b.name,res:b.res});push(b,{txt:b.res?UI.cDup:''});break;
+    case 'home':base({k:'hub'});push(b);break;
+    case 'snap':st.ov=st.ov.filter(o=>o.k!=='pop'&&o.k!=='inner');st.ov.push({k:'snap',t:b.t});push(b,{txt:b.t});break;
+    case 'myshot':{const src=F.find(f=>f.b.id===b.ref);if(src){base({k:'myshot',src:{...clone(src.v),hl:1},at:src.clock,shower:src.shower,left:src.left})}push(b,{txt:'x'.repeat(30)});break}
     case 'epend':base({k:'epend',tease:b.tease});push(b,{wait:'end'});st.stop=true;return;
     case 'fb':{const src=F.find(f=>f.b.id===b.ref[0]);if(src){base({...clone(src.v),fb:1});push(b,{fbClock:src.clock})}break}
     case 'act':{
@@ -65,6 +68,7 @@ function build(){
       f.done=1;if(b.mode==='pin'){st.view.pinDone=1}
       break}
     case 'choice':{
+      st.ov=st.ov.filter(o=>o.k!=='snap');
       const f=push(b,{wait:b.key});
       const v=dec[b.key];if(v==null){st.stop=true;return}
       f.done=1;const o=b.opts[v];if(o.flag)st.flags[o.flag]=1;
@@ -94,7 +98,8 @@ function build(){
 const scr=$('#screen'),phone=$('#phone');
 let F=build(),pos=Math.min(store.get('pos',0),F.length-1),shownAt=0,timer=null,paused=false,speed=store.get('speed',1),revealed=false;
 window.__LOG=[];
-const sbHTML=(f,light,clock)=>`<div class="sb${light?' light':''}"><b class="sbt">${esc(String(clock||f.clock).replace('.',':'))}</b><span class="isl"></span><span class="sig">▂▄▆█</span><small>4G</small><span class="bat"><i style="width:${f.shower?54:62}%"></i></span></div>`;
+const HIS=['lock','hub','list','thread','gallery','ride','bank','call','clog'];
+const sbHTML=(f,light,clock)=>`<div class="sb${light?' light':''}"><b class="sbt">${esc(String(clock||f.clock).replace('.',':'))}</b><span class="isl">${HIS.includes(f.v.k)&&!f.noLabel?`<em class="hisl">📱 ${T(UI.hisPhone)}</em>`:''}</span><span class="sig">▂▄▆█</span><small>4G</small><span class="bat"><i style="width:${f.shower?54:62}%"></i></span></div>`;
 function chipHTML(f){
  if(!f.shower)return'';const sec=f.left*60;const stop=f.shower===2||(f.v.k==='dark'&&f.v.stop);
  return `<div class="cd${stop?' stop':''}" id="cd"><span class="cdi">🚿</span><b id="cdt">${stop?'00:00':fmtLeft(f.drainFrom!=null?f.drainFrom*60:sec)}</b>${stop?`<small>${T(UI.showerOff)}</small>`:''}${f.jump?`<i class="jmp">−${f.jump}:00</i>`:''}</div>`}
@@ -135,7 +140,7 @@ function viewHTML(f){
    return `<div class="app bank">${sbHTML(f)}<div class="ah bh"><b>🏦 Arta</b><small>${T(UI.bankAcc)}</small></div><div class="bt">${T(v.t)}</div><div class="brows">${v.rows.map(r=>`<div class="brow"><div><small>${T(r[0])}</small><b>${T(r[1])}</b></div><span class="neg">${esc(v.amt)}</span></div>`).join('')}</div><div class="bdet">${v.det.map(d=>`<div class="${d[2]?'hl':''}"><small>${T(d[0])}</small><b>${T(d[1])}</b></div>`).join('')}</div></div>`;
   case 'call':{
    const on=v.on;const clock=v.fb?f.fbClock:null;
-   return `<div class="app call${v.fb?' fbv':''}">${sbHTML(f,1,clock)}${v.fb?`<span class="fbchip">${T(UI.fbL)} · ${esc(String(f.fbClock).replace('.',':'))}</span>`:''}<div class="cav">${av('B',1)}</div><div class="cn">${T(v.name)}</div><div class="cnum${v.fb?' hlnum':''}">${esc(v.num)}</div><div class="cs">${on?T(UI.oncall)+' · <span id="ctime">0:0'+(3+(v.lines?v.lines.length*3:0))+'</span>':T(v.sub)}</div><div class="clines">${(v.lines||[]).map((l,i)=>`<div class="cline${i===v.lines.length-1&&f.b.k==='line'?' new':''}"><small>${T(SAY[l.who].name)}</small><p>${T(l.t)}</p></div>`).join('')}</div></div>`}
+   return `<div class="app call${v.fb?' fbv':''}">${sbHTML(f,1,clock)}${v.fb?`<span class="fbchip">${T(UI.fbL)} · ${esc(String(f.fbClock).replace('.',':'))}</span>`:''}<div class="cav">${av('B',1)}</div><div class="cn">${T(v.name)}</div><div class="cnum${v.fb||v.hl?' hlnum':''}">${esc(v.num)}</div><div class="cs">${on?T(UI.oncall)+' · <span id="ctime">0:0'+(3+(v.lines?v.lines.length*3:0))+'</span>':T(v.sub)}</div><div class="clines">${(v.lines||[]).map((l,i)=>`<div class="cline${i===v.lines.length-1&&f.b.k==='line'?' new':''}"><small>${T(SAY[l.who].name)}</small><p>${T(l.t)}</p></div>`).join('')}</div></div>`}
   case 'clog':{
    const row=v.gone?'':`<div class="crow${v.swipe?' swiped':''}"><div class="crin">${av('B')}<div class="lmid"><b class="${v.row.miss?'miss':''}">${T(TH.budi.name)}</b><p>${v.row.miss?'↙︎ ':'↘︎ '}${T(v.row.t)}</p></div><small>${esc(String(v.at||f.clock).replace('.',':'))}</small></div><span class="cdel">${T(UI.del)}</span></div>`;
    return `<div class="app clog">${sbHTML(f)}<div class="lh"><b>${T(UI.clogT)}</b></div><div class="csec">${T(UI.today)}</div>${row}${v.gone?`<div class="toast">🗑 ${T(UI.deleted)}</div>`:''}<div class="csec">${T(UI.earlier)}</div>${CLOG_OLD.map(r=>`<div class="crow old"><div class="crin"><span class="pav c3">${esc(L(r.name)[0])}</span><div class="lmid"><b class="${r.miss?'miss':''}">${T(r.name)}</b><p>${T(r.t)}</p></div><small>${T(r.time)}</small></div></div>`).join('')}</div>`}
@@ -143,7 +148,10 @@ function viewHTML(f){
    const ic=APPS.map(a=>{const done=f.got.includes(a.id);const can=!done&&a.cost<=f.left&&!v.peek;
      return `<button class="hubic ${done?'done':can?'can':'cant'}" data-app="${a.id}"${can&&f.b.wait!==undefined?'':''}><span class="ai" style="background:${a.col}">${a.ic}</span><small>${T(a.name)}</small><em class="cost">${done?'✓':(can?'':'✕ ')+a.cost+' '+T(UI.min)}</em></button>`}).join('');
    const dc=DECOR.map(d=>`<span class="hubic decor"><span class="ai">${d.ic}</span><small>${T(d.name)}</small></span>`).join('');
-   return `<div class="app hub"><img class="wallimg" src="assets/p-wall.webp" alt="">${sbHTML(f,1)}<div class="hubgrid">${ic}${dc}</div>${v.peek?'':`<div class="hubq">${T(UI.pick)}</div>`}</div>`}
+   return `<div class="app hub"><img class="wallimg" src="assets/p-wall.webp" alt="">${sbHTML(f,1)}<div class="hubgrid">${ic}${dc}</div></div>`}
+  case 'myshot':{
+   const inner=viewHTML({v:v.src,clock:v.at,left:v.left,shower:0,b:{k:'x'},ov:[],got:[],flags:{},noLabel:1});
+   return `<div class="app mygal">${sbHTML(f)}<div class="gh"><span class="bk">‹</span><b>${T(UI.myGal)}</b></div><div class="shotph"><div class="shotin">${inner}</div><i class="glare"></i></div><div class="gcap">📷 ${esc(String(v.at).replace('.',':'))}</div></div>`}
   case 'contact':
    return `<div class="app contact">${sbHTML(f)}<div class="lh"><b>${T(UI.cNew)}</b></div><div class="cform"><label>${T(UI.cNum)}</label><div class="cf">${esc(v.num)}</div><label>${T(UI.cName)}</label><div class="cf typed">${T(v.name)}<i class="caret"></i></div></div>${v.res?`<div class="cdup"><small>${T(UI.cDup)}</small><b>${T(v.res)}</b></div>`:''}</div>`;
   case 'epend':
@@ -155,6 +163,7 @@ function ovHTML(f){
  let h='';for(const o of f.ov){
   const nw=f.b.k===o.k||(f.b.k==='pop'&&o.k==='pop')?' new':'';
   if(o.k==='pop')h+=`<div class="pop ${o.style||''}${nw}"><span class="la">${o.ic||''} ${T(o.from)}</span><p>${T(o.t)}</p></div>`;
+  if(o.k==='snap')h+=`${nw?'<div class="flash"></div><div class="vf"></div>':''}<div class="snapc${nw}">📸 ${T(o.t)}</div>`;
   if(o.k==='inner')h+=`<div class="innerv${nw}"><small>${T(UI.innerL)}</small>${T(o.t)}</div>`}
  const b=f.b;
  if(b.k==='act'&&!f.done&&b.mode==='tap')h+=`<div class="actbar"><button class="actbtn${b.red?' red':''}" id="actbtn">${T(b.btn)}</button></div>`;
@@ -242,7 +251,7 @@ function resolve(key,val){const f=F[pos];if(!f||f.wait!==key||f.done)return;
  if(performance.now()-shownAt<MINVIS)return;
  decide(key,val);F=build();pos=Math.min(pos+1,F.length-1);render(true)}
 // how long the entrance animations of a frame run: a tap before that only reveals, never advances
-function animEnd(f){const k=f.b.k;if(k==='scene')return 700*(f.b.lines.length-1)+700;if(k==='ride')return 1250;if(k==='bank')return 1400;if(f.v.k==='dark'&&f.v.title)return 2100;if(k==='dark')return 1400;if(k==='list'&&f.v.hold)return 1500;if(k==='list'&&f.v.title)return 1000;if(k==='gallery'&&f.v.zoomed)return 950;return 450}
+function animEnd(f){const k=f.b.k;if(k==='scene')return 700*(f.b.lines.length-1)+700;if(k==='ride')return 1250;if(k==='bank')return 1400;if(f.v.k==='dark'&&f.v.title)return 2100;if(k==='dark')return 1400;if(k==='list'&&f.v.hold)return 1500;if(k==='list'&&f.v.title)return 1000;if(k==='gallery'&&f.v.zoomed)return 950;if(k==='snap')return 900;return 450}
 let revealAt=0;
 scr.addEventListener('click',()=>{
  const f=F[pos];if(f.wait&&!f.done)return;

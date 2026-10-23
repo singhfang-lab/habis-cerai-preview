@@ -11,7 +11,7 @@ const TH={budi:{name:'Pak Budi Supplier|Pak Budi Supplier',sub:NUM,av:'B'}};
 const SAY={L:{name:'Aku|我',me:true,img:'av-L.webp'},D:{name:'Mas Dimas|Dimas',img:'av-D.webp'},W:{name:'Suara perempuan|女人的声音'}};
 const TICKET={cin:'LAYAR EMAS · CINEMA',film:'“HANYA KAMU”',day:'KAMIS|星期四',date:'19.06.25',time:'21.10',studio:'2',seat:'F7 · F8'};
 // lock-screen banners on HIS phone
-const B1={id:'b1',app:'Chat',title:'Pak Budi Supplier|Pak Budi Supplier',t:'Mas, barang besok tetap ya?|老公，明天的货照旧吧？',time:'22.31'};
+const B1={id:'b1',app:'Chat',title:'Pak Budi Supplier|Pak Budi Supplier',t:'Mas, barang besok tetap ya?|哥，明天的货照旧吧？',time:'22.31'};
 const B2={id:'b2',app:'Chat',title:'Pak Budi Supplier|Pak Budi Supplier',t:'Istrimu udah tidur?|你老婆睡了没？',time:'22.31'};
 // his chat list (sorted by last message; 'Rumah' sits below the first screen)
 const LIST=[
@@ -26,7 +26,7 @@ const LIST=[
  {id:'mama',name:'Mama|妈',t:'Dim, Minggu ke rumah ya. Bawa Nayla.|阿迪，周日回家来，带上Nayla。',time:'20.37'},
  {id:'bordir',name:'Bordir Bandung|万隆刺绣',t:'🖼 Sampel logo|🖼 校徽样品',time:'20.20'},
  {id:'rt',name:'Grup RT 05|RT 05 居委群',t:'Bu Ani: Kerja bakti Minggu jam 7 ya 🙏|Ani太太：周日早上7点大扫除哦🙏',time:'20.06'},
- {id:'rumah',name:'Rumah|Rumah',t:'Mas, pulang jam berapa? Nayla nungguin.|老公，几点回来？Nayla在等你。',time:'20.00',un:1},
+ {id:'rumah',name:'Rumah|Rumah',t:'Mas, pulang jam berapa? Nayla nungguin.|几点回来？Nayla在等你。',time:'20.00',un:1},
  {id:'satpam',name:'Pak Satpam|保安大哥',t:'Siap, Pak 🙏|好的老板🙏',time:'19.42'},
  {id:'bengkel',name:'Bengkel Jaya Motor|Jaya修车行',t:'Mobil bisa diambil Jumat|车星期五可以取',time:'Kemarin|昨天'}
 ];
@@ -42,7 +42,7 @@ const APPS=[
      {k:'sys',t:'Riwayat chat dibersihkan|聊天记录已清空'},
      {vn:'0:14',time:'21.47'},
      {t:'❤️|❤️',time:'21.47'},
-     {t:'Mas, barang besok tetap ya?|老公，明天的货照旧吧？',time:'22.31'},
+     {t:'Mas, barang besok tetap ya?|哥，明天的货照旧吧？',time:'22.31'},
      {t:'Istrimu udah tidur?|你老婆睡了没？',time:'22.31'}]},
    {k:'act',key:'trans',mode:'tap',in:'chat',btn:'📝 Ubah suara ke teks|📝 语音转文字'},
    {k:'replay',th:'budi',tr:VN_TR}]},
@@ -77,8 +77,7 @@ const BEATS=[
  {k:'dark',title:1,clock:'22.31',day:'Rabu, 21 Oktober|10月21日 星期三',t:TITLE.t,sub:TITLE.sub},
  // ---------- 22.31 bedroom ----------
  {k:'scene',clock:'22.31',tag:'22.31 · Kamar tidur|22:31 · 卧室',tint:'night',img:'p-bed.webp',lines:['Pintu kamar mandi menutup.|浴室门关上了。','🚿 Air menyala.|🚿 水开了。']},
- {k:'pop',style:'mine',ic:'📱',from:'HP-ku · Sari 🌸|我的手机 · Sari 🌸',t:'Mbak, besok aku nggak bisa bantu jemput Nayla ya 🙏 oke sip!|姐，明天我没法帮忙接Nayla了哈🙏 oke sip！'},
- {k:'scap',t:'HP-nya di kasur, di sebelahku. Layarnya menyala.|他的手机在床上，就在我旁边。屏幕亮了。'},
+ {k:'scene',clock:'22.31',tag:'22.31 · Di sebelahku|22:31 · 我旁边',tint:'night',img:'p-hisphone.webp',lines:['HP-nya di kasur, di sebelahku.|他的手机在床上，就在我旁边。','Layarnya menyala.|屏幕亮了。']},
  {k:'lock',id:'lock1',fx:'shake',notifs:[B1]},
  {k:'lock',fx:'shake',notifs:[B2,B1]},
  {k:'inner',t:'…Supplier nanya aku udah tidur?|……供应商，问我睡了没？'},
@@ -90,14 +89,16 @@ const BEATS=[
  {k:'scene',tint:'fb',tag:'Juni 2025 · Ruang cuci|2025年6月 · 洗衣间',img:'p-laundry.webp',lines:['Kantong kemejanya.|他衬衫的口袋里。','Kertas lecek, ikut tercuci.|一团皱纸，跟着洗过了。']},
  {k:'scap',ticket:1,t:'Kamis. 19.06.25.|星期四。19.06.25。'},
  {k:'act',key:'pin2',mode:'pin',in:'lock',final:1,ticket:1,ticketAfter:9000},
- // ---------- unlocked: his chat list was open ----------
- {k:'list',shower:1,at:'top'},
+ // ---------- unlocked: his home screen ----------
+ {k:'home',shower:1},
+ {k:'inner',t:'Dia mandi lima belas menit. Satu-satu, paling sempat tiga.|他洗澡十五分钟。一个一个翻，最多来得及看三个。'},
  {k:'hub',key:'h1'},
  // the call comes right after the first app, whichever it was
  {k:'call',id:'callScr',fx:'shake',who:'B',name:'Pak Budi Supplier|Pak Budi Supplier',num:NUM,sub:'Panggilan masuk · seluler|来电 · 手机'},
+ {k:'snap',t:'Kufoto layarnya pakai HP-ku.|我用自己的手机拍下了来电屏幕。'},
  {k:'choice',key:'call',in:'call',opts:[
    {t:'Angkat|接听',flag:'call_answered',set:{on:1},re:[
-     {k:'line',who:'W',t:'Mas? …Mas?|老公？……老公？'},
+     {k:'line',who:'W',t:'Mas? …Mas?|哥？……哥？'},
      {k:'pop',style:'shout',fx:'shake',ic:'🚪',from:'Kamar mandi|浴室',t:'Gagang pintunya bergerak.|门把手动了一下。'},
      {k:'act',key:'hang',mode:'tap',in:'call',btn:'Tutup|挂断',red:1},
      {k:'clog',row:{t:'Panggilan masuk · 0:09|来电 · 0:09'},swipe:1},
@@ -121,26 +122,26 @@ const BEATS=[
  {k:'dark',shower:0,t:'Kukunci. Kutaruh di kasur, seperti tadi.|锁屏。放回床上，和刚才一样。',sub:'Aku berbaring.|我躺下。'},
  {k:'choice',key:'night',opts:[{t:'Pura-pura tidur|装睡',re:[
      {k:'scene',clock:'22.48',tag:'22.48 · Pura-pura tidur|22:48 · 装睡',tint:'night',img:'p-door.webp',lines:['Aku membelakanginya.|我背对着他。','Cahaya layarnya di dinding.|他手机屏幕的光映在墙上。']},
-     {k:'scap',when:'flag:call_answered',bn:1,from:'Pak Budi Supplier|Pak Budi Supplier',time:'22.48',t:'Mas, tadi kok diangkat tapi diem?|老公，刚才怎么接了又不说话？'},
+     {k:'scap',when:'flag:call_answered',bn:1,from:'Pak Budi Supplier|Pak Budi Supplier',time:'22.48',t:'Mas, tadi kok diangkat tapi diem?|哥，刚才怎么接了又不说话？'},
      {k:'scap',when:'flag:call_answered',t:'Dia menatapku. Sedetik.|他看了我一眼。一秒。'},
      {k:'scap',glimpse:1,t:'Udah. Dari tadi.|睡了。早睡了。'}]},
    {t:'Tanya dia|问他',flag:'asked',re:[
      {k:'scene',clock:'22.48',tag:'22.48 · Dia keluar|22:48 · 他出来了',tint:'night',img:'p-ask.webp',lines:['Handuk di leher.|毛巾搭在脖子上。','Dia lihat HP-nya dulu, baru aku.|他先看手机，再看我。']},
-     {k:'say',who:'L',t:'Mas, Pak Budi itu siapa?|老公，Pak Budi是谁？'},
+     {k:'say',who:'L',t:'Mas, Pak Budi itu siapa?|Pak Budi是谁？'},
      {k:'say',who:'D',t:'Supplier kain.|布料供应商。'},
      {k:'say',who:'L',t:'Supplier kain kirim hati?|布料供应商会发爱心？'},
      {k:'scap',t:'Dia tersenyum. Di depanku, dia ganti kode HP-nya.|他笑了。当着我的面，改了手机密码。'},
      {k:'say',who:'D',t:'Kamu kebanyakan mikir, Rumah.|你想太多了，“家”。'}]}]},
  // ---------- 23.40 my phone ----------
  {k:'scene',clock:'23.40',tag:'23.40 · Kamar tidur|23:40 · 卧室',tint:'night',img:'p-bed2.webp',lines:['Dia mendengkur.|他打起了呼噜。','HP-ku di bawah selimut.|我的手机藏在被子里。']},
- {k:'fb',ref:['callScr']},
+ {k:'myshot',ref:'callScr'},
  {k:'contact',num:NUM,name:'Pak Budi|Pak Budi'},
  {k:'act',key:'save',mode:'tap',in:'contact',btn:'Simpan|保存'},
  {k:'contact',num:NUM,name:'Pak Budi|Pak Budi',res:'S…|S……',fx:'shake'},
  {k:'dark',cut:1,t:'',sub:''},
  {k:'epend',ep:1,tease:'Episode 2: Kamis malam, lantai 17.|第2集：星期四晚上，十七楼。'}
 ];
-const IMAGES=['p-bed.webp','p-dinner.webp','p-laundry.webp','p-album.webp','p-album-hand.webp','p-dressed.webp','p-apt.webp','p-door.webp','p-ask.webp','p-bed2.webp','p-wall.webp','av-L.webp','av-D.webp'];
+const IMAGES=['p-bed.webp','p-dinner.webp','p-laundry.webp','p-album.webp','p-album-hand.webp','p-dressed.webp','p-apt.webp','p-door.webp','p-ask.webp','p-bed2.webp','p-wall.webp','p-hisphone.webp','av-L.webp','av-D.webp'];
 const UI={
  paused:'Dijeda|已暂停',menu:'Menu|菜单',reset:'Mulai ulang dari awal|从头开始',resetQ:'Mulai ulang? Progres & pilihan dihapus.|重新开始？进度和选择都会被删除。',yes:'Ya, mulai ulang|确定重置',no:'Batal|取消',
  innerL:'suara hatiku|我的心声',tr:'Transkrip|转写',vn:'Pesan suara|语音消息',zoomHint:'ketuk untuk perbesar|点开看大图',gallery:'Galeri|相册',me:'Aku|我',
@@ -148,7 +149,7 @@ const UI={
  tkDay:'HARI|星期',tkDate:'TANGGAL|日期',tkTime:'JAM|时间',tkSeat:'KURSI|座位',
  pinWrong:'Kode salah|密码错误',pinEnter:'Masukkan kode sandi|输入密码',ticketTap:'ketuk tiketnya|点一下票根',
  now:'sekarang|现在',chats:'Chat|聊天',earlier:'Sebelumnya|更早',epDone:'Episode 1 · selesai|第1集 · 完',lockDate:'Rabu, 21 Oktober|10月21日 星期三',
- pick:'Tiap aplikasi = 4 menit|每个App = 4分钟',online:'terakhir dilihat hari ini|今天在线过',hisPhone:'HP Mas Dimas|Dimas的手机',search:'Cari|搜索',
+ online:'terakhir dilihat hari ini|今天在线过',hisPhone:'HP Mas Dimas|Dimas的手机',myGal:'Galeri · HP-ku|相册 · 我的手机',search:'Cari|搜索',
  showerOff:'air berhenti|水停了',min:'mnt|分钟',
  bankAcc:'Rekening utama · DIMAS PRATAMA|主账户 · DIMAS PRATAMA',
  incoming:'Panggilan masuk…|来电……',oncall:'Tersambung · aku diam|已接通 · 我没出声',callEnd:'Panggilan berakhir|通话结束',
