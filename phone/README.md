@@ -57,3 +57,6 @@ Checkpoints (update as each lands):
 
 ### v6 阅读感修订（13:50 SGT）
 - 详见 REVIEW-readability.md：删去第1集钱包冻结和Salma外卖两拍；20:40新增Arya身份心声；明确"以前的Nadira"；直播账单句子讲清楚；Seroja=当年女团；"两集了"改为"两天了"；第4集"昨天"改为"前天"；Sheila改为连麦；第6集"这次没洒"，并呼应序章的"十年"。
+
+### v6.1 阅读感补修（14:50 SGT）
+第 1 集删婆婆私信/草稿选择/主屏/Raka 23:04，Maya 一条消息并入"别发澄清"；第 4 集上午压成 Maya 两句 + Sheila 一条，直播 2 拍，结束条不报数字；第 5 集删 Lina 复述，全集只留 9200万。详见 REVIEW-readability.md。
