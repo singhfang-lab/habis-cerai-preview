@@ -56,7 +56,7 @@ const BEATS=[
  {k:'msg',th:'group',from:'Bu Dewi|Dewi太太',time:'06.14',t:'Astaga 😳 anak saya sekelas sama Hana.|天哪😳 我孩子跟Hana同班。'},
  {k:'msg',th:'group',from:'Pak Rudi|Rudi先生',time:'06.20',t:'Ini grup sekolah, Bu. Tolong dijaga, ada anak-anak.|这是学校群，请注意影响，这里有孩子。'},
  {k:'inner',t:'Aku nggak pernah ada di mobil itu. Tapi 46 orang sudah melihatnya.|我从没坐过那辆车。可已经有46个人看到了。'},
- {k:'choice',key:'group',th:'group',ms:14000,pilot:0,help:'Kalau aku diam, Nadira yang lama yang mengetik — selalu yang bikin orang lain nyaman. Rebut!|我不出手，以前的Nadira就会替我打字——永远打让别人舒服的那句。抢回来！',
+ {k:'choice',key:'group',th:'group',ms:14000,pilot:0,help:'Kalau aku diam, Nadira yang lama yang mengetik — aku yang sembilan tahun cuma bisa bilang “maaf” biar orang lain nyaman. Rebut!|我不出手，以前的Nadira就会替我打字——那个九年来只会说“对不起”、只顾别人舒服的我。抢回来！',
   opts:[
    {t:'Minta maaf ke grup|向群里道歉',send:'Mohon maaf Bapak/Ibu atas kegaduhannya 🙏 Nanti saya jelaskan.|各位家长，抱歉给大家添麻烦了🙏 我之后会解释。',re:[
      {k:'msg',th:'group',from:'Bu Sinta|Sinta太太',time:'06.41',t:'Jelaskan apa, Bu? Fotonya jelas kok 🙂|解释什么呀？照片很清楚嘛🙂'},
@@ -85,7 +85,6 @@ const BEATS=[
    {t:'✊ Cengkeram gerbang|✊ 抓住铁门',re:[{k:'scap',img:'p-gate-closed.webp',fx:'shake',t:'Besinya panas kena matahari. Hana menoleh sekali.|铁栏被太阳晒得发烫。Hana回头看了一次。'}]},
    {t:'↩ Balik badan, jangan menangis di sini|↩ 转身走，别在这里哭',re:[{k:'scap',t:'Aku berjalan pergi. Kamera-kamera merekam punggungku.|我转身走开。一台台手机拍着我的背影。'}]}]},
  {k:'mail',clock:'10.02',from:'Lumière Skincare · Legal|Lumière护肤 · 法务部',subject:'Pemutusan Kontrak Brand Ambassador|品牌大使合约终止通知',t:'Berlaku hari ini. Sesuai pasal 14, denda Rp250.000.000 jatuh tempo 30 hari.|即日生效。依第14条，2.5亿印尼盾违约金须于30天内支付。'},
- {k:'wallet',clock:'11.15',fx:'shake',merchant:'Apotek Sehat · sirup demam anak|健康药房 · 儿童退烧糖浆',amt:'Rp86.500',t:'PEMBAYARAN GAGAL · Rekening bersama dibekukan · Saldo dompet: Rp8.000|支付失败 · 共同账户已冻结 · 钱包余额：Rp8,000'},
  {k:'typing',th:'ratna',clock:'11.20'},
  {k:'msg',th:'ratna',time:'11.20',t:'Anak-anak aman sama Ibu. Kamu urus dirimu dulu ya, Nadira. Malu dilihat orang.|孩子们跟着我很安全。你先管好你自己吧，Nadira。别让人看笑话。'},
  {k:'quick',key:'ratnaChat',in:'chat',th:'ratna',style:'reply',opts:[
@@ -95,14 +94,14 @@ const BEATS=[
  {k:'quick',key:'post',in:'lensa',style:'post',draft:'Foto itu PALSU. Aku nggak pernah ada di mobil itu, dan—|那张照片是假的。我从来没坐过那辆车，而且——',opts:[
    {t:'🗑 Hapus draf|🗑 删掉草稿',re:[{k:'inner',t:'Maya benar. Kali ini.|Maya说得对。这一次。'}]},
    {t:'📤 Posting|📤 发布',re:[{k:'lensa',posted:true,cmts:['@tante_julid: Ngeles 🙄|@tante_julid：又在狡辩🙄','@hanya_lewat: Kak, aku percaya kamu 💗|@hanya_lewat：姐，我信你💗']},{k:'msg',th:'maya',time:'11.40',t:'NAD!!! 😤|NAD！！！😤'}]}]},
- {k:'msg',th:'salma',clock:'19.50',time:'19.50',t:'Kak, kamu udah makan? Jangan cuma nangis. Aku pesenin makanan ya.|姐，你吃饭了吗？别光顾着哭。我给你点个外卖。'},
  {k:'msg',th:'arya',clock:'20.40',time:'20.40',t:'Live jam 9. Satu jam. Habis itu kamu boleh hancur. Sama aku.|九点直播。就一个小时。之后你可以崩溃。我陪你。'},
+ {k:'inner',t:'Arya. Partner live-ku, sepuluh tahun lebih muda. Pria tanpa wajah di foto gosip itu.|Arya。我的直播搭档，小我十岁。八卦号照片里那个看不清脸的人。'},
  {k:'inner',t:'Pesan dari nomor asing tadi pagi belum kubalas. “Sepuluh tahun.” Siapa yang menunggu aku selama itu?|早上那个陌生号码，我还没回。“十年。”谁会等我那么久？'},
  {k:'home',clock:'20.59',t:'Buka LiveKu|打开LiveKu'},
  {k:'live',clock:'21.00',img:'p-live.webp',viewers:8214,cmt:'@tante_julid: Janda dua anak pacaran sama brondong? Pakai duit mantan ya, Kak? 😂|@tante_julid：两个孩子的离婚妈妈泡小鲜肉？花的是前夫的钱吧，姐？😂'},
  {k:'act',key:'breath',mode:'hold',in:'live',q:'Di bawah meja, tangan Arya di lututku. Jangan jatuh di sini.|桌子底下，Arya的手放在我膝盖上。别在这里倒下。',btn:'Tahan untuk menarik napas|按住，深呼吸',done:'Satu. Dua. Senyum lagi ke kamera.|一，二。重新对着镜头笑。'},
  {k:'live',viewers:9950,gift:'🌹',pin:'“Ini yang dia minta dari mantan.”|“这就是她找前夫要的钱。”',bill:true,fx:'flash',img:'p-live-shock.webp',cmt:'@akungosip: SPILL ini kak 👀|@akungosip：姐解释一下这个👀'},
- {k:'inner',t:'Bukti aku sudah bayar Rp92 juta? Dipotong.|我已经付了9200万的证明？被裁掉了。'},
+ {k:'inner',t:'Itu tagihan sekolah Hana. Baris “LUNAS Rp92 juta” — yang kubayar sendiri — dipotong.|那是Hana的学费账单。我自己付清的“已付9200万”那一行——被人裁掉了。'},
  {k:'choice',key:'live',in:'live',ms:10000,pilot:1,old:'Jelaskan. Minta maaf. Lepaskan tangannya.|解释。道歉。松开他的手。',
   opts:[
    {t:'Angkat tangan kami ke kamera|把我们牵着的手举到镜头前',re:[
