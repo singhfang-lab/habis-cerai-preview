@@ -17,5 +17,5 @@ Checks: `node /workspace/affair-tools/validate.js`; `node smoke/play4.js URL OUT
 - "HP Mas Dimas / Dimas的手机" pill in the status bar on every screen of his phone.
 - Unlock lands on home; countdown starts there with inner line (no "4 menit" hint).
 - Call: auto beat — she photographs the call screen (flash). Ending: that photo in her gallery → new contact → S…
-- zh: Sari's "Mas" = 哥; Laras' "Mas" dropped. No 老公.
+- zh: Sari's "Mas" = 哥; Laras' "Mas" dropped. No husband-word (lao gong) anywhere.
 - All illustrations in one realistic photographic grade (p-bed, p-door, p-ask, p-bed2, p-wall, av-L, av-D regenerated).
