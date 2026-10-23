@@ -32,6 +32,21 @@ const LIST=[
 ];
 const VN_TR='“Kamis ya, lantai 17, jangan telat. Istrimu nggak curiga kan? Dia kan cuma ngurus rumah… oke sip.”|“星期四哦，十七楼，别迟到。你老婆没起疑吧？她不就是管管家嘛……oke sip。”';
 const ROUTE='Konveksi Cempaka → Griya Sentosa Tower B|Cempaka服装厂 → Griya Sentosa B座';
+// Galeri: normal photos (img, crop, time) per day; 12 Okt has only one morning invoice
+const GDAYS=[
+ {id:'d21',d:'Hari ini · Rabu, 21 Okt|今天 · 10月21日 周三',ph:[['p-g-work','50% 50%',1,'10.12'],['p-g-invoice','50% 40%',1.3,'09.47']]},
+ {id:'d20',d:'Selasa, 20 Okt|10月20日 周二',ph:[['p-g-nayla','50% 40%',1,'18.55'],['p-g-work','10% 30%',1.6,'14.20'],['p-g-work','90% 80%',1.7,'14.19']]},
+ {id:'d18',d:'Minggu, 18 Okt|10月18日 周日',ph:[['p-g-nayla','40% 60%',1.5,'16.02'],['p-g-nayla','60% 20%',1.2,'16.01']]},
+ {id:'d15',d:'Kamis, 15 Okt|10月15日 周四',ph:[['p-g-invoice','30% 60%',1.6,'11.30'],['p-g-work','20% 60%',1.4,'10.05'],['p-g-invoice','70% 20%',1.5,'09.58']]},
+ {id:'d13',d:'Selasa, 13 Okt|10月13日 周二',ph:[['p-g-work','80% 30%',1.5,'15.40'],['p-g-nayla','50% 70%',1.6,'07.10']]},
+ {id:'d12',d:'Senin, 12 Okt|10月12日 周一',ph:[['p-g-invoice','50% 50%',1.1,'08.14']]},
+ {id:'d11',d:'Minggu, 11 Okt|10月11日 周日',ph:[['p-g-nayla','30% 30%',1.3,'17.22'],['p-g-work','60% 40%',1.2,'13.03'],['p-g-nayla','70% 80%',1.8,'08.45']]}];
+const GALBUMS=[['Terbaru|最近项目','p-g-work','1.284'],['Favorit|个人收藏','p-g-nayla','36'],['Nayla|Nayla','p-g-nayla','412'],['Kain · Kerja|布料 · 工作','p-g-invoice','318']];
+const GOTHER=[['🎞','Video|视频','27'],['📱','Tangkapan layar|截屏','154'],['🔒','Tersembunyi|已隐藏','0']];
+const GDEL=[
+ {img:'p-rooftop.webp',cap:'12 Okt 2026 · 21.03 · Rumah Langit, Griya Sentosa|2026年10月12日 · 21:03 · Rumah Langit，Griya Sentosa'},
+ {img:'p-album.webp',cap:'12 Okt 2026 · 21.26 · Rumah Langit, Griya Sentosa|2026年10月12日 · 21:26 · Rumah Langit，Griya Sentosa'},
+ {shot:'Rumah Langit · 2 orang · 12 Okt 20.30 · Terkonfirmasi|Rumah Langit · 2位 · 10月12日 20:30 · 已确认',cap:'12 Okt 2026 · 17.52 · Tangkapan layar|2026年10月12日 · 17:52 · 截屏'}];
 const GCAP='12 Okt 2026 · 21.03 · Rumah Langit, Griya Sentosa|2026年10月12日 · 21:03 · Rumah Langit，Griya Sentosa';
 // the four apps on his home screen: each costs 4 minutes; only three fit
 const APPS=[
@@ -47,13 +62,23 @@ const APPS=[
    {k:'act',key:'trans',mode:'tap',in:'chat',btn:'📝 Ubah suara ke teks|📝 语音转文字'},
    {k:'replay',th:'budi',tr:VN_TR}]},
  {id:'gal',name:'Galeri|相册',ic:'🖼',col:'#d98a1c',cost:4,re:[
-   {k:'gallery',id:'k1',t:'Album tersembunyi “K” · 1 foto|隐藏相册“K” · 1张',focus:'p-album.webp',cap:GCAP},
-   {k:'scene',tint:'fb',tag:'Senin, 12 Okt · 18.40|10月12日 周一 · 18:40',img:'p-dressed.webp',lines:['Ulang tahun pernikahan ketujuh.|结婚七周年。','Aku sudah dandan.|我已经化好了妆。']},
+   {k:'gal2',m:'grid'},
+   {k:'act',key:'g12',mode:'target',tgt:'d12'},
+   {k:'gal2',m:'grid',at:'d12'},
+   {k:'inner',t:'Malam itu katanya lembur. Nggak ada satu pun foto?|那天他说在加班，连一张发货单都没拍？'},
+   {k:'act',key:'galb',mode:'target',tgt:'album'},
+   {k:'gal2',m:'albums'},
+   {k:'act',key:'gdel',mode:'target',tgt:'del'},
+   {k:'gal2',m:'del'},
+   {k:'act',key:'gp1',mode:'target',tgt:'p0'},
+   {k:'gal2',m:'photo',i:0},
+   {k:'act',key:'gp2',mode:'target',tgt:'ph'},
+   {k:'gal2',m:'photo',i:1},
+   {k:'act',key:'gp3',mode:'target',tgt:'ph'},
+   {k:'gal2',m:'photo',i:2},
+   {k:'scene',tint:'fb',tag:'Senin, 12 Okt · 18.40|10月12日 周一 · 18:40',img:'p-dressed.webp',lines:['Aku sudah dandan.|我已经化好了妆。']},
    {k:'scap',bn:1,from:'Mas Dimas ❤️|Mas Dimas ❤️',time:'18.40',t:'Sayang, maaf, malam ini lembur. Anniversary-nya kita rayain weekend ya|宝贝，对不起，今晚加班。纪念日我们周末再过哈'},
-   {k:'gallery',t:'Album tersembunyi “K” · 1 foto|隐藏相册“K” · 1张',focus:'p-album.webp',cap:GCAP},
-   {k:'act',key:'zoom',mode:'tap',in:'gallery',btn:'Perbesar tangannya|放大那只手'},
-   {k:'gallery',id:'k2',zoomed:1,t:'Album tersembunyi “K” · diperbesar|隐藏相册“K” · 放大',focus:'p-album-hand.webp',cap:'12 Okt 2026 · 21.03|2026年10月12日 · 21:03'},
-   {k:'inner',t:'Cincinnya… mirip punyaku.|这戒指……跟我的好像。'}]},
+   {k:'inner',t:'Hari itu ulang tahun pernikahan kami.|那天，是我们的结婚纪念日。'}]},
  {id:'ride',name:'Jalanku|Jalanku',ic:'🛵',col:'#0b8f62',cost:4,re:[
    {k:'ride',t:'Riwayat perjalanan|行程记录',img:'p-apt.webp',cap:'Griya Sentosa Tower B|Griya Sentosa B座',rows:[
      ['Kamis, 15 Okt · 19.30|10月15日 周四 · 19:30',ROUTE,'Rp38.000'],
@@ -83,12 +108,13 @@ const BEATS=[
  {k:'inner',t:'…Supplier nanya aku udah tidur?|……供应商，问我睡了没？'},
  {k:'act',key:'grab',mode:'tap',in:'lock',notifs:[B2,B1],btn:'Ambil HP-nya|拿起他的手机'},
  // ---------- passcode ----------
- {k:'act',key:'pin1',mode:'pin',in:'lock',fail:1,chip:{label:'12 10 19 · tanggal nikah kami|12 10 19 · 我们的结婚纪念日',code:'121019'},chipAfter:1200},
- {k:'inner',fx:'shake',t:'Dulu ini kodenya.|以前就是这个。'},
+ {k:'act',key:'pin1',mode:'pin',in:'lock',fail:1,fill:'121019'},
+ {k:'inner',t:'Dulu ini kodenya.|以前就是这个。'},
  {k:'scene',tint:'fb',tag:'21.20 · Meja makan · tadi|21:20 · 餐桌 · 今晚早些时候',img:'p-dinner.webp',lines:['Dia membuka HP-nya, layarnya dimiringkan dariku.|他解锁手机时，把屏幕斜着避开我。','Yang sempat kulihat: 1, lalu 9.|我只看见：1，然后是9。']},
- {k:'scene',tint:'fb',tag:'Juni 2025 · Ruang cuci|2025年6月 · 洗衣间',img:'p-laundry.webp',lines:['Kantong kemejanya.|他衬衫的口袋里。','Kertas lecek, ikut tercuci.|一团皱纸，跟着洗过了。']},
- {k:'scap',ticket:1,t:'Kamis. 19.06.25.|星期四。19.06.25。'},
- {k:'act',key:'pin2',mode:'pin',in:'lock',final:1,ticket:1,ticketAfter:9000},
+ {k:'inner',t:'19…|19……'},
+ {k:'scene',tint:'fb',tag:'Juni 2025 · Ruang cuci|2025年6月 · 洗衣间',img:'p-laundry.webp',lines:['Malam itu katanya dia lembur.|那天晚上，他说在加班。']},
+ {k:'scap',ticket:1,t:'Aku nggak nanya. Tiketnya kuselipkan di dompetku.|我没问。把票夹进了自己的钱包。'},
+ {k:'act',key:'pin2',mode:'pin',in:'lock',final:1,ticketTop:1,cap:'Kuambil dari dompetku.|我从钱包里抽出那张票。',ticketAfter:9000},
  // ---------- unlocked: his home screen ----------
  {k:'home',shower:1},
  {k:'inner',t:'Dia mandi lima belas menit. Satu-satu, paling sempat tiga.|他洗澡十五分钟。一个一个翻，最多来得及看三个。'},
@@ -141,10 +167,10 @@ const BEATS=[
  {k:'dark',cut:1,t:'',sub:''},
  {k:'epend',ep:1,tease:'Episode 2: Kamis malam, lantai 17.|第2集：星期四晚上，十七楼。'}
 ];
-const IMAGES=['p-bed.webp','p-dinner.webp','p-laundry.webp','p-album.webp','p-album-hand.webp','p-dressed.webp','p-apt.webp','p-door.webp','p-ask.webp','p-bed2.webp','p-wall.webp','p-hisphone.webp','av-L.webp','av-D.webp'];
+const IMAGES=['p-bed.webp','p-dinner.webp','p-laundry.webp','p-album.webp','p-rooftop.webp','p-g-work.webp','p-g-invoice.webp','p-g-nayla.webp','p-dressed.webp','p-apt.webp','p-door.webp','p-ask.webp','p-bed2.webp','p-wall.webp','p-hisphone.webp','av-L.webp','av-D.webp'];
 const UI={
  paused:'Dijeda|已暂停',menu:'Menu|菜单',reset:'Mulai ulang dari awal|从头开始',resetQ:'Mulai ulang? Progres & pilihan dihapus.|重新开始？进度和选择都会被删除。',yes:'Ya, mulai ulang|确定重置',no:'Batal|取消',
- innerL:'suara hatiku|我的心声',tr:'Transkrip|转写',vn:'Pesan suara|语音消息',zoomHint:'ketuk untuk perbesar|点开看大图',gallery:'Galeri|相册',me:'Aku|我',
+ innerL:'suara hatiku|我的心声',tr:'Transkrip|转写',vn:'Pesan suara|语音消息',zoomHint:'ketuk untuk perbesar|点开看大图',gallery:'Galeri|相册',gRecent:'Terbaru|最近项目',gRsv:'Reservasi|预订',gAlbums:'Album|相簿',gOther:'Lainnya|其他',gDel:'Baru dihapus|最近删除',gDays:'29 hari|29天',gDaysL:'29 hari lagi dihapus permanen|29天后永久删除',gRestore:'Pulihkan|恢复',gDelete:'Hapus|删除',me:'Aku|我',
  end1:'Bersambung|未完待续',again:'Ulangi dari awal|从头再看',
  tkDay:'HARI|星期',tkDate:'TANGGAL|日期',tkTime:'JAM|时间',tkSeat:'KURSI|座位',
  pinWrong:'Kode salah|密码错误',pinEnter:'Masukkan kode sandi|输入密码',ticketTap:'ketuk tiketnya|点一下票根',
@@ -157,5 +183,5 @@ const UI={
  cNew:'Kontak baru · HP-ku|新建联系人 · 我的手机',cNum:'Nomor|号码',cName:'Nama|名字',cDup:'Nomor ini sudah tersimpan sebagai:|这个号码已保存为：',
  fbL:'kilas balik|闪回'
 };
-const api={TITLE,TH,SAY,BEATS,UI,TICKET,ANSWER,IMAGES,LIST,APPS,DECOR,CLOG_OLD,NUM};if(typeof module!=='undefined')module.exports=api;else root.PHONE=api;
+const api={GDAYS,GALBUMS,GOTHER,GDEL,TITLE,TH,SAY,BEATS,UI,TICKET,ANSWER,IMAGES,LIST,APPS,DECOR,CLOG_OLD,NUM};if(typeof module!=='undefined')module.exports=api;else root.PHONE=api;
 })(this);

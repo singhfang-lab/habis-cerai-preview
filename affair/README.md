@@ -19,3 +19,7 @@ Checks: `node /workspace/affair-tools/validate.js`; `node smoke/play4.js URL OUT
 - Call: auto beat — she photographs the call screen (flash). Ending: that photo in her gallery → new contact → S…
 - zh: Sari's "Mas" = 哥; Laras' "Mas" dropped. No husband-word (lao gong) anywhere.
 - All illustrations in one realistic photographic grade (p-bed, p-door, p-ask, p-bed2, p-wall, av-L, av-D regenerated).
+
+## v6 (2026-10-23)
+- Passcode: one tap on the keypad fills 121019 (wrong, shake) → dinner glimpse 1,9 → "19…" → laundry flashback (ticket kept in her wallet) → ticket shown above the keypad, reader types 190625 (tap on the ticket fills it after 9 s / after a wrong try).
+- Galeri: Terbaru grid → scrubber 12 Okt (only a morning invoice) → Album → Baru dihapus (3, 29 hari) → rooftop wine, selfie with her hand + ring, reservation screenshot → 18.40 flashback → anniversary line. Zoom step and hidden album removed.

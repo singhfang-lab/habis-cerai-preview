@@ -2,7 +2,7 @@
 // then plays them: auto-advance at reading pace, taps only for meaningful actions.
 (function(){
 'use strict';
-const P=window.PHONE,{BEATS,APPS,LIST,UI,TH,SAY,TICKET,ANSWER,DECOR,CLOG_OLD}=P;
+const P=window.PHONE,{GDAYS,GALBUMS,GOTHER,GDEL,BEATS,APPS,LIST,UI,TH,SAY,TICKET,ANSWER,DECOR,CLOG_OLD}=P;
 const $=s=>document.querySelector(s);
 const qs=new URLSearchParams(location.search);
 const store=PhoneStore.create(localStorage,location.search,{onWiped:()=>location.reload()});
@@ -55,6 +55,7 @@ function build(){
     case 'call':base({k:'call',name:b.name,num:b.num,sub:b.sub,who:b.who});push(b,{txt:b.name});break;
     case 'clog':base({k:'clog',row:b.row,swipe:b.swipe,gone:b.gone,at:st.last&&st.last.callAt});push(b,{txt:b.gone?UI.deleted:(b.row&&b.row.t)});break;
     case 'contact':base({k:'contact',num:b.num,name:b.name,res:b.res});push(b,{txt:b.res?UI.cDup:''});break;
+    case 'gal2':base({k:'gal2',m:b.m,at:b.at,i:b.i});push(b,{txt:b.m==='photo'?'x'.repeat(50):''});break;
     case 'home':base({k:'hub'});push(b);break;
     case 'snap':st.ov=st.ov.filter(o=>o.k!=='pop'&&o.k!=='inner');st.ov.push({k:'snap',t:b.t});push(b,{txt:b.t});break;
     case 'myshot':{const src=F.find(f=>f.b.id===b.ref);if(src){base({k:'myshot',src:{...clone(src.v),hl:1},at:src.clock,shower:src.shower,left:src.left})}push(b,{txt:'x'.repeat(30)});break}
@@ -98,7 +99,7 @@ function build(){
 const scr=$('#screen'),phone=$('#phone');
 let F=build(),pos=Math.min(store.get('pos',0),F.length-1),shownAt=0,timer=null,paused=false,speed=store.get('speed',1),revealed=false;
 window.__LOG=[];
-const HIS=['lock','hub','list','thread','gallery','ride','bank','call','clog'];
+const HIS=['lock','hub','list','thread','gallery','gal2','ride','bank','call','clog'];
 const sbHTML=(f,light,clock)=>`<div class="sb${light?' light':''}"><b class="sbt">${esc(String(clock||f.clock).replace('.',':'))}</b><span class="isl">${HIS.includes(f.v.k)&&!f.noLabel?`<em class="hisl">📱 ${T(UI.hisPhone)}</em>`:''}</span><span class="sig">▂▄▆█</span><small>4G</small><span class="bat"><i style="width:${f.shower?54:62}%"></i></span></div>`;
 function chipHTML(f){
  if(!f.shower)return'';const sec=f.left*60;const stop=f.shower===2||(f.v.k==='dark'&&f.v.stop);
@@ -118,11 +119,11 @@ function viewHTML(f){
     if(c.say){const s=SAY[c.say];return `<div class="say${s.me?' me':''} cap${nw}">${av(c.say)}<div><small>${T(s.name)}</small><p>${T(c.t)}</p></div></div>`}
     if(c.bn)return `<div class="nb cap${nw}"><div class="nbh"><span>💬 ${T(c.from)}</span><span>${esc(c.time)}</span></div><p>${T(c.t)}</p></div>`;
     if(c.glimpse)return `<div class="glimpse cap${nw}"><small>${T(UI.hisPhone)}</small><span class="gb">${T(c.t)}</span></div>`;
-    if(c.ticket)return `<div class="cap${nw} tkwrap">${ticketHTML('washed')}<p>${T(c.t)}</p></div>`;
+    if(c.ticket)return `<div class="cap${nw} tkwrap">${ticketHTML('')}<p>${T(c.t)}</p></div>`;
     return `<p class="cap line${fresh?' l':''}${nw}"${st}>${T(c.t)}</p>`}).join('');
    return `<div class="app scene${v.tint==='fb'?' fbt':''}${all.length>=4?' many':''}">${v.img?`<div class="simg"><img src="assets/${v.img}" alt=""><span class="stag">${T(v.tag)}</span>${v.tint==='fb'?`<span class="fbchip">${T(UI.fbL)}</span>`:''}</div>`:''}<div class="scaps">${caps}</div></div>`}
   case 'lock':{
-   if(v.pin)return `<div class="app lock pinning"><img class="wallimg" src="assets/p-wall.webp" alt="">${sbHTML(f,1)}<div class="pinbox"><div class="pinl">🔒 ${T(UI.pinEnter)}</div><div class="dots6" id="dots">${'<i></i>'.repeat(6)}</div><div class="pinmsg" id="pinmsg"></div><div class="pad" id="pad">${[1,2,3,4,5,6,7,8,9,'',0,'⌫'].map(k=>k===''?'<span></span>':`<button class="key" data-k="${k}">${k}</button>`).join('')}</div><div class="pinhelp" id="pinhelp"></div></div></div>`;
+   if(v.pin)return `<div class="app lock pinning"><img class="wallimg" src="assets/p-wall.webp" alt="">${sbHTML(f,1)}<div class="pinbox">${f.b.ticketTop?`<div class="pintk"><p class="pincap">${T(f.b.cap)}</p><div class="tkmini" id="tkmini">${ticketHTML('mini')}<small id="tkhint"></small></div></div>`:''}<div class="pinl">🔒 ${T(UI.pinEnter)}</div><div class="dots6" id="dots">${'<i></i>'.repeat(6)}</div><div class="pinmsg" id="pinmsg"></div><div class="pad" id="pad">${[1,2,3,4,5,6,7,8,9,'',0,'⌫'].map(k=>k===''?'<span></span>':`<button class="key" data-k="${k}">${k}</button>`).join('')}</div><div class="pinhelp" id="pinhelp"></div></div></div>`;
    return `<div class="app lock"><img class="wallimg" src="assets/p-wall.webp" alt="">${sbHTML(f,1)}<div class="lk-t">${esc(f.clock.replace('.',':'))}</div><div class="lk-d">${T(UI.lockDate)}</div><div class="lk-n">${v.notifs.map((n,i)=>`<div class="ln${i===0&&f.b.k==='lock'?' new':''}"><span class="la">💬 ${esc(n.app)} · ${T(n.title)}</span><p>${T(n.t)}</p><span class="lt">${T(UI.now)}</span></div>`).join('')}</div></div>`}
   case 'list':{
    const rows=LIST.map(r=>{const un=r.un&&!(r.unWhen&&!cond(r.unWhen,{flags:f.flags,got:f.got}));
@@ -149,6 +150,23 @@ function viewHTML(f){
      return `<button class="hubic ${done?'done':can?'can':'cant'}" data-app="${a.id}"${can&&f.b.wait!==undefined?'':''}><span class="ai" style="background:${a.col}">${a.ic}</span><small>${T(a.name)}</small><em class="cost">${done?'✓':(can?'':'✕ ')+a.cost+' '+T(UI.min)}</em></button>`}).join('');
    const dc=DECOR.map(d=>`<span class="hubic decor"><span class="ai">${d.ic}</span><small>${T(d.name)}</small></span>`).join('');
    return `<div class="app hub"><img class="wallimg" src="assets/p-wall.webp" alt="">${sbHTML(f,1)}<div class="hubgrid">${ic}${dc}</div></div>`}
+  case 'gal2':{
+   const tile=(p,extra)=>`<span class="gtile"${extra||''}><img src="assets/${p[0]}.webp" alt="" style="object-position:${p[1]};transform:scale(${p[2]})"><i>${esc(p[3])}</i></span>`;
+   const shotUI=(g,mini)=>{const a=L(g.shot).split(' · ');return `<div class="rsv${mini?' mini':''}"><small>${T(UI.gRsv)}</small><b>${esc(a[0])}</b><p>${esc(a[1])}</p><p>${esc(a[2])}</p><em>✓ ${esc(a[3])}</em></div>`};
+   const tabs=`<div class="gtabs"><span class="${v.m==='grid'?'on':''}">${T(UI.gRecent)}</span><span class="${v.m==='grid'?'':'on'}" data-tgt="album">${T(UI.gAlbums)}</span></div>`;
+   if(v.m==='grid'){
+    const secs=GDAYS.map(d=>`<div class="gsec${v.at===d.id?' hl':''}" data-day="${d.id}"><div class="gday">${T(d.d)}</div><div class="ggrid">${d.ph.map(p=>tile(p)).join('')}</div></div>`).join('');
+    const scrub=`<div class="gscrub">${GDAYS.map(d=>`<span data-tgt="${d.id}">${esc(L(d.d).replace(/^.*?(\d+ Okt|\d+月\d+日).*$/,'$1'))}</span>`).join('')}</div>`;
+    return `<div class="app gal2">${sbHTML(f,0)}<div class="gh2"><b>${T(UI.gRecent)}</b></div><div class="gscroll" id="gscroll">${secs}<div class="lpad"></div></div>${scrub}${tabs}</div>`}
+   if(v.m==='albums'){
+    const al=GALBUMS.map(a=>`<div class="galb"><img src="assets/${a[1]}.webp" alt=""><b>${T(a[0])}</b><small>${esc(a[2])}</small></div>`).join('');
+    const ot=GOTHER.map(o=>`<div class="gorow"><span>${o[0]}</span><b>${T(o[1])}</b><small>${esc(o[2])} ›</small></div>`).join('')+`<div class="gorow" data-tgt="del"><span>🗑</span><b>${T(UI.gDel)}</b><small>3 ›</small></div>`;
+    return `<div class="app gal2">${sbHTML(f,0)}<div class="gh2"><b>${T(UI.gAlbums)}</b></div><div class="gscroll" id="gscroll"><div class="galbs">${al}</div><div class="gday">${T(UI.gOther)}</div>${ot}<div class="lpad"></div></div>${tabs}</div>`}
+   if(v.m==='del'){
+    const ts=GDEL.map((g,i)=>`<span class="gtile del" data-tgt="p${i}">${g.img?`<img src="assets/${g.img}" alt="">`:shotUI(g,1)}<i>${T(UI.gDays)}</i></span>`).join('');
+    return `<div class="app gal2">${sbHTML(f,0)}<div class="gh2"><span class="bk">‹</span><b>${T(UI.gDel)}</b></div><div class="gnote">${T(UI.gDaysL)}</div><div class="ggrid big">${ts}</div>${tabs}</div>`}
+   const g=GDEL[v.i];
+   return `<div class="app gal2">${sbHTML(f,0)}<div class="gh2"><span class="bk">‹</span><b>${T(UI.gDel)}</b><small>${v.i+1}/3</small></div><div class="gph" data-tgt="ph">${g.img?`<img src="assets/${g.img}" alt="">`:shotUI(g)}</div><div class="gcap">ⓘ ${T(g.cap)}</div><div class="gdl">🗑 ${T(UI.gDaysL)}</div><div class="gbtns"><span>${T(UI.gRestore)}</span><span class="r">${T(UI.gDelete)}</span></div></div>`}
   case 'myshot':{
    const inner=viewHTML({v:v.src,clock:v.at,left:v.left,shower:0,b:{k:'x'},ov:[],got:[],flags:{},noLabel:1});
    return `<div class="app mygal">${sbHTML(f)}<div class="gh"><span class="bk">‹</span><b>${T(UI.myGal)}</b></div><div class="shotph"><div class="shotin">${inner}</div><i class="glare"></i></div><div class="gcap">📷 ${esc(String(v.at).replace('.',':'))}</div></div>`}
@@ -204,7 +222,9 @@ function wire(f,anim){
  if(b.k==='act'&&b.mode==='pin'&&!f.done)armPin(b);
  if(f.drainFrom!=null&&anim)drain(f);
  if(v.k==='epend'){$('#again').onclick=e=>{e.stopPropagation();resetAll()}}
- const g=scr.querySelector('.gfocus');if(g)g.onclick=e=>{e.stopPropagation();const z=$('#zoom');z.innerHTML=`<img src="${g.querySelector('img').src}" alt="">`;z.hidden=false;z.onclick=()=>{z.hidden=true}};
+ if(v.k==='gal2'){const gs=$('#gscroll');if(gs){let to=0;if(v.at){const d=gs.querySelector(`[data-day=${v.at}]`);to=d.offsetTop-gs.offsetTop-8}else if(v.m==='albums')to=gs.scrollHeight;
+   if(anim&&f.b.k==='gal2'&&to)smoothScroll(gs,Math.min(to,gs.scrollHeight-gs.clientHeight),1100);else gs.scrollTop=to}}
+ if(v.k!=='list'&&b.k==='act'&&b.mode==='target'&&!f.done){const el=scr.querySelector(`[data-tgt="${b.tgt}"]`);if(el){el.classList.add('tgt');el.onclick=e=>{e.stopPropagation();resolve(b.key,true)}}}
 }
 function smoothScroll(el,to,ms){const from=el.scrollTop,t0=performance.now();(function st(){const k=Math.min(1,(performance.now()-t0)/ms);el.scrollTop=from+(to-from)*(1-Math.pow(1-k,3));if(k<1)requestAnimationFrame(st)})()}
 function drain(f){const el=$('#cdt'),sb=scr.querySelector('.sbt');const s0=f.drainFrom*60,ms=3600/speed,t0=performance.now();
@@ -213,19 +233,17 @@ function drain(f){const el=$('#cdt'),sb=scr.querySelector('.sbt');const s0=f.dra
 function armPin(b){
  let code='';const dots=$('#dots'),msg=$('#pinmsg'),help=$('#pinhelp');let wrong=0;
  const paint=()=>dots.querySelectorAll('i').forEach((d,i)=>d.classList.toggle('on',i<code.length));
- const showChip=()=>{if(b.chip&&!help.innerHTML)help.innerHTML=`<button class="pchip" id="pchip">${T(b.chip.label)}</button>`;const c=$('#pchip');if(c)c.onclick=e=>{e.stopPropagation();autofill(b.chip.code)}};
- const showTicket=()=>{if(b.ticket&&!help.innerHTML){help.innerHTML=`<div class="tkmini" id="tkmini">${ticketHTML('washed mini')}<small>${T(UI.ticketTap)}</small></div>`;$('#tkmini').onclick=e=>{e.stopPropagation();help.innerHTML=`<div class="tkbig">${ticketHTML('washed big')}</div>`}}};
- const autofill=c=>{if(busy)return;let i=0;code='';paint();const iv=setInterval(()=>{code+=c[i++];paint();if(i>=c.length){clearInterval(iv);setTimeout(check,250)}},170)};
+ const showTicket=()=>{const tk=$('#tkmini');if(!b.ticketTop||!tk||tk.classList.contains('tgt'))return;$('#tkhint').textContent=L(UI.ticketTap);tk.classList.add('tgt');tk.onclick=e=>{e.stopPropagation();if(!busy&&!code)autofill(ANSWER)}};
+ const autofill=c=>{if(busy)return;busy=true;let i=0;code='';paint();const iv=setInterval(()=>{code+=c[i++];paint();if(i>=c.length){clearInterval(iv);setTimeout(check,250)}},170)};
  let busy=false;
  function check(){busy=true;
   const ok=b.final?code===ANSWER:false;
   if(ok){dots.classList.add('ok');setTimeout(()=>{busy=false;resolve(b.key,true)},420);return}
-  wrong++;dots.classList.remove('bad');void dots.offsetWidth;dots.classList.add('bad');msg.textContent=L(UI.pinWrong);
-  setTimeout(()=>{code='';paint();busy=false;dots.classList.remove('bad');if(!b.final)resolve(b.key,true);else if(wrong>=1)showTicket()},700)}
+  wrong++;phone.classList.remove('shake');void phone.offsetWidth;phone.classList.add('shake');dots.classList.remove('bad');void dots.offsetWidth;dots.classList.add('bad');msg.textContent=L(UI.pinWrong);
+  setTimeout(()=>{code='';paint();busy=false;dots.classList.remove('bad');if(!b.final)resolve(b.key,true);else if(wrong>=1)showTicket()},b.final?700:1100)}
  $('#pad').onclick=e=>{const k=e.target.closest('.key');if(!k||busy)return;e.stopPropagation();const d=k.dataset.k;
-  if(d==='⌫'){code=code.slice(0,-1);paint();return}if(code.length<6){code+=d;paint();msg.textContent='';if(code.length===6)setTimeout(check,200)}};
+  if(b.fill){if(!code)autofill(b.fill);return}if(d==='⌫'){code=code.slice(0,-1);paint();return}if(code.length<6){code+=d;paint();msg.textContent='';if(code.length===6)setTimeout(check,200)}};
  const tid=F[pos];
- if(b.chipAfter)setTimeout(()=>{if(F[pos]===tid)showChip()},b.chipAfter);
  if(b.ticketAfter)setTimeout(()=>{if(F[pos]===tid)showTicket()},b.ticketAfter/speed);
 }
 // ---------------- flow ----------------
@@ -251,7 +269,7 @@ function resolve(key,val){const f=F[pos];if(!f||f.wait!==key||f.done)return;
  if(performance.now()-shownAt<MINVIS)return;
  decide(key,val);F=build();pos=Math.min(pos+1,F.length-1);render(true)}
 // how long the entrance animations of a frame run: a tap before that only reveals, never advances
-function animEnd(f){const k=f.b.k;if(k==='scene')return 700*(f.b.lines.length-1)+700;if(k==='ride')return 1250;if(k==='bank')return 1400;if(f.v.k==='dark'&&f.v.title)return 2100;if(k==='dark')return 1400;if(k==='list'&&f.v.hold)return 1500;if(k==='list'&&f.v.title)return 1000;if(k==='gallery'&&f.v.zoomed)return 950;if(k==='snap')return 900;return 450}
+function animEnd(f){const k=f.b.k;if(k==='scene')return 700*(f.b.lines.length-1)+700;if(k==='ride')return 1250;if(k==='bank')return 1400;if(f.v.k==='dark'&&f.v.title)return 2100;if(k==='dark')return 1400;if(k==='list'&&f.v.hold)return 1500;if(k==='list'&&f.v.title)return 1000;if(k==='gallery'&&f.v.zoomed)return 950;if(k==='snap')return 900;if(k==='gal2'&&f.v.at)return 1200;if(k==='gal2'&&f.v.m==='albums')return 1200;return 450}
 let revealAt=0;
 scr.addEventListener('click',()=>{
  const f=F[pos];if(f.wait&&!f.done)return;
