@@ -54,7 +54,7 @@ function derive(tl,n){const S={day:'Kamis|星期四',clock:'06.40',view:'lock',l
    case 'mail':S.view='mail';S.mail=b;break;
    case 'wallet':S.view='wallet';S.wallet=b;break;
    case 'scene':S.view='scene';S.scene={...b,items:[],img:b.img||null,_i:i};break;
-   case 'say':case 'scap':if(S.scene){if(S.view==='gallery')S.view='scene';S.scene.items.push({...b,_i:i});if(b.img)S.scene.img=b.img;}break;
+   case 'say':case 'scap':if(S.scene){if(S.view==='gallery'||S.view==='chat')S.view='scene';S.scene.items.push({...b,_i:i});if(b.img)S.scene.img=b.img;}break;
    case 'live':S.view='live';if(b.fresh)S.live={cmts:[],viewers:0,img:b.img||'p-live.webp',pin:null,gift:null};S.live.host=b.fresh?b.host:S.live.host;S.live.cap=b.cap?{t:b.cap,_i:i}:S.live.cap;S.live.frame=b.frame?{...b,_i:i}:null;if(b.hot)S.live.hot={t:b.hot,_i:i};if(b.ended)S.live.ended={...b,_i:i};if(b.img)S.live.img=b.img;if(b.viewers)S.live.viewers=b.viewers;if(b.cmt)S.live.cmts.push({t:b.cmt,_i:i});if(b.pin){S.live.pin=b.pin;S.live.bill=!!b.bill;}if(b.gift)S.live.gift={g:b.gift,_i:i};break;
    case 'call':S.view='call';S.call={...b,lines:[]};break;
    case 'line':if(S.call){S.call.lines.push({...b,_i:i});S.call.on=true;S.view='call';}break;
@@ -103,7 +103,7 @@ function chatHTML(S){const k=S.thread,t=TH[k],list=S.threads[k]||[];
 function attHTML(){return `<div class="atts"><div class="att1"><div class="rcpt"><b>✓</b><span>${T('attAmt')}</span><i></i><i></i><i></i></div><small>🔒 ${T('attT')}</small></div><div class="att1"><img src="assets/p-fakephoto.webp" alt=""><small>🔒 ${T('attC')}</small></div></div>`;}
 function shotHTML(x){return `<div class="shot"><div class="shh">👥 <b>${esc(L(x.title))}</b><small>${esc(L(x.n||''))}</small></div><p class="shd">${T('grpDesc')}: <i>${esc(L(x.desc))}</i></p>${(x.rows||[]).map(r=>`<p class="shr">${esc(L(r))}</p>`).join('')}</div>`;}
 function billHTML(full){const B=BILL;return `<div class="bill${full?' full':''}"><div class="bh">${esc(L(B.school))}</div>${B.rows.map(r=>`<div class="br"><span>${esc(L(r[0]))}</span><b>${esc(r[1])}</b></div>`).join('')}<div class="br tot"><span>${esc(L(B.total[0]))}</span><b>${esc(B.total[1])}</b></div>${full?'':`<div class="bcut">${esc(L(B.cut))}</div>`}<div class="br paid"><span>${esc(L(B.paid[0]))}</span><b>−${esc(B.paid[1])}</b></div><small class="bby">${esc(L(B.by))}</small></div>`;}
-function lockHTML(S){return `<div class="app lock"><div class="lk-t">${esc(clk(S.clock))}</div><div class="lk-d">${esc(L(S.day))}</div><div class="lk-n">${S.lockN.map((x,j)=>`<div class="ln${isNew(S.lastI)?' new':''}" style="animation-delay:${j*0.12}s"><span class="la">${{Lensa:'◎',Telepon:'📞',Email:'✉',LiveKu:'●'}[x.app]||'💬'} ${esc(appName(x.app))}</span><b>${esc(L(x.title))}</b><span class="lt">${esc(clk(x.time||''))}</span><p>${esc(L(x.t))}</p>${x.thumb?`<img class="lthumb" src="assets/${x.thumb}" alt="">`:''}</div>`).join('')}</div><div class="lk-h" id="lkh"></div></div>`;}
+function lockHTML(S){return `<div class="app lock"><div class="lk-t">${esc(clk(S.clock))}</div><div class="lk-d">${esc(L(S.day))}</div><div class="lk-n">${S.lockN.map((x,j)=>`<div class="ln${isNew(S.lastI)?' new':''}" style="animation-delay:${j*0.12}s"><span class="la">${{Lensa:'◎',Telepon:'📞',Email:'✉',LiveKu:'●','KabarSeleb|星闻快报':'📰'}[x.app]||'💬'} ${esc(appName(x.app))}</span><b>${esc(L(x.title))}</b><span class="lt">${esc(clk(x.time||''))}</span><p>${esc(L(x.t))}</p>${x.thumb?`<img class="lthumb" src="assets/${x.thumb}" alt="">`:''}</div>`).join('')}</div><div class="lk-h" id="lkh"></div></div>`;}
 function homeHTML(S){const badges=[7,1,0,1,1,0,0,0];const tg=APPN[(S.last&&S.last.app)||'LiveKu'];return `<div class="app home"><div class="grid">${UI.apps.slice(0,8).map((a,j)=>`<div class="ic${j===tg?' target':''}" ${j===tg?'data-app="go"':''}><i class="ai a${j}">${['💬','◎','●','✉','💳','🖼','📝','📷'][j]}</i>${badges[j]?`<em>${badges[j]}</em>`:''}<small>${esc(L(a))}</small></div>`).join('')}</div><div class="dock-hint">${esc(L(S.last&&S.last.t||''))}</div><i class="fingertap"></i></div>`;}
 function mailHTML(S){const m=S.mail;return `<div class="app mail"><div class="ah">‹ ${T('inbox')}</div><div class="mm new"><small>${esc(L(m.from))}</small><h3>${esc(L(m.subject))}</h3><p>${esc(L(m.t))}</p><div class="att">📎 ${esc(m.file||'Surat_Pemutusan.pdf')}</div></div></div>`;}
 function walletHTML(S){const w=S.wallet;return `<div class="app wallet"><div class="ah">${T('wallet')}</div><div class="wcard new${w.ok?' okc':' jolt'}"><div class="wx">${w.ok?'✓':'✕'}</div><b>${esc(w.amt)}</b><small>${esc(L(w.merchant))}</small><p>${esc(L(w.t))}</p></div></div>`;}
@@ -118,7 +118,7 @@ function liveHTML(S){const lv=S.live;const g=lv.gift&&isNew(lv.gift._i)?`<div cl
  const en=lv.ended?`<div class="lvend${isNew(lv.ended._i)?' new':''}"><b>${esc(L(lv.ended.ended))}</b></div>`:'';
  return `<div class="app live${lv.host?' guest':''}"><div class="lvtop"><span class="lp">${lv.ended?T('liveOff'):T('live')}</span><span class="lvv">👁 ${lv.viewers.toLocaleString(st.lang==='zh'?'zh-CN':'id-ID')}</span><span class="lvm">${lv.host?esc(lv.host):'LiveKu'}</span></div>${lv.pin?`<div class="pin">📌 <b>@akungosip</b> ${esc(L(lv.pin))}${lv.bill?billHTML():''}</div>`:''}${fr}${hot}${en}${lv.cap?`<div class="lvcap${isNew(lv.cap._i)?' new':''}">${esc(L(lv.cap.t))}</div>`:''}<div class="cmts">${lv.cmts.slice(-4).map(c=>`<p data-k="c${c._i}" class="${isNew(c._i)?'new':''}">${esc(L(c.t))}</p>`).join('')}</div>${g}<div class="kb" id="kb"></div></div>`;}
 function callHTML(S){const c=S.call;return `<div class="app call${c.on?' on':''}${c.night?' night':''}">${faceAv(c.who,c.on?(c.ex||'angry'):'neutral','big')}<b class="cn">${esc(L(c.name))}</b><small>${c.on?(c.night?T('oncallN'):T('oncall')):T('incoming')}</small><p class="cs">${esc(L(c.sub))}</p><div class="caps">${c.lines.map(l=>`<p data-k="l${l._i}" class="${isNew(l._i)?'new':''}"><b>${l.who==='N'?T('me'):esc(L((SAY[l.who]||{}).name||c.name))}:</b> ${esc(L(l.t))}</p>`).join('')}</div><div class="kb" id="kb"></div></div>`;}
-function notesHTML(S){const n=S.notes;const del=st.done[n.erase||'erase'];return `<div class="app notes"><div class="ah">📝 ${T('notes')}</div><h3>${T('notesT')}</h3>${n.old.map(o=>`<p class="no">${esc(L(o))}</p>`).join('')}<p class="nd${del?' gone':''}">${esc(L(n.draft))}${del?'':'<i class="caret"></i>'}</p><div class="kb" id="kb"></div></div>`;}
+function notesHTML(S){const n=S.notes;const del=st.done[n.erase||'erase'];return `<div class="app notes"><div class="ah">📝 ${T('notes')}</div><h3>${T('notesT')}</h3>${n.old.map(o=>`<p class="no">${esc(L(o))}</p>`).join('')}<p class="nd${del?' gone':''}">${esc(L(n.draft))}${del?'':'<i class="caret"></i>'}</p>${del?(()=>{const ab=timeline().find(x=>x.k==='act'&&x.key===(n.erase||'erase'));return ab&&ab.done?`<p class="adone new">✓ ${esc(L(ab.done))}</p>`:'';})():''}<div class="kb" id="kb"></div></div>`;}
 function darkHTML(S){const d=S.dark;return `<div class="app dark">${d?`<div class="bz${isNew(st.n-1)?' new':''}"><b>${esc(L(d.t))}</b><small>${esc(L(d.sub))}</small></div>`:'<div class="bz"><small>📱 ⬇</small></div>'}</div>`;}
 function sceneHTML(S){const sc=S.scene;const open=st.inner[sc._i];
  const card=`<div class="scard" data-k="s${sc._i}"><span class="stag" data-tw="${esc(L(sc.tag))}">${isNew(sc._i)?'&nbsp;':esc(L(sc.tag))}</span><p class="s1">${esc(L(sc.lines[0]))}</p><p class="s2">${esc(L(sc.lines[1]))}</p>${sc.inner?`<button class="s3${open?' open':''}" data-inner="${sc._i}">${open?esc(L(sc.inner)):'✦ '+T('inner')}</button>`:''}</div>`;
@@ -197,7 +197,7 @@ function tickClock(from,to){const el=screen.querySelector('.sb b');if(!el||from=
 function snapshot(){const m=new Map();if(RM)return m;screen.querySelectorAll('[data-k]').forEach(e=>{const r=e.getBoundingClientRect();m.set(e.dataset.k,{y:r.top,o:getComputedStyle(e).opacity});});return m;}
 function flip(old){if(RM||!old.size)return;screen.querySelectorAll('[data-k]').forEach(e=>{const o=old.get(e.dataset.k);if(!o)return;const r=e.getBoundingClientRect(),dy=o.y-r.top,op=getComputedStyle(e).opacity;if(Math.abs(dy)<1&&op===o.o)return;e.classList.remove('new');
   e.animate([{transform:`translateY(${dy}px)`,opacity:o.o},{transform:'none',opacity:op}],{duration:420,easing:'cubic-bezier(.25,.8,.25,1)'});});}
-function render(opt){opt=opt||{};finishTx();const tl=timeline();st.n=Math.min(Math.max(1,st.n),tl.length);const S=derive(tl,st.n);
+function render(opt){opt=opt||{};finishTx();const tl=timeline();st.n=Math.min(Math.max(1,st.n),tl.length);if(st.n!==beatN){beatN=st.n;beatAt=Date.now();}const S=derive(tl,st.n);
  const type=opt.noTx?null:pickTx(prevR,S,opt.back);let ghost=null;const old=type?null:snapshot();
  if(type){ghost=screen.cloneNode(true);ghost.removeAttribute('id');ghost.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));ghost.classList.add('ghost');ghost.setAttribute('aria-hidden','true');phoneEl.insertBefore(ghost,type==='slide'||type==='push'?screen.nextSibling:screen.nextSibling);}
  let body='';switch(S.view){case 'lock':body=lockHTML(S);break;case 'chat':body=chatHTML(S);break;case 'home':body=homeHTML(S);break;case 'mail':body=mailHTML(S);break;case 'wallet':body=walletHTML(S);break;case 'lensa':body=lensaHTML(S);break;case 'live':body=liveHTML(S);break;case 'call':body=callHTML(S);break;case 'notes':body=notesHTML(S);break;case 'dark':body=darkHTML(S);break;case 'scene':body=sceneHTML(S);break;case 'end':body=endHTML(S);break;case 'ep':body=epHTML(S);break;case 'epend':body=ependHTML(S);break;case 'gallery':body=galleryHTML(S);break;}
@@ -255,7 +255,7 @@ function choose(b,i,how){stopPilot();st.ch[b.key]=i;st.how[b.key]=how;track('cho
 function chooseQuick(i){const tl=timeline();const b=tl[st.n-1];if(!b||b.k!=='quick'||st.ch[b.key]!=null)return;st.ch[b.key]=i;track('quick',{key:b.key,i});save();justActed=Date.now();
  if(b.in==='scene')render();else advance(true);}
 function completeAct(key){const tl=timeline();const b=tl[st.n-1];if(!b||b.k!=='act'||b.key!==key||st.done[key])return;st.done[key]=true;save();justActed=Date.now();try{navigator.vibrate&&(!navigator.userActivation||navigator.userActivation.hasBeenActive)&&navigator.vibrate(25)}catch{}
- if(b.done&&b.in==='scene')render();else advance(true);}
+ if(b.done&&(b.in==='scene'||b.in==='notes'))render();else advance(true);}
 
 // ---------- auto-flow: the story moves on its own; the reader only acts at decisions ----------
 let flowT=null,flowFn=null,typingTh=null,scrolledUp=false;const holds=new Set();
@@ -266,7 +266,7 @@ function beatText(b){if(!b)return '';switch(b.k){case 'scene':return [b.tag,...b
  case 'act':return b.done?plain(b.done):'';case 'quick':return plain(b.q);case 'notes':return b.old.map(plain).join(' ')+' '+plain(b.draft);case 'dark':return plain(b.t)+' '+plain(b.sub);case 'call':return plain(b.sub);case 'msg':return plain(b.t)+' '+plain(b.tr)+' '+plain(b.loc);case 'ep':return plain((EPS[b.ep-1]||{}).title)+' '+plain(b.prev);case 'gallery':return plain(b.t)+' '+plain(b.cap);case 'scrollup':return b.old.map(o=>plain(o.t)).join(' ');case 'unblur':return plain(b.t);case 'draft':return plain(b.t);
  case 'lensa':return b.post?plain(b.post.cap)+' '+(b.cmts||[]).map(plain).join(' '):b.story?plain(b.story.t):(b.cmts||[]).map(plain).join(' ');default:return plain(b.t)+' '+plain(b.cap)+' '+plain(b.hot)+' '+plain(b.frame);}}
 function dwell(b,S){if(!b)return 1200;const r=st.lang==='zh'?beatText(b).replace(/\s/g,'').length/8*1000:beatText(b).split(/\s+/).filter(Boolean).length/220*60000;let ms=Math.max(1200,r);
- if(b.k==='scene')ms+=900;if(b.photo)ms+=1800;if(b.vn)ms+=2400;if(b.k==='live'&&b.pin)ms+=2600;if(b.k==='mail'||b.k==='wallet')ms+=700;if(b.k==='call')ms=Math.max(ms,2600);if(b.k==='home')ms=1600;if(b.k==='typing')ms=1400;if(b.k==='dark')ms=1900;if(b.k==='inner')ms+=300;if(b.k==='msg'&&b.mine)ms=Math.max(1200,ms*.6);
+ if(b.k==='scene')ms+=900;if(b.photo)ms+=1800;if(b.vn)ms+=2400;if(b.k==='live'&&b.pin)ms+=2600;if(b.k==='mail'||b.k==='wallet')ms+=700;if(b.k==='call')ms=Math.max(ms,2600);if(b.k==='home')ms=1600;if(b.k==='typing')ms=1400;if(b.k==='dark')ms=Math.max(1900,ms);if(b.k==='inner')ms+=300;if(b.k==='msg'&&b.mine)ms=Math.max(1200,ms*.6);
  if(b.k==='lock')ms=Math.max(ms,2200)+(b.notifs&&b.notifs.length>1?900:0);
  if(b.k==='ep')ms=Math.max(2800,ms*.8);if(b.k==='epend')ms=5600;if(b.k==='gallery')ms+=2400;if(b.img&&b.k==='msg')ms+=1800;if(b.loc)ms+=1000;if(b.k==='replay')ms=2800;if(b.k==='typing'&&b.stop)ms=2700;if(b.k==='scrollup')ms+=2600;if(b.k==='unblur')ms+=1600;if(b.gone)ms+=1400;
  if(b.k==='live'&&b.frame)ms+=3400;if(b.k==='live'&&b.hot)ms+=1400;if(b.k==='lensa'&&b.post)ms+=2600;if(b.k==='lensa'&&b.story)ms+=1600;if(b.shot)ms+=2400;if(b.k==='scap'&&b.img)ms+=800;return ms;}
@@ -281,6 +281,13 @@ function schedule(){clearFlow();if(st.paused||holds.size||document.hidden||scrol
  // an incoming message in the open chat: typing indicator first, length-proportional
  if(nb.k==='msg'&&!nb.mine&&S&&S.view==='chat'&&S.thread===nb.th&&!nb.clock&&typingTh!==nb.th){wait(Math.min(d,b.k==='msg'?d:d),()=>{typingTh=nb.th;render();clearFlow();wait(typingMs(nb),()=>advance());});return;}
  wait(d,()=>advance());}
+// tap = reveal first, then at most one step; a beat must be fully visible >=MINVIS ms before a tap can pass it
+let beatAt=0,beatN=-1,lastStep=0;const MINVIS=350;
+function entering(){try{return document.getAnimations().filter(a=>{if(a.playState!=='running')return false;const t=a.effect&&a.effect.getComputedTiming&&a.effect.getComputedTiming();const el=a.effect&&a.effect.target;return t&&isFinite(t.endTime)&&t.endTime<=2500&&el&&el.nodeType===1&&screen.contains(el);});}catch{return [];}}
+function tapStep(){const now=Date.now();const run=entering();
+ if(tx.active||run.length){finishTx();run.forEach(a=>{try{a.finish()}catch{}});beatAt=now;return 'reveal';}
+ if(now-beatAt<MINVIS||now-lastStep<MINVIS)return 'hold';
+ lastStep=now;skipWait();return 'step';}
 function skipWait(){if(flowFn){const f=flowFn;clearTimeout(flowT);f();return;}const tl=timeline(),b=tl[st.n-1];if(!isBlocked(b)&&!st.paused)advance();else if(isBlocked(b)){const t=screen.querySelector('.take,.aw,.qopts,.ropts');if(t){t.classList.remove('nudge');void t.offsetWidth;t.classList.add('nudge');}}}
 let userScrollAt=0;['wheel','touchmove','keydown','pointerdown'].forEach(ev=>document.addEventListener(ev,e=>{if(e.target.closest&&e.target.closest('#msgs')||ev==='wheel'||ev==='keydown')userScrollAt=Date.now();},{passive:true,capture:true}));
 function onMsgScroll(e){const m=e.target;if(!scrolledUp&&Date.now()-userScrollAt>1200)return;const up=m.scrollHeight-m.scrollTop-m.clientHeight>40;if(up===scrolledUp)return;scrolledUp=up;let p=screen.querySelector('.newpill');
@@ -360,8 +367,8 @@ document.addEventListener('click',e=>{
  if(e.target.closest('.rbar'))return;
  if(e.target.closest('.aw,.pilotkb,.quickkb,.quick:not(.done) .qopts'))return;
  if(Date.now()-justActed<450)return;
- skipWait();});
-document.addEventListener('keydown',e=>{if(e.key===' '||e.key==='ArrowRight'){e.preventDefault();skipWait();}if(e.key==='ArrowLeft')back();});
-window.__phone={get st(){return st},timeline,derive,L,isBlocked,heat,meCount,aryaPct,curEp,events:()=>store.get('events',[]),get tx(){return tx.active},get waiting(){return !!flowFn},render,save,schedule};
+ tapStep();});
+document.addEventListener('keydown',e=>{if(e.key===' '||e.key==='ArrowRight'){e.preventDefault();tapStep();}if(e.key==='ArrowLeft')back();});
+window.__phone={get st(){return st},timeline,derive,L,isBlocked,heat,meCount,aryaPct,curEp,events:()=>store.get('events',[]),get tx(){return tx.active},get waiting(){return !!flowFn},get beatAt(){return beatAt},tapStep,render,save,schedule};
 render();
 })();

@@ -38,3 +38,6 @@ Checkpoints (update as each lands):
 - Fixed mismatches: p-carpark → p-carpark-close (scene) + p-carpark-pap (paparazzi shot); ep4 live → p-live-studio; p-hands regenerated; ep5 00:58 text = gate.
 - phone.js: say/scap after a gallery switches back to scene view (ep6 lines + p-rain were hidden).
 - Tools: smoke/imgsweep.js (all variants, naturalWidth/4xx/console), smoke/imgshots.js (in-context screenshots). Audit: ../phone-shots-v4/AUDIT-images-v4.md
+- Tap rule (v4): a tap first reveals (finishes transition/entrance animations); it advances at most one beat, and only after the beat has been fully visible >=350 ms. No tap queue. Auto-play unchanged. Test: smoke/taptest.js (taps every 50/200 ms, ep1-6 + paywall, zh/id).
+- Fixed hidden content: say/scap after a chat/gallery view now switch back to the scene (ep2 Arya, ep3 Mila, ep4 meeting lines were invisible); notes "erase" act now shows its done line.
+- Prologue (v4): 4 auto beats before ep1 (title card + trending/infotainment/gossip/fans/Maya/Hana lock-screen flood), then the ep1 unlock becomes "Face ID · Nadira". ~17 s.
