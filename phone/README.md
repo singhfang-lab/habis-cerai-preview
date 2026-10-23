@@ -41,3 +41,12 @@ Checkpoints (update as each lands):
 - Tap rule (v4): a tap first reveals (finishes transition/entrance animations); it advances at most one beat, and only after the beat has been fully visible >=350 ms. No tap queue. Auto-play unchanged. Test: smoke/taptest.js (taps every 50/200 ms, ep1-6 + paywall, zh/id).
 - Fixed hidden content: say/scap after a chat/gallery view now switch back to the scene (ep2 Arya, ep3 Mila, ep4 meeting lines were invisible); notes "erase" act now shows its done line.
 - Prologue (v4.1): 3 auto screens before ep1 — title card; lock screen with one gossip headline over a collapsed 999+ pile; a lone message from an unsaved number (blurred avatar = Arya): "Kak. Aku nunggu hari ini 10 tahun." Then ep1 unlock = "Face ID · Nadira". ~10 s + unlock. Ep1 20:40 adds one inner callback line. Status-bar clock = lock clock at every beat.
+- Prologue (v5, replaces v4.1): reader-driven, ONE continuous lock screen, no title card, no narrator. Beats are marked `pro:1`. New act mode `target`: the glowing element itself (pile / notification / banner) is the button, with no instruction text. After about 4 s idle a faint hand appears. It never auto-completes, and the tap gate is the same (reveal first, 350 ms minimum).
+  1. A sleepy, blurred, buzzing lock screen at 06:31: "999+" pile with one peeking @lambe_rumpi_id line. Tap the pile.
+  2. The stack expands and keeps pouring in (trending #1, Maya missed calls, parents group, DMs, Salma, Bu Ratna); the counter climbs 999 → 4,127.
+  3. Her name is highlighted everywhere and the screen sharpens with a jolt (inner "…Aku?|……我？").
+  4. 06:32: tap the gossip headline. Face ID "Nadira" unlocks straight into the Lensa post (p-gossip-pap.webp, new: paparazzi shot, young man's face pixelated). Comments keep arriving and can be liked; the clock runs to 06:36.
+  5. 06:38: a banner from an unsaved number (blurred avatar): "Kak. Aku nunggu hari ini 10 tahun." Tap it to open the chat; typing… appears, then stops.
+  6. 06:40: Salma's banner pulls her into the parents group = ep1 unchanged from the 06:12 photo on. The old ep1 unlock lock screen has been removed.
+  Reduced motion: no buzz, glow or delays; the hint is static. Test: smoke/recprolog5.js (natural-tap recording), smoke/taptest.js handles `target`.
+

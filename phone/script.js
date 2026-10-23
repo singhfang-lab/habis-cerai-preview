@@ -11,21 +11,46 @@ const TH={ // chat threads in 'Pesan'
  arya:{name:'Arya|Arya',sub:'partner live|直播搭档',av:'A'},
  nanny:{name:'Mbak Tari (pengasuh)|Tari（保姆）',sub:'pengasuh anak-anak|孩子们的保姆',av:'T'},
  anon:{name:'akun_tanpa_nama|akun_tanpa_nama',sub:'Lensa · bukan pengikutmu|Lensa · 不是你的粉丝',av:'?',app:'lensa'},
+ unk:{name:'Nomor tidak dikenal|未保存的号码',sub:'+62 812-0910-xxxx|+62 812-0910-xxxx',av:'?'},
  sheila:{name:'sheila.kirana|sheila.kirana',sub:'Lensa · 2 jt pengikut|Lensa · 200万粉丝',av:'Sh',app:'lensa'}
 };
 const SAY={N:{name:'Nadira|Nadira',me:true},H:{name:'Hana|Hana',tag:'anakku · 9 th|女儿 · 9岁'},R:{name:'Bu Ratna|Ratna太太',tag:'mantan mertua|前婆婆'},M:{name:'Mila|Mila',tag:'si bungsu · 6 th|小女儿 · 6岁'},A:{name:'Arya|Arya',tag:'partner live|直播搭档'},K:{name:'Raka|Raka',tag:'mantan suami|前夫'},Y:{name:'Maya|Maya',tag:'manajer|经纪人',ini:'My'},SH:{name:'Sheila|Sheila',tag:'mantan Arya · 25|Arya的前任 · 25岁',ini:'Sh'}};
 const BEATS=[
- // ================= PROLOG (hook, ~11s, auto): 3 screens, one idea each =================
- {k:'dark',clock:'06.31',t:'Pagi ini, seluruh Indonesia membicarakan perceraianku.|今天早上，全网都在议论我的离婚。',sub:'#NadiraCerai · Trending #1|#Nadira离婚 · 热搜第一'},
- {k:'lock',clock:'06.32',day:'Kamis|星期四',fx:'shake',notifs:[
-   {app:'Lensa',title:'@lambe_rumpi_id|@lambe_rumpi_id（八卦号）',t:'Siapa pria muda di balik perceraian Nadira? 👀|Nadira离婚背后的年轻男人是谁？👀',time:'06.32'},
-   {pile:'999+ notifikasi|999+条通知'}]},
- {k:'lock',clock:'06.33',day:'Kamis|星期四',fx:'shake',solo:true,notifs:[
-   {app:'Pesan',title:'Nomor tidak dikenal|未保存的号码',avb:'av-A-neutral.webp',t:'Kak. Aku nunggu hari ini 10 tahun.|姐。这一天，我等了十年。',time:'06.33'}]},
- {k:'act',key:'unlock',mode:'unlock',in:'lock',btn:'Face ID · Nadira — geser ke atas|面容ID · Nadira — 上滑解锁',done:'',clock:'06.40',notifs:[
-   {app:'Pesan',title:'Wali Murid 2B|2B班家长群',thumb:'p-fakephoto.webp',t:'Bu Sinta: 📷 Foto · Bu, ini mamanya Hana, kan? Pantes cerai 🤭|Sinta太太：📷 照片 · 各位，这是Hana的妈妈吧？难怪离婚 🤭',time:'06.12'},
-   {app:'Pesan',title:'Wali Murid 2B|2B班家长群',t:'+46 pesan baru|+46条新消息',time:'06.38'},
-   {app:'Pesan',title:'Salma|Salma',t:'Kak?? Kamu udah lihat grup??|姐？？你看到群消息了吗？？',time:'06.31'}]},
+ // ================= PROLOG v5 (reader-driven, one continuous lock screen; no narrator) =================
+ // the reader's own half-asleep instincts drive it: tap the pile → it pours → her name everywhere (wake) → tap the scariest one → Face ID → the post → a stranger → real life
+ {k:'act',key:'pile',mode:'target',in:'lock',pro:1,tgt:'pile',clock:'06.31',day:'Kamis|星期四',sleepy:1,notifs:[
+   {id:'pile',pile:'999+ notifikasi|999+ 条通知',peek:{app:'Lensa',title:'@lambe_rumpi_id|@lambe_rumpi_id',t:'Siapa pria muda di balik perceraian Nadira? 👀|Nadira离婚背后的年轻男人是谁？👀'}}]},
+ {k:'lock',pro:1,exp:1,ms:2300,stagger:.28,count:[999,1840],clock:'06.31',notifs:[
+   {id:'tr',app:'Lensa',title:'Trending di Indonesia|印尼热搜',t:'#1 · #NadiraCerai · 212 rb postingan|第1 · #Nadira离婚 · 21.2万条',time:'06.31'},
+   {id:'my',app:'Telepon',title:'Maya (manajer)|Maya（经纪人）',t:'3 panggilan tak terjawab|3个未接来电',time:'06.29'},
+   {id:'grp',app:'Pesan',title:'Wali Murid 2B|2B班家长群',thumb:'p-fakephoto.webp',t:'Bu Sinta: 📷 Bu, ini mamanya Hana, kan? Pantes cerai 🤭 · +46|Sinta太太：📷 各位，这是Hana的妈妈吧？难怪离婚 🤭 · +46',time:'06.12'},
+   {id:'dm',app:'Lensa',title:'128 permintaan pesan|128条私信请求',t:'@tante_julid: Nadira tega ya… anak masih kecil 🙄|@tante_julid：Nadira真狠心啊……孩子还那么小🙄',time:'06.27'},
+   {id:'sal',app:'Pesan',title:'Salma|Salma',t:'Kak?? Kamu udah lihat grup??|姐？？你看到群消息了吗？？',time:'06.31'}]},
+ {k:'lock',pro:1,exp:1,ms:2200,stagger:.32,count:[1840,4127],clock:'06.31',notifs:[
+   {id:'g1',app:'Lensa',title:'@lambe_rumpi_id menandaimu|@lambe_rumpi_id 标记了你',t:'Siapa pria muda di balik perceraian Nadira? 👀|Nadira离婚背后的年轻男人是谁？👀',time:'06.31'},
+   {id:'is',app:'Lensa',title:'@infoseleb.id menyebutmu|@infoseleb.id 提到了你',t:'Nadira cerai karena orang ketiga? Ini faktanya…|Nadira离婚是因为第三者？真相是……',time:'06.31'},
+   {id:'rt',app:'Telepon',title:'Bu Ratna|Ratna太太',t:'Panggilan tak terjawab|未接来电',time:'06.30'},
+   {id:'tr',app:'Lensa',title:'Trending di Indonesia|印尼热搜',t:'#1 · #NadiraCerai · 212 rb postingan|第1 · #Nadira离婚 · 21.2万条',time:'06.31'},
+   {id:'my',app:'Telepon',title:'Maya (manajer)|Maya（经纪人）',t:'4 panggilan tak terjawab|4个未接来电',time:'06.31'},
+   {id:'grp',app:'Pesan',title:'Wali Murid 2B|2B班家长群',thumb:'p-fakephoto.webp',t:'Bu Sinta: 📷 Bu, ini mamanya Hana, kan? Pantes cerai 🤭 · +46|Sinta太太：📷 各位，这是Hana的妈妈吧？难怪离婚 🤭 · +46',time:'06.12'},
+   {id:'dm',app:'Lensa',title:'128 permintaan pesan|128条私信请求',t:'@tante_julid: Nadira tega ya… anak masih kecil 🙄|@tante_julid：Nadira真狠心啊……孩子还那么小🙄',time:'06.27'},
+   {id:'sal',app:'Pesan',title:'Salma|Salma',t:'Kak?? Kamu udah lihat grup??|姐？？你看到群消息了吗？？',time:'06.31'}]},
+ {k:'inner',pro:1,wake:1,fx:'shake',t:'…Aku?|……我？'},
+ {k:'act',key:'gossip',mode:'target',in:'lock',pro:1,tgt:'g1',clock:'06.32'},
+ {k:'lensa',pro:1,fresh:true,faceid:1,clock:'06.32',post:{by:'@lambe_rumpi_id',img:'p-gossip-pap.webp',views:'2,4 jt · 38 mnt|240万 · 38分钟前',likes:'Disukai 61.204 orang|61,204人赞了',cap:'Siapa pria muda di balik perceraian Nadira? 👀 Keluar studio berdua.|Nadira离婚背后的年轻男人是谁？👀 两人一起离开影棚。'},cmts:[
+   '@tante_julid: Baru cerai udah gandeng brondong 🙄|@tante_julid：刚离婚就牵上小鲜肉了🙄',
+   '@nadira_fans: Kalian nggak tahu ceritanya. Stop!|@nadira_fans：你们又不知道内情，别说了！']},
+ {k:'lensa',pro:1,clock:'06.34',add:[
+   '@mbak_kepo: Kakak pinter main ya 😏|@mbak_kepo：姐姐好会玩😏',
+   '@kolom_komentar: Brondongnya siapa?? Spill 🐶|@kolom_komentar：小狗是谁？？快爆料🐶']},
+ {k:'lensa',pro:1,clock:'06.36',add:[
+   '@ibu_ibu_bijak: Aku juga ibu dua anak. Malu, Kak.|@ibu_ibu_bijak：我也是两个孩子的妈。丢人。',
+   '@akungosip: Tunggu, ini bukan yang pertama 👀|@akungosip：等着，这可不是第一次👀']},
+ {k:'act',key:'stranger',mode:'target',in:'lensa',pro:1,tgt:'banner',fx:'shake',clock:'06.38',banner:{th:'unk',time:'06.38',t:'Kak. Aku nunggu hari ini 10 tahun.|姐。这一天，我等了十年。'}},
+ {k:'msg',th:'unk',pro:1,time:'06.38',t:'Kak. Aku nunggu hari ini 10 tahun.|姐。这一天，我等了十年。'},
+ {k:'typing',th:'unk',pro:1,stop:true},
+ // real life pulls her back: Salma → the parents group (ep1 continues unchanged from here)
+ {k:'msg',th:'salma',clock:'06.40',time:'06.40',t:'Kak?? Buka grup wali murid. Hana juga lihat.|姐？？快看家长群。Hana也看到了。'},
  {k:'msg',th:'group',from:'Bu Sinta|Sinta太太',time:'06.12',photo:true,t:'Bu, ini mamanya Hana, kan? Pantes cerai 🤭|各位，这是Hana的妈妈吧？难怪离婚 🤭'},
  {k:'msg',th:'group',from:'Bu Dewi|Dewi太太',time:'06.14',t:'Astaga 😳 anak saya sekelas sama Hana.|天哪😳 我孩子跟Hana同班。'},
  {k:'msg',th:'group',from:'Pak Rudi|Rudi先生',time:'06.20',t:'Ini grup sekolah, Bu. Tolong dijaga, ada anak-anak.|这是学校群，请注意影响，这里有孩子。'},
@@ -118,7 +143,7 @@ const BEATS=[
 ];
 const BILL={school:'SD Tunas Bangsa · Rincian Biaya 2026/27|Tunas Bangsa小学 · 2026/27学年费用明细',rows:[['Uang pangkal (2 anak)|入学费（2个孩子）','Rp96.000.000'],['SPP 12 bulan × 2|学费 12个月 × 2','Rp62.400.000'],['Les & ekskul|补习与课外活动','Rp18.600.000'],['Seragam & buku|校服与书本','Rp10.000.000']],total:['TOTAL TAGIHAN|账单总计','Rp187.000.000'],cut:'— dipotong —|——截图到此——',by:'diunggah @akungosip|@akungosip 上传',paid:['Sudah dibayar Nadira|Nadira已支付','Rp92.000.000']};
 const UI={
- tap:'Ketuk untuk lewati jeda|点一下可跳过等待',paused:'Dijeda|已暂停',newmsg:'Pesan baru ↓|新消息 ↓',tr:'Transkrip|转写',attT:'bukti_transfer.jpg|转账凭证.jpg',attC:'mobil.jpg|车里.jpg',attAmt:'Transfer berhasil · Rp92.000.000|转账成功 · Rp92.000.000',zoomCap:'Aku nggak pernah ada di mobil itu.|我从没坐过那辆车。',fake:'Foto ini palsu (rekayasa) — Nadira tidak pernah di mobil itu.|这张照片是伪造的——Nadira从没坐过那辆车。',menu:'Menu|菜单',reset:'Mulai ulang dari awal|从头开始',resetQ:'Mulai ulang? Progres & pilihan versi ponsel untuk pembaca ini dihapus. (Versi komik & novel tidak tersentuh.)|重新开始？本读者手机版的进度和选择都会被删除。（漫画版和小说版不受影响。）',yes:'Ya, mulai ulang|确定重置',no:'Batal|取消',
+ tap:'Ketuk untuk lewati jeda|点一下可跳过等待',notifC:'Notifikasi|通知',paused:'Dijeda|已暂停',newmsg:'Pesan baru ↓|新消息 ↓',tr:'Transkrip|转写',attT:'bukti_transfer.jpg|转账凭证.jpg',attC:'mobil.jpg|车里.jpg',attAmt:'Transfer berhasil · Rp92.000.000|转账成功 · Rp92.000.000',zoomCap:'Aku nggak pernah ada di mobil itu.|我从没坐过那辆车。',fake:'Foto ini palsu (rekayasa) — Nadira tidak pernah di mobil itu.|这张照片是伪造的——Nadira从没坐过那辆车。',menu:'Menu|菜单',reset:'Mulai ulang dari awal|从头开始',resetQ:'Mulai ulang? Progres & pilihan versi ponsel untuk pembaca ini dihapus. (Versi komik & novel tidak tersentuh.)|重新开始？本读者手机版的进度和选择都会被删除。（漫画版和小说版不受影响。）',yes:'Ya, mulai ulang|确定重置',no:'Batal|取消',
  typing:'sedang mengetik…|正在输入…',online:'online|在线',old:'Nadira yang lama mengetik…|以前的Nadira正在输入…',take:'Aku yang pilih!|我来选！',stamp:'AKU YANG PILIH|我来选',auto:'AUTO|AUTO',
  picked:'dipilih Nadira yang lama|以前的Nadira选的',mine:'pilihanku|我选的',quick:'Balas cepat|快速回复',act:'Aksi|动作',inner:'suara hati · ketuk bila mau|心声 · 想看就点',innerL:'suara hatiku|我的心声',
  photo:'foto.jpg · diteruskan 48×|照片 · 已转发48次',read:'Dibaca|已读',vn:'Pesan suara|语音消息',inbox:'Kotak masuk|收件箱',wallet:'DompetKu|钱包',lensaDraft:'Story baru · draf|新动态 · 草稿',

@@ -259,3 +259,41 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .lock.solo .lk-n{justify-content:flex-start;padding-top:40px}
 .lock.solo .ln.new{animation-name:soloDrop;animation-duration:.6s;animation-timing-function:cubic-bezier(.2,.9,.25,1.2)}
 @keyframes soloDrop{from{transform:translateY(-60px) scale(.96);opacity:0}to{transform:none;opacity:1}}
+/* ===== prologue v5: reader-driven lock screen ===== */
+.lock.sleepy .lk-t,.lock.sleepy .lk-d,.lock.sleepy .lk-n,.lock.sleepy .lk-ex{filter:blur(1.8px) brightness(.55)}
+.lock.sleepy .sb,.screen.v-lock .sb{transition:none}
+.lock.buzz .lk-n{animation:buzz 2.6s infinite}
+@keyframes buzz{0%,14%,100%{transform:none}2%{transform:translateX(-3px)}4%{transform:translateX(3px)}6%{transform:translateX(-3px)}8%{transform:translateX(3px)}10%{transform:translateX(-2px)}12%{transform:translateX(2px)}}
+.ln.pile.peek{display:block;min-height:76px;padding:10px 14px 18px;filter:none;background:rgba(255,255,255,.17)}
+.ln.pile.peek .pk{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px;margin-top:2px}
+.ln.pile .pc{position:absolute;right:12px;bottom:-26px;font-style:normal;font-size:12px;opacity:.75;z-index:2}
+.ln.pile.peek i:nth-of-type(1){bottom:-9px}.ln.pile.peek i:nth-of-type(2){bottom:-18px}
+.lock.exp{padding-top:44px}.lock.exp .lk-t{font-size:46px;transition:font-size .35s}.lock.exp .lk-d{margin:2px 0 8px}
+.lock.exp .lk-n{overflow-y:auto;min-height:0;padding-bottom:70px;gap:7px}
+.lock.exp .ln{min-height:0;padding:8px 12px}.lock.exp .ln p{font-size:13.5px}
+.lock.exp .ln.new{animation:lnin .42s cubic-bezier(.2,.8,.2,1) both}
+@keyframes lnin{from{opacity:0;transform:translateY(-16px) scale(.96)}}
+.lk-ex{width:100%;display:flex;justify-content:space-between;align-items:baseline;font-size:13px;padding:0 4px 6px;opacity:.85}.lk-ex b{font-variant-numeric:tabular-nums;font-size:14px}
+.lock mark{background:none;color:inherit}
+.lock.awake mark{background:rgba(255,70,110,.42);color:#fff;border-radius:3px;padding:0 2px;animation:mk .5s both}
+@keyframes mk{from{background:rgba(255,70,110,0)}50%{background:rgba(255,70,110,.8)}}
+/* meaningful taps: the affordance is the prompt (glow), a faint hand only after ~4s idle */
+.tgt{cursor:pointer;box-shadow:0 0 0 2px rgba(255,255,255,.55),0 0 18px rgba(255,140,190,.45);animation:tglow 1.7s ease-in-out infinite}
+@keyframes tglow{50%{box-shadow:0 0 0 3px rgba(255,255,255,.85),0 0 28px rgba(255,140,190,.75)}}
+.tgt.new{animation:pop .35s ease-out,tglow 1.7s .35s ease-in-out infinite}
+.lock.exp .ln.tgt{animation:tglow 1.7s ease-in-out infinite}
+.tgt::after{content:'👆';position:absolute;right:22px;bottom:-14px;font-size:30px;opacity:0;pointer-events:none;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5));animation:hhint 1.8s 4s ease-in-out infinite both;z-index:5}
+@keyframes hhint{0%{opacity:0;transform:translateY(14px)}25%{opacity:.6;transform:none}45%{opacity:.6;transform:scale(.86)}60%{opacity:.6;transform:none}100%{opacity:.55;transform:none}}
+.banner.tgt{box-shadow:0 8px 24px rgba(0,0,0,.35),0 0 0 2px rgba(255,140,190,.7)}
+.banner.tgt.new{animation:drop .45s cubic-bezier(.2,.9,.25,1.15),tglowb 1.7s .45s ease-in-out infinite}
+@keyframes tglowb{50%{box-shadow:0 8px 24px rgba(0,0,0,.35),0 0 0 4px rgba(255,140,190,.9)}}
+.banner.tgt::after{right:26px;bottom:-22px}
+.pav.blurav{overflow:hidden}.pav.blurav img{filter:blur(3px) grayscale(.25);transform:scale(1.15)}
+/* face id */
+.fid{position:absolute;left:50%;top:30%;margin-left:-60px;width:120px;padding:16px 0 12px;border-radius:24px;background:rgba(20,20,28,.72);backdrop-filter:blur(10px);color:#fff;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:30}
+.fid b{font-size:13px;font-weight:600;opacity:.9}.fid.ok{color:#5fe08a}.fid.ok svg{transform:scale(1.06);transition:transform .2s}
+/* comments: tap to like */
+.lensa.feed .lc p{position:relative;padding-right:28px}.lc .lk{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-style:normal;color:#bbb}.lc p.liked .lk{color:#e0457b}
+@media (prefers-reduced-motion:reduce){.ln,.lc p{animation-delay:0s!important}.lock.buzz .lk-n{animation:none}.tgt::after{animation:hhint .01ms 4s both!important}}
+.ln.pile .pc{bottom:-30px;font-size:13.5px;font-weight:700;opacity:.95;letter-spacing:.3px}
+.lock.sleepy .ln.pile .pc{text-shadow:0 0 8px rgba(255,255,255,.35)}
