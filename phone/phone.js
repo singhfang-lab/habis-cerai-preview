@@ -54,7 +54,7 @@ function derive(tl,n){const S={day:'Kamis|星期四',clock:'06.40',view:'lock',l
    case 'mail':S.view='mail';S.mail=b;break;
    case 'wallet':S.view='wallet';S.wallet=b;break;
    case 'scene':S.view='scene';S.scene={...b,items:[],img:b.img||null,_i:i};break;
-   case 'say':case 'scap':if(S.scene){S.scene.items.push({...b,_i:i});if(b.img)S.scene.img=b.img;}break;
+   case 'say':case 'scap':if(S.scene){if(S.view==='gallery')S.view='scene';S.scene.items.push({...b,_i:i});if(b.img)S.scene.img=b.img;}break;
    case 'live':S.view='live';if(b.fresh)S.live={cmts:[],viewers:0,img:b.img||'p-live.webp',pin:null,gift:null};S.live.host=b.fresh?b.host:S.live.host;S.live.cap=b.cap?{t:b.cap,_i:i}:S.live.cap;S.live.frame=b.frame?{...b,_i:i}:null;if(b.hot)S.live.hot={t:b.hot,_i:i};if(b.ended)S.live.ended={...b,_i:i};if(b.img)S.live.img=b.img;if(b.viewers)S.live.viewers=b.viewers;if(b.cmt)S.live.cmts.push({t:b.cmt,_i:i});if(b.pin){S.live.pin=b.pin;S.live.bill=!!b.bill;}if(b.gift)S.live.gift={g:b.gift,_i:i};break;
    case 'call':S.view='call';S.call={...b,lines:[]};break;
    case 'line':if(S.call){S.call.lines.push({...b,_i:i});S.call.on=true;S.view='call';}break;

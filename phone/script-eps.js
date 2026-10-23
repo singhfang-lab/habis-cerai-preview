@@ -70,7 +70,7 @@ B.push(
  {k:'replay',th:'arya',n:4},
  {k:'inner',t:'Kuputar lagi. Dan lagi. Bagian “aku mau kamu yang minta”.|我又放了一遍。又一遍。“我想等你自己开口”那一句。'},
  {k:'gallery',clock:'06.30',seen:'seroja',t:'Kenangan · 10 tahun lalu hari ini|回忆 · 十年前的今天',focus:'p-seroja.webp',cap:'Konser perpisahan Seroja. Malam aku pingsan di lagu ketiga.|Seroja告别演唱会。我在第三首歌晕倒的那晚。',
-  items:[{img:'p-costume.webp',cap:'Sayap Mila (dijahit ulang)|Mila的翅膀（重新缝好）'},{c:'#f6d2c8',e:'🎂'},{c:'#c8dff6',e:'🏖'},{c:'#e8e0c8',e:'📄'},{img:'p-live.webp',cap:'Live, Kamis|周四直播'},{c:'#d8c8f6',e:'🎤'},{c:'#c8f6d8',e:'🌿'},{c:'#f6eec8',e:'⭐'}]},
+  items:[{img:'g-cake.webp',cap:'Ulang tahun Mila|Mila的生日'},{img:'g-beach.webp',cap:'Pantai, bertiga|海边，我们三个'},{img:'g-rehearsal.webp',cap:'Latihan Seroja · 10 tahun lalu|Seroja排练 · 十年前'},{img:'p-live.webp',cap:'Live, Kamis|周四直播'},{img:'g-dance.webp',cap:'Kelas tari Hana|Hana的舞蹈课'},{img:'g-perfume.webp',cap:'Stok parfum untuk live|直播用的香水'},{img:'g-balcony.webp',cap:'Balkon, sore|傍晚的阳台'},{img:'g-sleep.webp',cap:'Mereka tidur duluan|她们先睡着了'}]},
  {k:'inner',t:'Aku nggak pernah ingat siapa yang menangkapku. Cuma lampu.|我一直不记得是谁接住了我。只记得灯光。'},
  {k:'msg',th:'salma',clock:'06.41',time:'06.41',t:'Kak, semalam aku nggak bisa tidur mikirin kamu. Jangan bales DM aneh-aneh ya :)|姐，昨晚我一直想着你睡不着。别回那些奇怪的私信哦 :)'},
  {k:'inner',fx:'shake',t:'DM aneh? Aku belum cerita ke siapa pun soal DM itu.|奇怪的私信？那条私信的事，我还没跟任何人说过。'},
@@ -91,7 +91,7 @@ B.push(
  {k:'msg',th:'arya',time:'15.25',t:'Aku pakai kemeja. Dikancing sampai atas. Biar ibu-ibu tenang 😇|我穿了衬衫。扣子扣到最上面。让妈妈们安心😇'},
  {k:'msg',th:'arya',time:'15.25',gone:true,t:'Nanti kamu yang buka—|等会儿你来解开——'},
  {k:'inner',t:'Dihapus dalam dua detik. Aku sudah baca. Dia tahu aku sudah baca.|两秒就撤回了。我已经看到了。他知道我看到了。'},
- {k:'scene',clock:'15.40',tag:'15.40 · Aula SD Tunas Bangsa|15:40 · Tunas Bangsa小学礼堂',tint:'warm',lines:['Kursi B12. Di B11, sebuah tas krem sudah duduk lebih dulu.|B12座。B11上，一只米色手袋已经先坐下了。','Bu Ratna tersenyum seperti baru memenangkan sesuatu.|Ratna太太笑得像刚赢了什么。'],inner:'Raka di B14. Dia nggak menatapku.|Raka坐在B14。他没看我。'},
+ {k:'scene',clock:'15.40',tag:'15.40 · Aula SD Tunas Bangsa|15:40 · Tunas Bangsa小学礼堂',tint:'warm',img:'p-hall.webp',lines:['Kursi B12. Di B11, sebuah tas krem sudah duduk lebih dulu.|B12座。B11上，一只米色手袋已经先坐下了。','Bu Ratna tersenyum seperti baru memenangkan sesuatu.|Ratna太太笑得像刚赢了什么。'],inner:'Raka di B14. Dia nggak menatapku.|Raka坐在B14。他没看我。'},
  {k:'say',who:'R',ex:'neutral',t:'Ini Arya, ya? Masih kuliah, Nak?|你就是Arya吧？还在念书吗，孩子？'},
  {k:'say',who:'A',ex:'neutral',t:'Sudah kerja, Bu. Dua puluh delapan.|已经工作了，阿姨。二十八岁。'},
  {k:'say',who:'R',ex:'determined',t:'Oh. Barisan ini untuk keluarga. Kamu berdiri di belakang saja, ya.|哦。这排是家属座。你站后面吧。'},
@@ -131,7 +131,7 @@ B.push(
  {k:'msg',th:'raka',time:'16.45',t:'Dan berhenti nuduh Ibu soal foto-foto itu. Ibu bahkan nggak main Lensa.|还有，别再拿那些照片怀疑我妈。她连Lensa都不用。'},
  {k:'msg',th:'arya',clock:'17.05',time:'17.05',when:'e3seat=2',t:'Mobilmu panas banget. Kayak kamu tadi, pas bilang “dia 28”.|你的车好烫。就像你刚才说“他28”的时候。'},
  {k:'msg',th:'arya',clock:'17.05',time:'17.05',when:'e3seat!=2',t:'Mobilmu panas banget. Kayak tanganmu tadi.|你的车好烫。就像你刚才的手。'},
- {k:'scene',clock:'17.06',tag:'17.06 · Parkiran sekolah|17:06 · 学校停车场',tint:'warm',img:'p-carpark.webp',lines:['Pintu mobil membakar punggungku lewat blus tipis.|车门隔着薄衬衫烫着我的背。','Satu tangan Arya di atap mobil. Tangan lain di pinggangku.|Arya一只手撑在车顶，另一只手搭在我腰上。'],inner:'Anak-anak sudah pulang bersama neneknya. Untuk pertama kalinya hari ini, nggak ada yang menonton. Kukira.|孩子们已经跟奶奶回去了。今天第一次，没有人在看。我以为。'},
+ {k:'scene',clock:'17.06',tag:'17.06 · Parkiran sekolah|17:06 · 学校停车场',tint:'warm',img:'p-carpark-close.webp',lines:['Pintu mobil membakar punggungku lewat blus tipis.|车门隔着薄衬衫烫着我的背。','Satu tangan Arya di atap mobil. Tangan lain di pinggangku.|Arya一只手撑在车顶，另一只手搭在我腰上。'],inner:'Anak-anak sudah pulang bersama neneknya. Untuk pertama kalinya hari ini, nggak ada yang menonton. Kukira.|孩子们已经跟奶奶回去了。今天第一次，没有人在看。我以为。'},
  {k:'say',who:'A',ex:'soft',t:'Aku sudah sopan seharian, Kak. Boleh nggak sopan sekarang?|我规矩了一整天，姐。现在可以不规矩了吗？'},
  {k:'choice',key:'e3kiss',
   opts:[
@@ -150,14 +150,14 @@ B.push(
  {k:'msg',th:'salma',clock:'22.15',time:'22.15',t:'Kak, kamu baik-baik aja? Feeling-ku nggak enak malam ini :)|姐，你还好吗？我今晚总有种不好的预感 :)'},
  {k:'inner',t:'Salma selalu punya “feeling”. Dan selalu tepat waktu.|Salma总是有“预感”。而且总是来得刚刚好。'},
  {k:'lock',clock:'23.59',fx:'shake',notifs:[
-   {app:'Lensa',title:'@akungosip|@akungosip',thumb:'p-carpark.webp',t:'menandaimu: “Ciuman panas di parkiran sekolah anak 🔥”|标记了你：“在孩子学校停车场热吻🔥”',time:'23.58'},
+   {app:'Lensa',title:'@akungosip|@akungosip',thumb:'p-carpark-pap.webp',t:'menandaimu: “Ciuman panas di parkiran sekolah anak 🔥”|标记了你：“在孩子学校停车场热吻🔥”',time:'23.58'},
    {app:'Lensa',title:'ratna.wibisana|ratna.wibisana',t:'menyukai postingan @akungosip yang menandaimu|赞了@akungosip标记你的帖子',time:'23.59'}]},
  {k:'inner',fx:'shake',t:'“Ibu bahkan nggak main Lensa,” kata Raka. Akun itu dibuat tahun 2019.|“她连Lensa都不用，”Raka说。那个账号是2019年注册的。'},
  {k:'epend',ep:3,tease:'Pagi ini fotomu ditonton sejuta orang. Lumière menelepon — mereka mau Arya. Dengan mantannya.|今天早上，你的照片被一百万人看到。Lumière打来电话——他们要Arya。和他的前女友一起。'},
 
 // ================= EP 4 =================
  {k:'ep',ep:4,clock:'08.02',day:'Sabtu|星期六',prev:'Ciuman di parkiran. Kilat kamera. Dan “like” dari mantan mertua yang katanya gaptek.|停车场的吻。相机的闪光。还有据说不会用手机的前婆婆点的一个赞。'},
- {k:'lensa',fresh:true,clock:'08.02',post:{by:'@akungosip',img:'p-carpark.webp',views:'1,2 jt tayangan|120万次观看',likes:'Disukai ratna.wibisana dan 88.410 lainnya|ratna.wibisana 和其他 88,410 人赞了',cap:'Ciuman panas di parkiran sekolah anak 🔥 Janda vs brondong, ronde 2.|在孩子学校停车场热吻🔥 离婚妈妈vs小鲜肉，第二回合。'},
+ {k:'lensa',fresh:true,clock:'08.02',post:{by:'@akungosip',img:'p-carpark-pap.webp',views:'1,2 jt tayangan|120万次观看',likes:'Disukai ratna.wibisana dan 88.410 lainnya|ratna.wibisana 和其他 88,410 人赞了',cap:'Ciuman panas di parkiran sekolah anak 🔥 Janda vs brondong, ronde 2.|在孩子学校停车场热吻🔥 离婚妈妈vs小鲜肉，第二回合。'},
   cmts:['@tante_julid: Di sekolah anak?? 🤢|@tante_julid：在孩子学校？？🤢','@hanya_lewat: Jujur… mereka cocok 😭|@hanya_lewat：说实话……他们好配😭','@sheila.kirana: Dia masih cium kayak gitu ya 🖤|@sheila.kirana：他还是那样吻人啊🖤']},
  {k:'inner',t:'sheila.kirana. Dua juta pengikut. Mantannya Arya.|sheila.kirana。两百万粉丝。Arya的前任。'},
  {k:'msg',th:'group',clock:'08.03',time:'08.03',from:'Bu Sinta|Sinta太太',t:'Sudah sejuta views ya Bu-ibu 🍿 Sekolah harus tegas!|已经一百万播放了各位🍿 学校必须严肃处理！'},
@@ -166,7 +166,7 @@ B.push(
  {k:'line',who:'Y',t:'Lihat angkanya? Satu koma dua juta. Lumière telepon jam enam pagi.|看到数字了吗？一百二十万。Lumière早上六点就打来了。'},
  {k:'line',who:'N',t:'Mereka mau batalin semuanya?|他们要全部取消？'},
  {k:'line',who:'Y',t:'Kebalikannya. Mereka mau Arya jadi wajah parfum baru. Tapi pasangannya bukan kamu — Sheila.|恰恰相反。他们要Arya做新香水的代言人。但搭档不是你——是Sheila。'},
- {k:'scene',clock:'10.00',tag:'10.00 · Ruang rapat Lumière, lantai 21|10:00 · Lumière会议室，21楼',tint:'cold',lines:['Botol parfum di tengah meja. Label: No.7.|会议桌中间摆着香水瓶。标签：No.7。','Sheila sudah duduk di sebelah Arya. Kursiku di seberang.|Sheila已经坐在Arya旁边。我的位子在对面。'],inner:'Maya duduk di ujung meja, tenang sekali. Terlalu tenang.|Maya坐在桌子一头，非常平静。平静得过头了。'},
+ {k:'scene',clock:'10.00',tag:'10.00 · Ruang rapat Lumière, lantai 21|10:00 · Lumière会议室，21楼',tint:'cold',img:'p-meeting.webp',lines:['Botol parfum di tengah meja. Label: No.7.|会议桌中间摆着香水瓶。标签：No.7。','Sheila sudah duduk di sebelah Arya. Kursiku di seberang.|Sheila已经坐在Arya旁边。我的位子在对面。'],inner:'Maya duduk di ujung meja, tenang sekali. Terlalu tenang.|Maya坐在桌子一头，非常平静。平静得过头了。'},
  {k:'say',who:'SH',t:'Kak Nadira! Aku fans Seroja dari SD lho 🖤|Nadira姐！我从小学就是Seroja的粉丝哦🖤'},
  {k:'scap',t:'Dari SD. Dia memastikan semua orang di ruangan menghitung umurku.|从小学。她确保在场每个人都算了一遍我的年龄。'},
  {k:'msg',th:'arya',clock:'10.06',time:'10.06',t:'(di bawah meja) Dia pakai No.7 sengaja. Aku nggak pernah pakai lagi sejak ketemu kamu.|（桌子底下）她故意喷No.7的。自从遇见你，我再没用过。'},
@@ -200,7 +200,7 @@ B.push(
    {t:'“Parfumnya sudah ganti, Dek. Sejak ketemu aku.”|“香水早换了，妹妹。从遇见我开始。”',a:1,re:[
      {k:'scap',t:'Sheila tertawa kecil. Arya nggak membantah.|Sheila轻笑一声。Arya没有反驳。'},
      {k:'say',who:'A',ex:'soft',t:'Benar. Sudah ganti.|没错。早换了。'}]}]},
- {k:'live',fresh:true,clock:'20.00',img:'p-live.webp',viewers:31200,cmt:'@kolom_komentar: KAK NADIRA SAMA ARYA LAGI 🔥|@kolom_komentar：Nadira姐和Arya又同框了🔥'},
+ {k:'live',fresh:true,clock:'20.00',img:'p-live-studio.webp',viewers:31200,cmt:'@kolom_komentar: KAK NADIRA SAMA ARYA LAGI 🔥|@kolom_komentar：Nadira姐和Arya又同框了🔥'},
  {k:'live',viewers:52800,gift:'💐',cmt:'@sheila.kirana bergabung sebagai tamu ✨|@sheila.kirana 作为嘉宾加入✨'},
  {k:'live',viewers:61400,cmt:'@tante_julid: Mertuanya nangis di rumah, dia live pacaran 🙄|@tante_julid：婆婆在家哭，她在直播谈恋爱🙄'},
  {k:'live',viewers:66800,gift:'🌹',cmt:'@salma.r: Kak Nadira ❤️ semangat! (aku rekam ya buat kenangan)|@salma.r：Nadira姐❤️加油！（我录下来留念哦）'},
@@ -245,7 +245,7 @@ B.push(
  {k:'msg',th:'arya',clock:'00.22',time:'00.22',t:'Aku lagi antre bubur dekat rumahmu. Kamu belum makan dari siang, kan.|我在你家附近排队买粥。你从中午就没吃东西吧。'},
  {k:'msg',th:'arya',time:'00.22',t:'Bilang aja “jangan”, nanti aku taruh di pagar terus pulang.|你说“别来”，我就把粥挂在门上然后回去。'},
  {k:'inner',t:'Aku nggak membalas. Raka sudah berdiri di depan pintu.|我没回。Raka已经站在门口了。'},
- {k:'scene',clock:'00.24',tag:'00.24 · Ruang tamu, dua mug|00:24 · 客厅，两只马克杯',tint:'night',lines:['Raka membuka map. Satu baris dilingkari merah: Rp1,8 juta.|Raka打开文件夹。一行被红笔圈了出来：180万。','“Les tari Hana. Dari rekening bersama. Untuk siapa sebenarnya?”|“Hana的舞蹈课。从共同账户付的。到底花在谁身上？”'],inner:'Anak-anak tidur di rumah neneknya. Rumah ini terlalu sunyi untuk bertengkar.|孩子们睡在奶奶家。这房子太安静了，不适合吵架。'},
+ {k:'scene',clock:'00.24',tag:'00.24 · Ruang tamu, dua mug|00:24 · 客厅，两只马克杯',tint:'night',img:'p-raka-folder.webp',lines:['Raka membuka map. Satu baris dilingkari merah: Rp1,8 juta.|Raka打开文件夹。一行被红笔圈了出来：180万。','“Les tari Hana. Dari rekening bersama. Untuk siapa sebenarnya?”|“Hana的舞蹈课。从共同账户付的。到底花在谁身上？”'],inner:'Anak-anak tidur di rumah neneknya. Rumah ini terlalu sunyi untuk bertengkar.|孩子们睡在奶奶家。这房子太安静了，不适合吵架。'},
  {k:'say',who:'K',ex:'angry',t:'Ibu bilang kamu pakai uang anak-anak buat laki-laki itu.|妈说你拿孩子们的钱养那个男人。'},
  {k:'choice',key:'e5bill',
   opts:[
@@ -263,7 +263,7 @@ B.push(
  {k:'inner',fx:'shake',t:'Deskripsi grupnya. Kalimat yang dua hari ini diketik Nadira yang lama untukku.|群简介。这两天以前的Nadira一直替我打的那句话。'},
  {k:'inner',t:'Itu bukan suaraku. Itu suara keluarga ini. Sembilan tahun aku memakainya.|那不是我的声音。是这个家的声音。我用了九年。'},
  {k:'wallet',clock:'00.40',ok:true,merchant:'Transfer masuk · RAKA PRADANA|转入 · RAKA PRADANA',amt:'Rp95.000.000',t:'Catatan: “Sisa tagihan sekolah. Maaf.”|备注：“学费余款。对不起。”'},
- {k:'scene',clock:'00.42',tag:'00.42 · Dua mug di meja|00:42 · 桌上两只马克杯',tint:'night',lines:['Yang biru punya dia, sembilan tahun. Dia masih memegangnya dengan tangan kiri.|蓝色那只是他的，用了九年。他还是用左手拿。','Lalu, pelan sekali:|然后，很轻地：']},
+ {k:'scene',clock:'00.42',tag:'00.42 · Dua mug di meja|00:42 · 桌上两只马克杯',tint:'night',img:'p-mugs.webp',lines:['Yang biru punya dia, sembilan tahun. Dia masih memegangnya dengan tangan kiri.|蓝色那只是他的，用了九年。他还是用左手拿。','Lalu, pelan sekali:|然后，很轻地：']},
  {k:'say',who:'K',ex:'neutral',t:'Kenapa kamu pergi, Nad?|你为什么要走，Nad？'},
  {k:'choice',key:'e5why',
   opts:[
@@ -276,7 +276,7 @@ B.push(
    {t:'“Kamu selalu memilih ibumu.”|“你永远站在你妈那边。”',re:[
      {k:'say',who:'K',ex:'angry',t:'Itu nggak adil.|这不公平。'},
      {k:'say',who:'N',ex:'determined',t:'Grup keluargamu punya motto, Raka. Aku hafal.|你们家族群有座右铭，Raka。我背得出来。'}]}]},
- {k:'scene',clock:'00.58',tag:'00.58 · Pintu depan|00:58 · 大门口',tint:'night',lines:['Raka berhenti di ambang pintu. Dia nggak menoleh.|Raka在门口停下。没有回头。','Hujan mulai turun di paving.|雨开始落在地砖上。']},
+ {k:'scene',clock:'00.58',tag:'00.58 · Pagar depan|00:58 · 院门口',tint:'night',img:'p-gate-night.webp',lines:['Raka berhenti di pagar. Dia nggak menoleh.|Raka在院门口停下。没有回头。','Hujan mulai turun di paving.|雨开始落在地砖上。']},
  {k:'say',who:'K',ex:'angry',t:'Satu lagi. Ibu bilang kamu sudah tidur sama dia sebelum kita cerai.|还有一件事。妈说你在我们离婚之前就跟他睡过了。'},
  {k:'scap',img:'p-porridge.webp',fx:'shake',t:'Plastik jatuh di pagar. Bubur ayam tumpah ke paving yang basah.|塑料袋掉在门口。鸡肉粥洒在湿漉漉的地砖上。'},
  {k:'say',who:'K',ex:'angry',t:'Tanya sendiri sama dia, Dek. Sejak kapan.|你自己问她吧，小弟。从什么时候开始的。'},
@@ -300,7 +300,7 @@ B.push(
  {k:'msg',th:'arya',mine:true,time:'01.24',t:'Tunggu. Aku turun.|等着。我下来。'},
  {k:'msg',th:'arya',time:'01.24',t:'Pakai jaket. Dan payung. Dan… nggak usah dandan.|穿外套。带伞。还有……不用化妆。'},
  {k:'msg',th:'arya',time:'01.25',t:'Aku beli bubur lagi. Yang tanpa kacang.|我又买了粥。不放花生的。'},
- {k:'scene',clock:'01.31',tag:'01.31 · Warung bubur, hujan deras|01:31 · 粥摊，大雨',tint:'night',lines:['Terpal biru, satu bohlam, panci yang mengepul.|蓝色篷布，一只灯泡，冒着热气的锅。','Arya menyodorkan mangkuk. Tanpa kacang. Dia ingat.|Arya把碗推过来。没放花生。他记得。'],inner:'Aku nggak pernah bilang ke dia aku nggak suka kacang.|我从没跟他说过我不吃花生。'},
+ {k:'scene',clock:'01.31',tag:'01.31 · Warung bubur, hujan deras|01:31 · 粥摊，大雨',tint:'night',img:'p-stall.webp',lines:['Terpal biru, satu bohlam, panci yang mengepul.|蓝色篷布，一只灯泡，冒着热气的锅。','Arya menyodorkan mangkuk. Tanpa kacang. Dia ingat.|Arya把碗推过来。没放花生。他记得。'],inner:'Aku nggak pernah bilang ke dia aku nggak suka kacang.|我从没跟他说过我不吃花生。'},
  {k:'say',who:'A',ex:'soft',t:'Aku nggak akan tanya yang Raka bilang.|Raka说的，我不会问。'},
  {k:'choice',key:'e6truth',
   opts:[

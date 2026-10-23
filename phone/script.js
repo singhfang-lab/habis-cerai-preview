@@ -36,7 +36,7 @@ const BEATS=[
      {k:'inner',t:'Sunyi. Tapi fotonya tetap di sana.|安静了。可照片还在那里。'}]}],
   ifPilot:[{k:'inner',fx:'shake',t:'Itu bukan aku yang mengetik. Itu Nadira yang lama.|刚才打字的不是我。是以前的Nadira。'}],
   ifMe:[{k:'inner',t:'Sembilan tahun dia mengetik untukku. Pagi ini nggak.|九年来都是她替我打字。今天早上不是。'}]},
- {k:'scene',clock:'06.41',tag:'06.41 · Dapur|06:41 · 厨房',tint:'cold',lines:['Hana berdiri di pintu dapur, ponsel pengasuh di tangannya.|Hana站在厨房门口，手里攥着保姆的手机。','Layarnya menyala. Fotoku.|屏幕亮着。是我的照片。'],inner:'Dia sudah lihat. Anakku sudah lihat.|她看到了。我女儿看到了。'},
+ {k:'scene',clock:'06.41',tag:'06.41 · Dapur|06:41 · 厨房',tint:'cold',img:'p-hana-phone.webp',lines:['Hana berdiri di pintu dapur, ponsel pengasuh di tangannya.|Hana站在厨房门口，手里攥着保姆的手机。','Layarnya menyala. Fotoku.|屏幕亮着。是我的照片。'],inner:'Dia sudah lihat. Anakku sudah lihat.|她看到了。我女儿看到了。'},
  {k:'say',who:'H',ex:'hurt',t:'Mama… orang jahat?|妈妈……是坏人吗？'},
  {k:'act',key:'kneel',mode:'tap',in:'scene',btn:'🤲 Berlutut, raih tangannya|🤲 蹲下来，去牵她的手',done:'Aku berlutut. Hana mundur selangkah dari tanganku.|我蹲下来。Hana从我手边退了一步。'},
  {k:'say',who:'N',ex:'hurt',t:'Itu bukan Mama, Sayang. Ada orang bikin foto bohong.|那不是妈妈，宝贝。有人做了假照片。'},

@@ -31,4 +31,10 @@ Checkpoints (update as each lands):
   - id (ad unlock): ep1 215s/8 · ep2 192s/3 · ep3 148s/3 · ep4 159s/4 · ep5 153s/4 · ep6 119s/3 · total 990s
 - [x] shots v3 → /workspace/story/out/phone-shots-v3/ (zh-ep1-4, zh-ep5-6, id, paywall-flow-zh, contact sheets, smoke json)
 - [x] video → /workspace/story/out/transition-videos/phone-v3-paywall-zh.{webm,mp4} (ep5 end → paywall → pass → ep6, 62s)
-- [ ] deploy /phone/ + md5 verify
+- [x] deploy /phone/ + md5 verify (commit 545b3d9, 02:31 SGT, 101 files 0 mismatches, live id/zh 0 errors)
+
+## Checkpoint v4 — image audit (2026-10-23)
+- Filled 7 imageless scenes (ep1 06:41, ep3 15:40, ep4 10:00, ep5 00:24/00:42/00:58, ep6 01:31) and replaced ep2 gallery color placeholders with g-*.webp thumbs.
+- Fixed mismatches: p-carpark → p-carpark-close (scene) + p-carpark-pap (paparazzi shot); ep4 live → p-live-studio; p-hands regenerated; ep5 00:58 text = gate.
+- phone.js: say/scap after a gallery switches back to scene view (ep6 lines + p-rain were hidden).
+- Tools: smoke/imgsweep.js (all variants, naturalWidth/4xx/console), smoke/imgshots.js (in-context screenshots). Audit: ../phone-shots-v4/AUDIT-images-v4.md
