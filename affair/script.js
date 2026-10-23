@@ -15,7 +15,7 @@ const B1={id:'b1',app:'Chat',title:'Pak Budi Supplier|Pak Budi Supplier',t:'Mas,
 const B2={id:'b2',app:'Chat',title:'Pak Budi Supplier|Pak Budi Supplier',t:'Istrimu udah tidur?|你老婆睡了没？',time:'22.31'};
 // his chat list (sorted by last message; 'Rumah' sits below the first screen)
 const LIST=[
- {id:'budi',pin:1,fav:1,name:'Pak Budi Supplier|Pak Budi Supplier',t:'Istrimu udah tidur?|你老婆睡了没？',time:'22.31',un:2,unWhen:'!got:chat'},
+ {id:'budi',pin:1,fav:1,name:'Pak Budi Supplier|Pak Budi Supplier',t:'Istrimu udah tidur?|你老婆睡了没？',time:'22.31',un:2,unWhen:'!got:chat',reun:'flag:unread'},
  {id:'kain',name:'Toko Kain Sinar Jaya|Sinar Jaya布行',t:'Katun combed 30s ready 12 roll, Pak|老板，30支精梳棉有12卷现货',time:'22.10'},
  {id:'kv',name:'Grup Konveksi Cempaka|Cempaka服装厂群',t:'Rudi: Seragam SD Harapan udah 80%, Pak|Rudi：Harapan小学校服做完80%了，老板',time:'21.58'},
  {id:'eks',name:'Ekspedisi Cepat Kilat|快闪物流',t:'Paket CK00921 sudah diterima|包裹CK00921已签收',time:'21.40'},
@@ -32,17 +32,25 @@ const LIST=[
 ];
 const VN_TR='“Kamis ya, lantai 17, jangan telat. Istrimu nggak curiga kan? Dia kan cuma ngurus rumah… oke sip.”|“星期四哦，十七楼，别迟到。你老婆没起疑吧？她不就是管管家嘛……oke sip。”';
 const ROUTE='Konveksi Cempaka → Griya Sentosa Tower B|Cempaka服装厂 → Griya Sentosa B座';
+const RIDES=[
+ ['Kamis, 15 Okt · 19.30|10月15日 周四 · 19:30',ROUTE,'Rp38.000'],
+ ['Senin, 12 Okt · 20.35|10月12日 周一 · 20:35',ROUTE,'Rp41.000'],
+ ['Kamis, 8 Okt · 19.32|10月8日 周四 · 19:32',ROUTE,'Rp38.000'],
+ ['Kamis, 1 Okt · 19.28|10月1日 周四 · 19:28',ROUTE,'Rp38.000']];
+const ROUTE_A='Konveksi Cempaka|Cempaka服装厂',ROUTE_B='Griya Sentosa Tower B|Griya Sentosa B座';
 // Galeri: normal photos (img, crop, time) per day; 12 Okt has only one morning invoice
 const GDAYS=[
- {id:'d21',d:'Hari ini · Rabu, 21 Okt|今天 · 10月21日 周三',ph:[['p-g-work','50% 50%',1,'10.12'],['p-g-invoice','50% 40%',1.3,'09.47']]},
- {id:'d20',d:'Selasa, 20 Okt|10月20日 周二',ph:[['p-g-nayla','50% 40%',1,'18.55'],['p-g-work','10% 30%',1.6,'14.20'],['p-g-work','90% 80%',1.7,'14.19']]},
- {id:'d18',d:'Minggu, 18 Okt|10月18日 周日',ph:[['p-g-nayla','40% 60%',1.5,'16.02'],['p-g-nayla','60% 20%',1.2,'16.01']]},
- {id:'d15',d:'Kamis, 15 Okt|10月15日 周四',ph:[['p-g-invoice','30% 60%',1.6,'11.30'],['p-g-work','20% 60%',1.4,'10.05'],['p-g-invoice','70% 20%',1.5,'09.58']]},
- {id:'d13',d:'Selasa, 13 Okt|10月13日 周二',ph:[['p-g-work','80% 30%',1.5,'15.40'],['p-g-nayla','50% 70%',1.6,'07.10']]},
- {id:'d12',d:'Senin, 12 Okt|10月12日 周一',ph:[['p-g-invoice','50% 50%',1.1,'08.14']]},
- {id:'d11',d:'Minggu, 11 Okt|10月11日 周日',ph:[['p-g-nayla','30% 30%',1.3,'17.22'],['p-g-work','60% 40%',1.2,'13.03'],['p-g-nayla','70% 80%',1.8,'08.45']]}];
-const GALBUMS=[['Terbaru|最近项目','p-g-work','1.284'],['Favorit|个人收藏','p-g-nayla','36'],['Nayla|Nayla','p-g-nayla','412'],['Kain · Kerja|布料 · 工作','p-g-invoice','318']];
-const GOTHER=[['🎞','Video|视频','27'],['📱','Tangkapan layar|截屏','154'],['🔒','Tersembunyi|已隐藏','0']];
+ {id:'d21',d:'Hari ini · Rabu, 21 Okt|今天 · 10月21日 周三',ph:[['@trk','',1,'21.41'],['p-g-roll','50% 50%',1,'10.12']]},
+ {id:'d20',d:'Selasa, 20 Okt|10月20日 周二',ph:[['p-g-nayla-food','45% 40%',1,'18.55']]},
+ {id:'d18',d:'Minggu, 18 Okt|10月18日 周日',ph:[['p-g-bengkel','40% 60%',1,'11.20']]},
+ {id:'d15',d:'Kamis, 15 Okt|10月15日 周四',ph:[['@trf','',1,'11.30'],['p-g-sewing','50% 50%',1,'10.05']]},
+ {id:'d13',d:'Selasa, 13 Okt|10月13日 周二',ph:[['p-g-slip','50% 50%',1,'15.40']]},
+ {id:'d12',d:'Senin, 12 Okt|10月12日 周一',ph:[['p-g-swatch','50% 50%',1,'08.14']]},
+ {id:'d11',d:'Minggu, 11 Okt|10月11日 周日',ph:[['p-g-food','50% 50%',1,'13.03']]}];
+// screenshots in the grid (drawn as UI): [app, title, line, status]
+const GSHOTS={
+ trk:['Ekspedisi Cepat Kilat|快闪物流','CK00921|CK00921','Bandung → Bekasi|万隆 → 勿加泗','✓ Diterima|✓ 已签收'],
+ trf:['Arta|Arta银行','Transfer berhasil|转账成功','Rp4.200.000 · Toko Kain Sinar Jaya|Rp4.200.000 · Sinar Jaya布行','✓ Selesai|✓ 已完成']};
 const GDEL=[
  {img:'p-rooftop.webp',cap:'12 Okt 2026 · 21.03 · Rumah Langit, Griya Sentosa|2026年10月12日 · 21:03 · Rumah Langit，Griya Sentosa'},
  {img:'p-album.webp',cap:'12 Okt 2026 · 21.26 · Rumah Langit, Griya Sentosa|2026年10月12日 · 21:26 · Rumah Langit，Griya Sentosa'},
@@ -63,11 +71,10 @@ const APPS=[
    {k:'replay',th:'budi',tr:VN_TR}]},
  {id:'gal',name:'Galeri|相册',ic:'🖼',col:'#d98a1c',cost:4,re:[
    {k:'gal2',m:'grid'},
-   {k:'act',key:'g12',mode:'target',tgt:'d12'},
+   {k:'inner',t:'Malam tanggal 12 itu, dia ngapain?|12号那天晚上，他在干嘛？'},
+   {k:'act',key:'gscr',mode:'target',tgt:'scroll'},
    {k:'gal2',m:'grid',at:'d12'},
-   {k:'inner',t:'Malam itu katanya lembur. Nggak ada satu pun foto?|那天他说在加班，连一张发货单都没拍？'},
-   {k:'act',key:'galb',mode:'target',tgt:'album'},
-   {k:'gal2',m:'albums'},
+   {k:'inner',t:'Tanggal 12 malam… satu pun nggak ada?|12号晚上……一张都没有？'},
    {k:'act',key:'gdel',mode:'target',tgt:'del'},
    {k:'gal2',m:'del'},
    {k:'act',key:'gp1',mode:'target',tgt:'p0'},
@@ -76,21 +83,24 @@ const APPS=[
    {k:'gal2',m:'photo',i:1},
    {k:'act',key:'gp3',mode:'target',tgt:'ph'},
    {k:'gal2',m:'photo',i:2},
+   {k:'act',key:'gp4',mode:'target',tgt:'ph'},
    {k:'scene',tint:'fb',tag:'Senin, 12 Okt · 18.40|10月12日 周一 · 18:40',img:'p-dressed.webp',lines:['Aku sudah dandan.|我已经化好了妆。']},
    {k:'scap',bn:1,from:'Mas Dimas ❤️|Mas Dimas ❤️',time:'18.40',t:'Sayang, maaf, malam ini lembur. Anniversary-nya kita rayain weekend ya|宝贝，对不起，今晚加班。纪念日我们周末再过哈'},
    {k:'inner',t:'Hari itu ulang tahun pernikahan kami.|那天，是我们的结婚纪念日。'}]},
  {id:'ride',name:'Jalanku|Jalanku',ic:'🛵',col:'#0b8f62',cost:4,re:[
-   {k:'ride',t:'Riwayat perjalanan|行程记录',img:'p-apt.webp',cap:'Griya Sentosa Tower B|Griya Sentosa B座',rows:[
-     ['Kamis, 15 Okt · 19.30|10月15日 周四 · 19:30',ROUTE,'Rp38.000'],
-     ['Senin, 12 Okt · 20.35|10月12日 周一 · 20:35',ROUTE,'Rp41.000'],
-     ['Kamis, 8 Okt · 19.32|10月8日 周四 · 19:32',ROUTE,'Rp38.000'],
-     ['Kamis, 1 Okt · 19.28|10月1日 周四 · 19:28',ROUTE,'Rp38.000']]}]},
+   {k:'ride',t:'Riwayat perjalanan|行程记录',img:'p-apt.webp',cap:'Griya Sentosa Tower B|Griya Sentosa B座',rows:RIDES},
+   {k:'inner',t:'Tiap Kamis.|每个星期四。'},
+   {k:'act',key:'rd',mode:'target',tgt:'r1'},
+   {k:'ride',t:'Detail perjalanan|行程详情',img:'p-apt.webp',cap:'Griya Sentosa Tower B|Griya Sentosa B座',rows:RIDES,det:{d:'Senin, 12 Okt 2026|2026年10月12日 周一',a:ROUTE_A,ta:'20.08',b:ROUTE_B,tb:'20.35',fare:'Rp41.000'}},
+   {k:'inner',t:'Malam ulang tahun kami.|纪念日那天晚上。'},
+   {k:'act',key:'rback',mode:'target',tgt:'back'}]},
  {id:'bank',name:'Arta|Arta银行',ic:'🏦',col:'#2357c9',cost:4,re:[
    {k:'bank',t:'Mutasi rekening · 3 bulan|账户明细 · 近3个月',amt:'−Rp8.500.000',rows:[
      ['05 Okt 2026|2026年10月5日','Transfer · sewa unit 17|转账 · sewa unit 17'],
      ['05 Sep 2026|2026年9月5日','Transfer · sewa unit 17|转账 · sewa unit 17'],
      ['05 Agu 2026|2026年8月5日','Transfer · sewa unit 17|转账 · sewa unit 17']],
-    det:[['Penerima|收款方','PT GRIYA SENTOSA PROPERTI|PT GRIYA SENTOSA PROPERTI'],['Berita|备注','sewa unit 17|sewa unit 17',1],['Jumlah|金额','Rp8.500.000|Rp8.500.000']]}]}
+    det:[['Penerima|收款方','PT GRIYA SENTOSA PROPERTI|PT GRIYA SENTOSA PROPERTI'],['Berita|备注','sewa unit 17|sewa unit 17',1],['Jumlah|金额','Rp8.500.000|Rp8.500.000']]},
+   {k:'act',key:'bback',mode:'target',tgt:'back'}]}
 ];
 const DECOR=[{ic:'📞',name:'Telepon|电话'},{ic:'📷',name:'Kamera|相机'},{ic:'⚙️',name:'Setelan|设置'},{ic:'🗓',name:'Kalender|日历'}];
 const CLOG_OLD=[
@@ -141,8 +151,12 @@ const BEATS=[
  {k:'hub',peek:1},
  // ---------- the water stops ----------
  {k:'dark',shower:2,fx:'shake',t:'Air berhenti.|水停了。',sub:'{t}'},
- {k:'act',key:'restore',mode:'tap',in:'dark',btn:'Kembalikan seperti tadi|恢复成刚才的样子'},
+ {k:'inner',when:'got:chat',t:'Pesannya udah kebaca. Dia bakal tahu.|消息已经被我看成已读了。他会发现的。'},
  {k:'list',at:'top',back:1},
+ {k:'act',when:'got:chat',key:'mk1',mode:'target',in:'list',tgt:'budi'},
+ {k:'list',when:'got:chat',at:'top',menu:1},
+ {k:'act',when:'got:chat',key:'mk2',mode:'target',in:'list',tgt:'unread'},
+ {k:'list',when:'got:chat',at:'top',flag:'unread'},
  {k:'list',at:'rumah',hold:1},
  {k:'list',at:'rumah',title:1},
  {k:'dark',shower:0,t:'Kukunci. Kutaruh di kasur, seperti tadi.|锁屏。放回床上，和刚才一样。',sub:'Aku berbaring.|我躺下。'},
@@ -155,7 +169,7 @@ const BEATS=[
      {k:'scene',clock:'22.48',tag:'22.48 · Dia keluar|22:48 · 他出来了',tint:'night',img:'p-ask.webp',lines:['Handuk di leher.|毛巾搭在脖子上。','Dia lihat HP-nya dulu, baru aku.|他先看手机，再看我。']},
      {k:'say',who:'L',t:'Mas, Pak Budi itu siapa?|Pak Budi是谁？'},
      {k:'say',who:'D',t:'Supplier kain.|布料供应商。'},
-     {k:'say',who:'L',t:'Supplier kain kirim hati?|布料供应商会发爱心？'},
+     {k:'say',who:'L',t:'Supplier nanya aku udah tidur?|供应商会问我睡了没？'},
      {k:'scap',t:'Dia tersenyum. Di depanku, dia ganti kode HP-nya.|他笑了。当着我的面，改了手机密码。'},
      {k:'say',who:'D',t:'Kamu kebanyakan mikir, Rumah.|你想太多了，“家”。'}]}]},
  // ---------- 23.40 my phone ----------
@@ -167,10 +181,10 @@ const BEATS=[
  {k:'dark',cut:1,t:'',sub:''},
  {k:'epend',ep:1,tease:'Episode 2: Kamis malam, lantai 17.|第2集：星期四晚上，十七楼。'}
 ];
-const IMAGES=['p-bed.webp','p-dinner.webp','p-laundry.webp','p-album.webp','p-rooftop.webp','p-g-work.webp','p-g-invoice.webp','p-g-nayla.webp','p-dressed.webp','p-apt.webp','p-door.webp','p-ask.webp','p-bed2.webp','p-wall.webp','p-hisphone.webp','av-L.webp','av-D.webp'];
+const IMAGES=['p-bed.webp','p-dinner.webp','p-laundry.webp','p-album.webp','p-rooftop.webp','p-g-roll.webp','p-g-nayla-food.webp','p-g-bengkel.webp','p-g-sewing.webp','p-g-slip.webp','p-g-swatch.webp','p-g-food.webp','p-dressed.webp','p-apt.webp','p-door.webp','p-ask.webp','p-bed2.webp','p-wall.webp','p-hisphone.webp','av-L.webp','av-D.webp'];
 const UI={
  paused:'Dijeda|已暂停',menu:'Menu|菜单',reset:'Mulai ulang dari awal|从头开始',resetQ:'Mulai ulang? Progres & pilihan dihapus.|重新开始？进度和选择都会被删除。',yes:'Ya, mulai ulang|确定重置',no:'Batal|取消',
- innerL:'suara hatiku|我的心声',tr:'Transkrip|转写',vn:'Pesan suara|语音消息',zoomHint:'ketuk untuk perbesar|点开看大图',gallery:'Galeri|相册',gRecent:'Terbaru|最近项目',gRsv:'Reservasi|预订',gAlbums:'Album|相簿',gOther:'Lainnya|其他',gDel:'Baru dihapus|最近删除',gDays:'29 hari|29天',gDaysL:'29 hari lagi dihapus permanen|29天后永久删除',gRestore:'Pulihkan|恢复',gDelete:'Hapus|删除',me:'Aku|我',
+ innerL:'suara hatiku|我的心声',tr:'Transkrip|转写',vn:'Pesan suara|语音消息',zoomHint:'ketuk untuk perbesar|点开看大图',gallery:'Galeri|相册',gRecent:'Terbaru|最近项目',gRsv:'Reservasi|预订',gDel3:'Baru dihapus · 3|最近删除 · 3',rFrom:'Dijemput|上车',rTo:'Tiba|到达',rFare:'Tarif|车费',rDone:'Selesai|已完成',mUnread:'Tandai belum dibaca|标为未读',mUnpin:'Lepas sematan|取消置顶',mArch:'Arsipkan|归档',mDelChat:'Hapus chat|删除聊天',gDel:'Baru dihapus|最近删除',gDays:'29 hari|29天',gDaysL:'29 hari lagi dihapus permanen|29天后永久删除',gRestore:'Pulihkan|恢复',gDelete:'Hapus|删除',me:'Aku|我',
  end1:'Bersambung|未完待续',again:'Ulangi dari awal|从头再看',
  tkDay:'HARI|星期',tkDate:'TANGGAL|日期',tkTime:'JAM|时间',tkSeat:'KURSI|座位',
  pinWrong:'Kode salah|密码错误',pinEnter:'Masukkan kode sandi|输入密码',ticketTap:'ketuk tiketnya|点一下票根',
@@ -183,5 +197,5 @@ const UI={
  cNew:'Kontak baru · HP-ku|新建联系人 · 我的手机',cNum:'Nomor|号码',cName:'Nama|名字',cDup:'Nomor ini sudah tersimpan sebagai:|这个号码已保存为：',
  fbL:'kilas balik|闪回'
 };
-const api={GDAYS,GALBUMS,GOTHER,GDEL,TITLE,TH,SAY,BEATS,UI,TICKET,ANSWER,IMAGES,LIST,APPS,DECOR,CLOG_OLD,NUM};if(typeof module!=='undefined')module.exports=api;else root.PHONE=api;
+const api={GDAYS,GSHOTS,GDEL,TITLE,TH,SAY,BEATS,UI,TICKET,ANSWER,IMAGES,LIST,APPS,DECOR,CLOG_OLD,NUM};if(typeof module!=='undefined')module.exports=api;else root.PHONE=api;
 })(this);

@@ -2,7 +2,7 @@
 // then plays them: auto-advance at reading pace, taps only for meaningful actions.
 (function(){
 'use strict';
-const P=window.PHONE,{GDAYS,GALBUMS,GOTHER,GDEL,BEATS,APPS,LIST,UI,TH,SAY,TICKET,ANSWER,DECOR,CLOG_OLD}=P;
+const P=window.PHONE,{GDAYS,GSHOTS,GDEL,BEATS,APPS,LIST,UI,TH,SAY,TICKET,ANSWER,DECOR,CLOG_OLD}=P;
 const $=s=>document.querySelector(s);
 const qs=new URLSearchParams(location.search);
 const store=PhoneStore.create(localStorage,location.search,{onWiped:()=>location.reload()});
@@ -46,11 +46,11 @@ function build(){
     case 'inner':st.ov=st.ov.filter(o=>o.k!=='pop'&&o.k!=='inner');st.ov.push({k:'inner',t:b.t});push(b,{txt:b.t});break;
     case 'line':st.view.lines=(st.view.lines||[]);st.view.lines.push({who:b.who,t:b.t});push(b,{txt:b.t});break;
     case 'lock':base({k:'lock',notifs:b.notifs});push(b,{txt:b.notifs[0].t});break;
-    case 'list':base({k:'list',at:b.at,hold:b.hold,title:b.title,back:b.back});push(b);break;
+    case 'list':if(b.flag)st.flags[b.flag]=1;base({k:'list',at:b.at,hold:b.hold,title:b.title,back:b.back,menu:b.menu});push(b);break;
     case 'thread':base({k:'thread',th:b.th,msgs:b.msgs});push(b,{txt:'x'.repeat(40)});break;
     case 'replay':st.view.tr=b.tr;st.ov=[];push(b,{txt:b.tr});break;
     case 'gallery':base({k:'gallery',t:b.t,focus:b.focus,cap:b.cap,zoomed:b.zoomed});push(b,{txt:b.cap});break;
-    case 'ride':base({k:'ride',t:b.t,img:b.img,cap:b.cap,rows:b.rows});push(b,{txt:'x'.repeat(70)});break;
+    case 'ride':base({k:'ride',t:b.t,img:b.img,cap:b.cap,rows:b.rows,det:b.det});push(b,{txt:'x'.repeat(70)});break;
     case 'bank':base({k:'bank',t:b.t,amt:b.amt,rows:b.rows,det:b.det});push(b,{txt:'x'.repeat(70)});break;
     case 'call':base({k:'call',name:b.name,num:b.num,sub:b.sub,who:b.who});push(b,{txt:b.name});break;
     case 'clog':base({k:'clog',row:b.row,swipe:b.swipe,gone:b.gone,at:st.last&&st.last.callAt});push(b,{txt:b.gone?UI.deleted:(b.row&&b.row.t)});break;
@@ -126,9 +126,9 @@ function viewHTML(f){
    if(v.pin)return `<div class="app lock pinning"><img class="wallimg" src="assets/p-wall.webp" alt="">${sbHTML(f,1)}<div class="pinbox">${f.b.ticketTop?`<div class="pintk"><p class="pincap">${T(f.b.cap)}</p><div class="tkmini" id="tkmini">${ticketHTML('mini')}<small id="tkhint"></small></div></div>`:''}<div class="pinl">🔒 ${T(UI.pinEnter)}</div><div class="dots6" id="dots">${'<i></i>'.repeat(6)}</div><div class="pinmsg" id="pinmsg"></div><div class="pad" id="pad">${[1,2,3,4,5,6,7,8,9,'',0,'⌫'].map(k=>k===''?'<span></span>':`<button class="key" data-k="${k}">${k}</button>`).join('')}</div><div class="pinhelp" id="pinhelp"></div></div></div>`;
    return `<div class="app lock"><img class="wallimg" src="assets/p-wall.webp" alt="">${sbHTML(f,1)}<div class="lk-t">${esc(f.clock.replace('.',':'))}</div><div class="lk-d">${T(UI.lockDate)}</div><div class="lk-n">${v.notifs.map((n,i)=>`<div class="ln${i===0&&f.b.k==='lock'?' new':''}"><span class="la">💬 ${esc(n.app)} · ${T(n.title)}</span><p>${T(n.t)}</p><span class="lt">${T(UI.now)}</span></div>`).join('')}</div></div>`}
   case 'list':{
-   const rows=LIST.map(r=>{const un=r.un&&!(r.unWhen&&!cond(r.unWhen,{flags:f.flags,got:f.got}));
-    return `<div class="lrow${r.pin?' pin':''}" data-row="${r.id}">${r.id==='budi'?av('B'):r.id==='rumah'?`<span class="pav c-home">R</span>`:`<span class="pav c${r.id.length%5}">${esc(L(r.name)[0])}</span>`}<div class="lmid"><b>${T(r.name)}</b><p>${T(r.t)}</p></div><div class="lrt"><small${un?' class="g"':''}>${T(r.time)}</small><span>${r.pin?'📌':''}${r.fav?'❤️':''}${un?`<em>${r.un}</em>`:''}</span></div></div>`}).join('');
-   return `<div class="app list">${sbHTML(f)}<div class="lh"><b>${T(UI.chats)}</b><div class="srch">🔍 ${T(UI.search)}</div></div><div class="lrows" id="lrows">${rows}<div class="lpad"></div></div>${v.title?`<div class="tflash"><b>${T(P.TITLE.t)}</b></div>`:''}</div>`}
+   const cs={flags:f.flags,got:f.got};const rows=LIST.map(r=>{const re=r.reun&&cond(r.reun,cs);const un=r.un&&(!(r.unWhen&&!cond(r.unWhen,cs))||re);const pop=re&&f.b.k==='list'&&f.b.flag?' class="rp"':'';
+    return `<div class="lrow${r.pin?' pin':''}" data-row="${r.id}">${r.id==='budi'?av('B'):r.id==='rumah'?`<span class="pav c-home">R</span>`:`<span class="pav c${r.id.length%5}">${esc(L(r.name)[0])}</span>`}<div class="lmid"><b>${T(r.name)}</b><p>${T(r.t)}</p></div><div class="lrt"><small${un?' class="g"':''}>${T(r.time)}</small><span>${r.pin?'📌':''}${r.fav?'❤️':''}${un?`<em${pop}>${r.un}</em>`:''}</span></div></div>`+(r.id==='budi'&&v.menu?`<div class="lmenu"><span data-tgt="unread">✉️ ${T(UI.mUnread)}</span><span>📌 ${T(UI.mUnpin)}</span><span>🗂 ${T(UI.mArch)}</span><span class="r">🗑 ${T(UI.mDelChat)}</span></div>`:'')}).join('');
+   return `<div class="app list${v.menu?' menu':''}">${sbHTML(f)}<div class="lh"><b>${T(UI.chats)}</b><div class="srch">🔍 ${T(UI.search)}</div></div><div class="lrows" id="lrows">${rows}<div class="lpad"></div></div>${v.title?`<div class="tflash"><b>${T(P.TITLE.t)}</b></div>`:''}</div>`}
   case 'thread':{
    const th=TH[v.th];
    const ms=v.msgs.map(m=>m.k==='sys'?`<div class="sysm">🧹 ${T(m.t)}</div>`:m.vn?`<div class="m them"><div class="mb"><div class="vnm${v.tr?'':' pulse'}"><i>▶</i>${'<s></s>'.repeat(24)}<small>${esc(m.vn)}</small></div>${v.tr?`<span class="vt new"><small>${T(UI.tr)}</small>${T(v.tr)}</span>`:''}<span class="mt">${esc(m.time)}</span></div></div>`:`<div class="m them"><div class="mb${L(m.t)==='❤️'?' emo':''}">${T(m.t)}<span class="mt">${esc(m.time)}</span></div></div>`).join('');
@@ -136,9 +136,9 @@ function viewHTML(f){
   case 'gallery':
    return `<div class="app gallery">${sbHTML(f,0)}<div class="gh"><span class="bk">‹</span><b>${T(UI.gallery)}</b></div><div class="gt">🔒 ${T(v.t)}</div><div class="gfocus${v.zoomed?' zoomed':''}"><img src="assets/${v.focus}" alt=""></div><div class="gcap">ⓘ ${T(v.cap)}</div></div>`;
   case 'ride':
-   return `<div class="app ride">${sbHTML(f)}<div class="ah"><b>🛵 Jalanku</b><small>${T(v.t)}</small></div><div class="rmap"><img src="assets/${v.img}" alt=""><span class="rpin">📍 ${T(v.cap)}</span></div><div class="rrows">${v.rows.map((r,i)=>`<div class="rrow${i===1?' hl':''}"><small>${T(r[0])}</small><b>${T(r[1])}</b><span>${esc(r[2])}</span></div>`).join('')}</div></div>`;
+   return `<div class="app ride">${sbHTML(f)}<div class="ah"><b><span class="abk" data-tgt="${v.det?'back':'x'}">‹</span> 🛵 Jalanku</b><small>${T(v.t)}</small></div><div class="rmap"><img src="assets/${v.img}" alt=""><span class="rpin">📍 ${T(v.cap)}</span></div>${v.det?`<div class="rdet"><small>${T(v.det.d)}</small><div class="rst"><i class="a"></i><div><small>${T(UI.rFrom)} · ${esc(v.det.ta)}</small><b>${T(v.det.a)}</b></div></div><div class="rst"><i class="b"></i><div><small>${T(UI.rTo)} · ${esc(v.det.tb)}</small><b>${T(v.det.b)}</b></div></div><div class="rfare"><span>${T(UI.rFare)}</span><b>${esc(v.det.fare)}</b></div><div class="rdone">✓ ${T(UI.rDone)}</div></div>`:`<div class="rrows">${v.rows.map((r,i)=>`<div class="rrow" data-tgt="r${i}"><small>${T(r[0])}</small><b>${T(r[1])}</b><span>${esc(r[2])}</span></div>`).join('')}</div>`}</div>`;
   case 'bank':
-   return `<div class="app bank">${sbHTML(f)}<div class="ah bh"><b>🏦 Arta</b><small>${T(UI.bankAcc)}</small></div><div class="bt">${T(v.t)}</div><div class="brows">${v.rows.map(r=>`<div class="brow"><div><small>${T(r[0])}</small><b>${T(r[1])}</b></div><span class="neg">${esc(v.amt)}</span></div>`).join('')}</div><div class="bdet">${v.det.map(d=>`<div class="${d[2]?'hl':''}"><small>${T(d[0])}</small><b>${T(d[1])}</b></div>`).join('')}</div></div>`;
+   return `<div class="app bank">${sbHTML(f)}<div class="ah bh"><b><span class="abk" data-tgt="back">‹</span> 🏦 Arta</b><small>${T(UI.bankAcc)}</small></div><div class="bt">${T(v.t)}</div><div class="brows">${v.rows.map(r=>`<div class="brow"><div><small>${T(r[0])}</small><b>${T(r[1])}</b></div><span class="neg">${esc(v.amt)}</span></div>`).join('')}</div><div class="bdet">${v.det.map(d=>`<div class="${d[2]?'hl':''}"><small>${T(d[0])}</small><b>${T(d[1])}</b></div>`).join('')}</div></div>`;
   case 'call':{
    const on=v.on;const clock=v.fb?f.fbClock:null;
    return `<div class="app call${v.fb?' fbv':''}">${sbHTML(f,1,clock)}${v.fb?`<span class="fbchip">${T(UI.fbL)} · ${esc(String(f.fbClock).replace('.',':'))}</span>`:''}<div class="cav">${av('B',1)}</div><div class="cn">${T(v.name)}</div><div class="cnum${v.fb||v.hl?' hlnum':''}">${esc(v.num)}</div><div class="cs">${on?T(UI.oncall)+' · <span id="ctime">0:0'+(3+(v.lines?v.lines.length*3:0))+'</span>':T(v.sub)}</div><div class="clines">${(v.lines||[]).map((l,i)=>`<div class="cline${i===v.lines.length-1&&f.b.k==='line'?' new':''}"><small>${T(SAY[l.who].name)}</small><p>${T(l.t)}</p></div>`).join('')}</div></div>`}
@@ -151,20 +151,15 @@ function viewHTML(f){
    const dc=DECOR.map(d=>`<span class="hubic decor"><span class="ai">${d.ic}</span><small>${T(d.name)}</small></span>`).join('');
    return `<div class="app hub"><img class="wallimg" src="assets/p-wall.webp" alt="">${sbHTML(f,1)}<div class="hubgrid">${ic}${dc}</div></div>`}
   case 'gal2':{
-   const tile=(p,extra)=>`<span class="gtile"${extra||''}><img src="assets/${p[0]}.webp" alt="" style="object-position:${p[1]};transform:scale(${p[2]})"><i>${esc(p[3])}</i></span>`;
+   const ss=(k)=>{const a=GSHOTS[k];return `<div class="gss"><small>${T(a[0])}</small><b>${T(a[1])}</b><p>${T(a[2])}</p><em>${T(a[3])}</em></div>`};
+   const tile=(p)=>p[0][0]==='@'?`<span class="gtile ss">${ss(p[0].slice(1))}<i>${esc(p[3])}</i></span>`:`<span class="gtile"><img src="assets/${p[0]}.webp" alt="" style="object-position:${p[1]};transform:scale(${p[2]})"><i>${esc(p[3])}</i></span>`;
    const shotUI=(g,mini)=>{const a=L(g.shot).split(' · ');return `<div class="rsv${mini?' mini':''}"><small>${T(UI.gRsv)}</small><b>${esc(a[0])}</b><p>${esc(a[1])}</p><p>${esc(a[2])}</p><em>✓ ${esc(a[3])}</em></div>`};
-   const tabs=`<div class="gtabs"><span class="${v.m==='grid'?'on':''}">${T(UI.gRecent)}</span><span class="${v.m==='grid'?'':'on'}" data-tgt="album">${T(UI.gAlbums)}</span></div>`;
    if(v.m==='grid'){
-    const secs=GDAYS.map(d=>`<div class="gsec${v.at===d.id?' hl':''}" data-day="${d.id}"><div class="gday">${T(d.d)}</div><div class="ggrid">${d.ph.map(p=>tile(p)).join('')}</div></div>`).join('');
-    const scrub=`<div class="gscrub">${GDAYS.map(d=>`<span data-tgt="${d.id}">${esc(L(d.d).replace(/^.*?(\d+ Okt|\d+月\d+日).*$/,'$1'))}</span>`).join('')}</div>`;
-    return `<div class="app gal2">${sbHTML(f,0)}<div class="gh2"><b>${T(UI.gRecent)}</b></div><div class="gscroll" id="gscroll">${secs}<div class="lpad"></div></div>${scrub}${tabs}</div>`}
-   if(v.m==='albums'){
-    const al=GALBUMS.map(a=>`<div class="galb"><img src="assets/${a[1]}.webp" alt=""><b>${T(a[0])}</b><small>${esc(a[2])}</small></div>`).join('');
-    const ot=GOTHER.map(o=>`<div class="gorow"><span>${o[0]}</span><b>${T(o[1])}</b><small>${esc(o[2])} ›</small></div>`).join('')+`<div class="gorow" data-tgt="del"><span>🗑</span><b>${T(UI.gDel)}</b><small>3 ›</small></div>`;
-    return `<div class="app gal2">${sbHTML(f,0)}<div class="gh2"><b>${T(UI.gAlbums)}</b></div><div class="gscroll" id="gscroll"><div class="galbs">${al}</div><div class="gday">${T(UI.gOther)}</div>${ot}<div class="lpad"></div></div>${tabs}</div>`}
+    const secs=GDAYS.map(d=>`<div class="gsec" data-day="${d.id}"><div class="gday">${T(d.d)}</div><div class="ggrid">${d.ph.map(p=>tile(p)).join('')}</div></div>`).join('');
+    return `<div class="app gal2">${sbHTML(f,0)}<div class="gh2"><b>${T(UI.gRecent)}</b></div><div class="gscroll" id="gscroll" data-tgt="scroll">${secs}<div class="gorow gdrow" data-tgt="del"><span>🗑</span><b>${T(UI.gDel3)}</b><small>›</small></div><div class="gend"></div></div></div>`}
    if(v.m==='del'){
     const ts=GDEL.map((g,i)=>`<span class="gtile del" data-tgt="p${i}">${g.img?`<img src="assets/${g.img}" alt="">`:shotUI(g,1)}<i>${T(UI.gDays)}</i></span>`).join('');
-    return `<div class="app gal2">${sbHTML(f,0)}<div class="gh2"><span class="bk">‹</span><b>${T(UI.gDel)}</b></div><div class="gnote">${T(UI.gDaysL)}</div><div class="ggrid big">${ts}</div>${tabs}</div>`}
+    return `<div class="app gal2">${sbHTML(f,0)}<div class="gh2"><span class="bk">‹</span><b>${T(UI.gDel)}</b></div><div class="gnote">${T(UI.gDaysL)}</div><div class="ggrid big">${ts}</div></div>`}
    const g=GDEL[v.i];
    return `<div class="app gal2">${sbHTML(f,0)}<div class="gh2"><span class="bk">‹</span><b>${T(UI.gDel)}</b><small>${v.i+1}/3</small></div><div class="gph" data-tgt="ph">${g.img?`<img src="assets/${g.img}" alt="">`:shotUI(g)}</div><div class="gcap">ⓘ ${T(g.cap)}</div><div class="gdl">🗑 ${T(UI.gDaysL)}</div><div class="gbtns"><span>${T(UI.gRestore)}</span><span class="r">${T(UI.gDelete)}</span></div></div>`}
   case 'myshot':{
@@ -201,6 +196,7 @@ function render(anim){
  const app=scr.querySelector('.app');if(app&&changed&&anim)app.classList.add('enter');
  if(f.b.fx==='shake'&&anim){phone.classList.remove('shake');void phone.offsetWidth;phone.classList.add('shake')}
  scr.classList.remove('rev');revealed=false;
+ scr.classList.toggle('still',!changed&&(f.b.k==='act'||f.b.k==='inner'));
  shownAt=performance.now();
  window.__LOG.push({pos,k:f.b.k,key:f.wait||null,left:f.left,clock:f.clock,t:Math.round(shownAt)});
  wire(f,anim);
@@ -214,7 +210,7 @@ function wire(f,anim){
   if(v.at==='rumah'){const r=box.querySelector('[data-row=rumah]');const target=Math.max(0,r.offsetTop-box.clientHeight*0.42);
    if(anim&&!v.hold&&!v.title)box.scrollTop=target;else if(anim&&v.hold){smoothScroll(box,target,1400)}else box.scrollTop=target;
    r.classList.add('hl')}
-  if(b.k==='act'&&b.mode==='target'&&!f.done){const r=box.querySelector(`[data-row=${b.tgt}]`);r.classList.add('tgt');r.onclick=e=>{e.stopPropagation();resolve(b.key,true)}}}
+  if(b.k==='act'&&b.mode==='target'&&!f.done){const r=box.querySelector(`[data-row=${b.tgt}]`);if(r){r.classList.add('tgt');r.onclick=r.oncontextmenu=e=>{e.preventDefault();e.stopPropagation();resolve(b.key,true)}}}}
  if(v.k==='thread'){const m=scr.querySelector('.msgs');m.scrollTop=m.scrollHeight}
  if(b.k==='act'&&b.mode==='tap'&&!f.done){const btn=$('#actbtn');btn.onclick=e=>{e.stopPropagation();resolve(b.key,true)}}
  if(b.k==='choice'&&!f.done)scr.querySelectorAll('[data-opt]').forEach(el=>el.onclick=e=>{e.stopPropagation();resolve(b.key,+el.dataset.opt)});
@@ -222,9 +218,10 @@ function wire(f,anim){
  if(b.k==='act'&&b.mode==='pin'&&!f.done)armPin(b);
  if(f.drainFrom!=null&&anim)drain(f);
  if(v.k==='epend'){$('#again').onclick=e=>{e.stopPropagation();resetAll()}}
- if(v.k==='gal2'){const gs=$('#gscroll');if(gs){let to=0;if(v.at){const d=gs.querySelector(`[data-day=${v.at}]`);to=d.offsetTop-gs.offsetTop-8}else if(v.m==='albums')to=gs.scrollHeight;
+ if(v.k==='gal2'){const gs=$('#gscroll');if(gs){let to=0;if(v.at){const d=gs.querySelector(`[data-day=${v.at}]`);to=d.offsetTop-gs.offsetTop-8}
    if(anim&&f.b.k==='gal2'&&to)smoothScroll(gs,Math.min(to,gs.scrollHeight-gs.clientHeight),1100);else gs.scrollTop=to}}
- if(v.k!=='list'&&b.k==='act'&&b.mode==='target'&&!f.done){const el=scr.querySelector(`[data-tgt="${b.tgt}"]`);if(el){el.classList.add('tgt');el.onclick=e=>{e.stopPropagation();resolve(b.key,true)}}}
+ if(b.k==='act'&&b.mode==='target'&&!f.done){const el=scr.querySelector(`[data-tgt="${b.tgt}"]`);if(el){el.classList.add('tgt');const go=e=>{e.stopPropagation();resolve(b.key,true)};el.onclick=go;
+   if(b.tgt==='scroll'){el.addEventListener('wheel',go,{once:true,passive:true});el.addEventListener('touchmove',go,{once:true,passive:true})}}}
 }
 function smoothScroll(el,to,ms){const from=el.scrollTop,t0=performance.now();(function st(){const k=Math.min(1,(performance.now()-t0)/ms);el.scrollTop=from+(to-from)*(1-Math.pow(1-k,3));if(k<1)requestAnimationFrame(st)})()}
 function drain(f){const el=$('#cdt'),sb=scr.querySelector('.sbt');const s0=f.drainFrom*60,ms=3600/speed,t0=performance.now();

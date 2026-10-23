@@ -23,3 +23,8 @@ Checks: `node /workspace/affair-tools/validate.js`; `node smoke/play4.js URL OUT
 ## v6 (2026-10-23)
 - Passcode: one tap on the keypad fills 121019 (wrong, shake) → dinner glimpse 1,9 → "19…" → laundry flashback (ticket kept in her wallet) → ticket shown above the keypad, reader types 190625 (tap on the ticket fills it after 9 s / after a wrong try).
 - Galeri: Terbaru grid → scrubber 12 Okt (only a morning invoice) → Album → Baru dihapus (3, 29 hari) → rooftop wine, selfie with her hand + ring, reservation screenshot → 18.40 flashback → anniversary line. Zoom step and hidden album removed.
+
+## v7
+- Galeri: satu scroll (Terbaru → 12 Okt → Baru dihapus · 3), foto baru kasual tanpa duplikat; 3 foto terhapus diambil diam-diam.
+- Jalanku: 4 perjalanan → baris 12 Okt → detail → tombol kembali (menunggu pembaca). Arta: tombol kembali.
+- Air berhenti: Chat → Pak Budi → Tandai belum dibaca → badge 2 → Rumah (dilewati jika Chat tidak dibuka).

@@ -283,4 +283,28 @@ b.miss{color:#d0342c}
 .rsv.mini{padding:8px;gap:2px}.rsv.mini small{font-size:7px}.rsv.mini b{font-size:11px}.rsv.mini p{font-size:8.5px}.rsv.mini em{font-size:8px;padding:1px 5px;margin-top:2px}
 .gph .rsv{min-height:320px}
 .gal2 .gtabs{margin-top:auto}
-.gscroll{padding-right:56px}
+.gscroll{padding-right:0}
+/* v7 */
+.gal2 .gscroll.tgt{background:none;animation:gtgs 1.6s ease-in-out infinite;z-index:1}
+@keyframes gtgs{50%{box-shadow:inset 0 0 0 3px rgba(255,190,40,.9),inset 0 -40px 30px -20px rgba(255,190,40,.35)}}
+.gtile.ss{background:#f4f5f7}
+.gss{width:100%;height:100%;padding:7px 6px;display:flex;flex-direction:column;gap:2px;font-family:system-ui;color:#111;background:linear-gradient(#fff,#eef1f4)}
+.gss small{font-size:7.5px;color:#0b8f62;font-weight:700}.gss b{font-size:10.5px}.gss p{font-size:7.5px;color:#555;line-height:1.2}.gss em{font-style:normal;font-size:7.5px;color:#1a9a55;font-weight:700;margin-top:auto}
+.gdrow{margin-top:14px;border-top:1px solid #eee;background:#fff;border-radius:10px}
+.gend{height:24px}
+.abk{display:inline-block;width:22px;font-size:22px;line-height:18px;font-weight:400;border-radius:8px;text-align:center;margin-right:2px}
+.ride .tgt,.bank .tgt{cursor:pointer;animation:gtg 1.6s ease-in-out infinite}
+.ah .abk.tgt{color:#111}
+.rdet{flex:1;padding:12px 14px;display:flex;flex-direction:column;gap:10px;animation:pop .4s both}
+.rdet>small{color:#0b8f62;font-weight:700;font-size:13px}
+.rst{display:flex;gap:10px;align-items:center;background:#fff;border-radius:12px;padding:9px 12px}
+.rst i{width:11px;height:11px;border-radius:50%;flex:none}.rst i.a{background:#0b8f62}.rst i.b{background:#e5484d}
+.rst small{font-size:12px;color:#666}.rst b{display:block;font-size:15px}
+.rfare{display:flex;justify-content:space-between;background:#fff;border-radius:12px;padding:10px 12px;font-size:14px}
+.rdone{color:#1a9a55;font-size:13px;font-weight:700}
+.list.menu .lrow:not(.pin){opacity:.35}
+.lmenu{position:sticky;top:70px;z-index:4;margin:4px 14px 6px 70px;background:#fff;border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,.25);overflow:hidden;animation:pop .3s both}
+.lmenu span{display:block;padding:11px 14px;border-bottom:1px solid #eee;font-size:14.5px;color:#111}.lmenu .r{color:#d33;border:0}
+.lmenu .tgt{cursor:pointer;animation:tglow 1.6s ease-in-out infinite}
+.lrt em.rp{animation:pop .5s both}
+.still .rrow,.still .brow,.still .bdet,.still .rdet,.still .lmenu,.still .lrt em{animation:none}.still .rrow.tgt,.still .lmenu .tgt{animation:gtg 1.6s ease-in-out infinite}.still .lmenu .tgt{animation-name:tglow}
