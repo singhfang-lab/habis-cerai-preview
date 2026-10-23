@@ -15,11 +15,13 @@ const TH={ // chat threads in 'Pesan'
 };
 const SAY={N:{name:'Nadira|Nadira',me:true},H:{name:'Hana|Hana',tag:'anakku · 9 th|女儿 · 9岁'},R:{name:'Bu Ratna|Ratna太太',tag:'mantan mertua|前婆婆'},M:{name:'Mila|Mila',tag:'si bungsu · 6 th|小女儿 · 6岁'},A:{name:'Arya|Arya',tag:'partner live|直播搭档'},K:{name:'Raka|Raka',tag:'mantan suami|前夫'},Y:{name:'Maya|Maya',tag:'manajer|经纪人',ini:'My'},SH:{name:'Sheila|Sheila',tag:'mantan Arya · 25|Arya的前任 · 25岁',ini:'Sh'}};
 const BEATS=[
- // ================= PROLOG (hook, ~20s, auto) =================
- {k:'dark',clock:'06.31',t:'Aku bangun pagi ini… sebagai penyanyi yang perceraiannya trending nomor 1 di Indonesia.|一觉醒来，我成了离婚冲上热搜第一的那个女明星。',sub:'#NadiraCerai · Trending #1|#Nadira离婚 · 热搜第一'},
- {k:'lock',clock:'06.32',day:'Kamis|星期四',fx:'flash',notifs:[{app:'Lensa',title:'Trending di Indonesia|印尼热搜榜',t:'#1 · #NadiraCerai · 2,4 jt postingan 🔥|第1 · #Nadira离婚 · 240万条帖子 🔥',time:'06.32'},{app:'KabarSeleb|星闻快报',title:'KabarSeleb · BREAKING|星闻快报 · 突发',t:'RESMI! Nadira & Raka cerai setelah 9 tahun. Hak asuh dua putri jadi sorotan.|官宣！Nadira与Raka结束九年婚姻，两个女儿的抚养权成焦点。',time:'06.30'}]},
- {k:'lock',clock:'06.34',day:'Kamis|星期四',notifs:[{app:'Lensa',title:'@lambe_rumpi_id|@lambe_rumpi_id（八卦号）',t:'Spill dikit ya bestie… katanya bukan cuma “nggak cocok” 👀🍿|姐妹们小透露一下……听说不只是“性格不合”哦 👀🍿',time:'06.33'},{app:'Lensa',title:'12 rb komentar baru|1.2万条新评论',t:'“Tim Nadira! Kuat ya, Kak 💪” · “Pantes suaminya pergi 🙄”|“挺Nadira！姐要撑住💪” · “难怪老公要走🙄”',time:'06.34'},{app:'Lensa',title:'Trending di Indonesia|印尼热搜榜',t:'#1 · #NadiraCerai · 2,4 jt postingan 🔥|第1 · #Nadira离婚 · 240万条帖子 🔥',time:'06.32'},{app:'KabarSeleb|星闻快报',title:'KabarSeleb · BREAKING|星闻快报 · 突发',t:'RESMI! Nadira & Raka cerai setelah 9 tahun. Hak asuh dua putri jadi sorotan.|官宣！Nadira与Raka结束九年婚姻，两个女儿的抚养权成焦点。',time:'06.30'}]},
- {k:'lock',clock:'06.36',day:'Kamis|星期四',fx:'shake',notifs:[{app:'Pesan',title:'Hana (HP Mbak Tari)|Hana（用Tari阿姨的手机）',t:'Ma, kok Mama di TikTok?|妈，你怎么上TikTok了？',time:'06.36'},{app:'Telepon',title:'Maya (manajer)|Maya（经纪人）',t:'5 panggilan tak terjawab|5个未接来电',time:'06.35'},{app:'Lensa',title:'@lambe_rumpi_id|@lambe_rumpi_id（八卦号）',t:'Spill dikit ya bestie… katanya bukan cuma “nggak cocok” 👀🍿|姐妹们小透露一下……听说不只是“性格不合”哦 👀🍿',time:'06.33'},{app:'Lensa',title:'12 rb komentar baru|1.2万条新评论',t:'“Tim Nadira! Kuat ya, Kak 💪” · “Pantes suaminya pergi 🙄”|“挺Nadira！姐要撑住💪” · “难怪老公要走🙄”',time:'06.34'},{app:'Lensa',title:'Trending di Indonesia|印尼热搜榜',t:'#1 · #NadiraCerai · 2,4 jt postingan 🔥|第1 · #Nadira离婚 · 240万条帖子 🔥',time:'06.32'},{app:'KabarSeleb|星闻快报',title:'KabarSeleb · BREAKING|星闻快报 · 突发',t:'RESMI! Nadira & Raka cerai setelah 9 tahun. Hak asuh dua putri jadi sorotan.|官宣！Nadira与Raka结束九年婚姻，两个女儿的抚养权成焦点。',time:'06.30'}]},
+ // ================= PROLOG (hook, ~11s, auto): 3 screens, one idea each =================
+ {k:'dark',clock:'06.31',t:'Pagi ini, seluruh Indonesia membicarakan perceraianku.|今天早上，全网都在议论我的离婚。',sub:'#NadiraCerai · Trending #1|#Nadira离婚 · 热搜第一'},
+ {k:'lock',clock:'06.32',day:'Kamis|星期四',fx:'shake',notifs:[
+   {app:'Lensa',title:'@lambe_rumpi_id|@lambe_rumpi_id（八卦号）',t:'Siapa pria muda di balik perceraian Nadira? 👀|Nadira离婚背后的年轻男人是谁？👀',time:'06.32'},
+   {pile:'999+ notifikasi|999+条通知'}]},
+ {k:'lock',clock:'06.33',day:'Kamis|星期四',fx:'shake',solo:true,notifs:[
+   {app:'Pesan',title:'Nomor tidak dikenal|未保存的号码',avb:'av-A-neutral.webp',t:'Kak. Aku nunggu hari ini 10 tahun.|姐。这一天，我等了十年。',time:'06.33'}]},
  {k:'act',key:'unlock',mode:'unlock',in:'lock',btn:'Face ID · Nadira — geser ke atas|面容ID · Nadira — 上滑解锁',done:'',clock:'06.40',notifs:[
    {app:'Pesan',title:'Wali Murid 2B|2B班家长群',thumb:'p-fakephoto.webp',t:'Bu Sinta: 📷 Foto · Bu, ini mamanya Hana, kan? Pantes cerai 🤭|Sinta太太：📷 照片 · 各位，这是Hana的妈妈吧？难怪离婚 🤭',time:'06.12'},
    {app:'Pesan',title:'Wali Murid 2B|2B班家长群',t:'+46 pesan baru|+46条新消息',time:'06.38'},
@@ -69,6 +71,7 @@ const BEATS=[
    {t:'📤 Posting|📤 发布',re:[{k:'lensa',posted:true,cmts:['@tante_julid: Ngeles 🙄|@tante_julid：又在狡辩🙄','@hanya_lewat: Kak, aku percaya kamu 💗|@hanya_lewat：姐，我信你💗']},{k:'msg',th:'maya',time:'11.40',t:'NAD!!! 😤|NAD！！！😤'}]}]},
  {k:'msg',th:'salma',clock:'19.50',time:'19.50',t:'Kak, kamu udah makan? Jangan cuma nangis. Aku pesenin makanan ya.|姐，你吃饭了吗？别光顾着哭。我给你点个外卖。'},
  {k:'msg',th:'arya',clock:'20.40',time:'20.40',t:'Live jam 9. Satu jam. Habis itu kamu boleh hancur. Sama aku.|九点直播。就一个小时。之后你可以崩溃。我陪你。'},
+ {k:'inner',t:'Pesan dari nomor asing tadi pagi belum kubalas. “Sepuluh tahun.” Siapa yang menunggu aku selama itu?|早上那个陌生号码，我还没回。“十年。”谁会等我那么久？'},
  {k:'home',clock:'20.59',t:'Buka LiveKu|打开LiveKu'},
  {k:'live',clock:'21.00',img:'p-live.webp',viewers:8214,cmt:'@tante_julid: Janda dua anak pacaran sama brondong? Pakai duit mantan ya, Kak? 😂|@tante_julid：两个孩子的离婚妈妈泡小鲜肉？花的是前夫的钱吧，姐？😂'},
  {k:'act',key:'breath',mode:'hold',in:'live',q:'Di bawah meja, tangan Arya di lututku. Jangan jatuh di sini.|桌子底下，Arya的手放在我膝盖上。别在这里倒下。',btn:'Tahan untuk menarik napas|按住，深呼吸',done:'Satu. Dua. Senyum lagi ke kamera.|一，二。重新对着镜头笑。'},
