@@ -260,8 +260,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .lock.solo .ln.new{animation-name:soloDrop;animation-duration:.6s;animation-timing-function:cubic-bezier(.2,.9,.25,1.2)}
 @keyframes soloDrop{from{transform:translateY(-60px) scale(.96);opacity:0}to{transform:none;opacity:1}}
 /* ===== prologue v5: reader-driven lock screen ===== */
-.lock.sleepy .lk-t,.lock.sleepy .lk-d,.lock.sleepy .lk-n,.lock.sleepy .lk-ex{filter:blur(1.8px) brightness(.55)}
-.lock.sleepy .sb,.screen.v-lock .sb{transition:none}
+.screen.v-lock .sb{transition:none}
 .lock.buzz .lk-n{animation:buzz 2.6s infinite}
 @keyframes buzz{0%,14%,100%{transform:none}2%{transform:translateX(-3px)}4%{transform:translateX(3px)}6%{transform:translateX(-3px)}8%{transform:translateX(3px)}10%{transform:translateX(-2px)}12%{transform:translateX(2px)}}
 .ln.pile.peek{display:block;min-height:76px;padding:10px 14px 18px;filter:none;background:rgba(255,255,255,.17)}
@@ -296,4 +295,13 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .lensa.feed .lc p{position:relative;padding-right:28px}.lc .lk{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-style:normal;color:#bbb}.lc p.liked .lk{color:#e0457b}
 @media (prefers-reduced-motion:reduce){.ln,.lc p{animation-delay:0s!important}.lock.buzz .lk-n{animation:none}.tgt::after{animation:hhint .01ms 4s both!important}}
 .ln.pile .pc{bottom:-30px;font-size:13.5px;font-weight:700;opacity:.95;letter-spacing:.3px}
-.lock.sleepy .ln.pile .pc{text-shadow:0 0 8px rgba(255,255,255,.35)}
+
+/* v5.1 short-drama title card */
+.bz.ttl{padding:0 26px;max-width:100%}
+.bz.ttl b{font-size:30px;line-height:1.38;letter-spacing:.5px;font-weight:900;text-wrap:balance;text-shadow:0 2px 18px rgba(255,40,90,.28)}
+.bz.ttl.l-id b{font-size:25px}
+.bz.ttl small{display:inline-block;margin-top:18px;font-size:13px;letter-spacing:1px;opacity:.85;color:#ff5a86;border:1px solid rgba(255,90,134,.55);border-radius:999px;padding:4px 12px}
+.bz.ttl.new b{animation:ttlin .7s cubic-bezier(.2,.7,.2,1) both}
+.bz.ttl.new small{animation:ttlin .5s .45s cubic-bezier(.2,.7,.2,1) both}
+@keyframes ttlin{from{opacity:0;transform:translateY(14px) scale(.96);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+@media (prefers-reduced-motion:reduce){.bz.ttl.new b,.bz.ttl.new small{animation:none}}

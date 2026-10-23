@@ -16,9 +16,10 @@ const TH={ // chat threads in 'Pesan'
 };
 const SAY={N:{name:'Nadira|Nadira',me:true},H:{name:'Hana|Hana',tag:'anakku · 9 th|女儿 · 9岁'},R:{name:'Bu Ratna|Ratna太太',tag:'mantan mertua|前婆婆'},M:{name:'Mila|Mila',tag:'si bungsu · 6 th|小女儿 · 6岁'},A:{name:'Arya|Arya',tag:'partner live|直播搭档'},K:{name:'Raka|Raka',tag:'mantan suami|前夫'},Y:{name:'Maya|Maya',tag:'manajer|经纪人',ini:'My'},SH:{name:'Sheila|Sheila',tag:'mantan Arya · 25|Arya的前任 · 25岁',ini:'Sh'}};
 const BEATS=[
+ {k:'dark',title:1,clock:'06.31',t:'Aku bangun pagi ini… sebagai penyanyi yang perceraiannya trending nomor 1 di Indonesia.|一觉醒来，我成了离婚冲上热搜第一的那个女明星。',sub:'#NadiraCerai · Trending #1|#Nadira离婚 · 热搜第一'},
  // ================= PROLOG v5 (reader-driven, one continuous lock screen; no narrator) =================
  // the reader's own half-asleep instincts drive it: tap the pile → it pours → her name everywhere (wake) → tap the scariest one → Face ID → the post → a stranger → real life
- {k:'act',key:'pile',mode:'target',in:'lock',pro:1,tgt:'pile',clock:'06.31',day:'Kamis|星期四',sleepy:1,notifs:[
+ {k:'act',key:'pile',mode:'target',in:'lock',pro:1,tgt:'pile',clock:'06.31',day:'Kamis|星期四',notifs:[
    {id:'pile',pile:'999+ notifikasi|999+ 条通知',peek:{app:'Lensa',title:'@lambe_rumpi_id|@lambe_rumpi_id',t:'Siapa pria muda di balik perceraian Nadira? 👀|Nadira离婚背后的年轻男人是谁？👀'}}]},
  {k:'lock',pro:1,exp:1,ms:2300,stagger:.28,count:[999,1840],clock:'06.31',notifs:[
    {id:'tr',app:'Lensa',title:'Trending di Indonesia|印尼热搜',t:'#1 · #NadiraCerai · 212 rb postingan|第1 · #Nadira离婚 · 21.2万条',time:'06.31'},

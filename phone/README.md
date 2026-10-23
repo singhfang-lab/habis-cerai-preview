@@ -50,3 +50,7 @@ Checkpoints (update as each lands):
   6. 06:40: Salma's banner pulls her into the parents group = ep1 unchanged from the 06:12 photo on. The old ep1 unlock lock screen has been removed.
   Reduced motion: no buzz, glow or delays; the hint is static. Test: smoke/recprolog5.js (natural-tap recording), smoke/taptest.js handles `target`.
 
+
+### v5.1 (13:10 SGT)
+- 开场恢复短剧大标题（黑底、大字、约2.5秒，然后淡入锁屏；点一下=先显示完整再前进）。
+- 去掉开场昏暗/模糊和后面的"变清晰"效果；锁屏从第一帧起就是清楚的（保留震动和看到名字时的一震）。
