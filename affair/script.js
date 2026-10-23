@@ -1,5 +1,5 @@
 // Di HP-nya, Namaku Cuma "Rumah" — Episode 1 only (simple v4).
-// Every reader-facing string is 'id|zh' (exactly one '|'). Only two flags: call_answered, asked.
+// Every reader-facing string is 'id|zh' (exactly one '|'). Flags: only 'unread' (list badge).
 // Facts: Wed 21 Oct 2026. Shower starts 22.31, he always takes 15 min → countdown 15:00 at unlock (22.31).
 // Married 12 Oct 2019 (old code 121019). Ticket Thu 19.06.25 21.10 Studio 2 F7 F8 → code 190625.
 // Apps cost 4 min each, 3 fit. Call after the first app: Angkat +0 / Tolak +1 (delete). 15→11→(11|10)→(7|6)→(3|2).
@@ -52,9 +52,9 @@ const GSHOTS={
  trk:['Ekspedisi Cepat Kilat|快闪物流','CK00921|CK00921','Bandung → Bekasi|万隆 → 勿加泗','✓ Diterima|✓ 已签收'],
  trf:['Arta|Arta银行','Transfer berhasil|转账成功','Rp4.200.000 · Toko Kain Sinar Jaya|Rp4.200.000 · Sinar Jaya布行','✓ Selesai|✓ 已完成']};
 const GDEL=[
- {img:'p-rooftop.webp',cap:'12 Okt 2026 · 21.03 · Rumah Langit, Griya Sentosa|2026年10月12日 · 21:03 · Rumah Langit，Griya Sentosa'},
- {img:'p-album.webp',cap:'12 Okt 2026 · 21.26 · Rumah Langit, Griya Sentosa|2026年10月12日 · 21:26 · Rumah Langit，Griya Sentosa'},
- {shot:'Rumah Langit · 2 orang · 12 Okt 20.30 · Terkonfirmasi|Rumah Langit · 2位 · 10月12日 20:30 · 已确认',cap:'12 Okt 2026 · 17.52 · Tangkapan layar|2026年10月12日 · 17:52 · 截屏'}];
+ {tm:'17.52|17:52',shot:'Rumah Langit · 2 orang · 12 Okt 20.30 · Terkonfirmasi|Rumah Langit · 2位 · 10月12日 20:30 · 已确认',cap:'12 Okt 2026 · 17.52 · Tangkapan layar|2026年10月12日 · 17:52 · 截屏'},
+ {tm:'21.03|21:03',img:'p-rooftop.webp',cap:'12 Okt 2026 · 21.03 · Rumah Langit, Griya Sentosa|2026年10月12日 · 21:03 · Rumah Langit，Griya Sentosa'},
+ {tm:'21.26|21:26',img:'p-album.webp',cap:'12 Okt 2026 · 21.26 · Rumah Langit, Griya Sentosa|2026年10月12日 · 21:26 · Rumah Langit，Griya Sentosa'}];
 const GCAP='12 Okt 2026 · 21.03 · Rumah Langit, Griya Sentosa|2026年10月12日 · 21:03 · Rumah Langit，Griya Sentosa';
 // the four apps on his home screen: each costs 4 minutes; only three fit
 const APPS=[
@@ -72,7 +72,7 @@ const APPS=[
    {k:'act',key:'cback',mode:'target',tgt:'back'}]},
  {id:'gal',name:'Galeri|相册',ic:'🖼',col:'#d98a1c',cost:4,re:[
    {k:'gal2',m:'grid'},
-   {k:'inner',t:'Malam tanggal 12 itu, dia ngapain?|12号那天晚上，他在干嘛？'},
+   {k:'inner',t:'Tanggal 12… ulang tahun pernikahan kami.|12号……我们的结婚纪念日。'},
    {k:'act',key:'gscr',mode:'target',tgt:'scroll'},
    {k:'gal2',m:'grid',at:'d12'},
    {k:'inner',t:'Tanggal 12 malam… satu pun nggak ada?|12号晚上……一张都没有？'},
@@ -85,9 +85,10 @@ const APPS=[
    {k:'act',key:'gp3',mode:'target',tgt:'ph'},
    {k:'gal2',m:'photo',i:2},
    {k:'act',key:'gp4',mode:'target',tgt:'ph'},
-   {k:'scene',tint:'fb',tag:'Senin, 12 Okt · 18.40|10月12日 周一 · 18:40',img:'p-dressed.webp',lines:['Aku sudah dandan.|我已经化好了妆。']},
+   {k:'dark',t:'12 Oktober · 18.40|10月12日 · 18:40'},
+   {k:'scene',tint:'fb',tag:'HP-ku · Senin, 12 Okt · 18.40|我的手机 · 10月12日 周一 · 18:40',img:'p-dressed.webp',lines:['Aku sudah dandan.|我已经化好了妆。','HP-ku bergetar.|我的手机震了。']},
    {k:'scap',bn:1,from:'Mas Dimas ❤️|Mas Dimas ❤️',time:'18.40',t:'Sayang, maaf, malam ini lembur. Anniversary-nya kita rayain weekend ya|宝贝，对不起，今晚加班。纪念日我们周末再过哈'},
-   {k:'inner',t:'Hari itu ulang tahun pernikahan kami.|那天，是我们的结婚纪念日。'}]},
+   {k:'act',key:'gfb',mode:'hold'}]},
  {id:'ride',name:'Jalanku|Jalanku',ic:'🛵',col:'#0b8f62',cost:4,re:[
    {k:'ride',t:'Riwayat perjalanan|行程记录',img:'p-apt.webp',cap:'Griya Sentosa Tower B|Griya Sentosa B座',rows:RIDES},
    {k:'inner',t:'Tiap Kamis.|每个星期四。'},
@@ -134,7 +135,7 @@ const BEATS=[
  {k:'call',id:'callScr',fx:'shake',who:'B',name:'Pak Budi Supplier|Pak Budi Supplier',num:NUM,sub:'Panggilan masuk · seluler|来电 · 手机'},
  {k:'snap',t:'Kufoto layarnya pakai HP-ku.|我用自己的手机拍下了来电屏幕。'},
  {k:'choice',key:'call',in:'call',opts:[
-   {t:'Angkat|接听',flag:'call_answered',set:{on:1},re:[
+   {t:'Angkat|接听',set:{on:1},re:[
      {k:'line',who:'W',t:'Mas? …Mas?|哥？……哥？'},
      {k:'pop',style:'shout',fx:'shake',ic:'🚪',from:'Kamar mandi|浴室',t:'Gagang pintunya bergerak.|门把手动了一下。'},
      {k:'act',key:'hang',mode:'tap',in:'call',btn:'Tutup|挂断',red:1},
@@ -164,32 +165,18 @@ const BEATS=[
  {k:'list',at:'rumah',hold:1},
  {k:'list',at:'rumah',title:1},
  {k:'dark',shower:0,t:'Kukunci. Kutaruh di kasur, seperti tadi.|锁屏。放回床上，和刚才一样。',sub:'Aku berbaring.|我躺下。'},
- {k:'choice',key:'night',opts:[{t:'Pura-pura tidur|装睡',re:[
-     {k:'scene',clock:'22.48',tag:'22.48 · Pura-pura tidur|22:48 · 装睡',tint:'night',img:'p-door.webp',lines:['Aku membelakanginya.|我背对着他。','Cahaya layarnya di dinding.|他手机屏幕的光映在墙上。']},
-     {k:'scap',when:'flag:call_answered',bn:1,from:'Pak Budi Supplier|Pak Budi Supplier',time:'22.48',t:'Mas, tadi kok diangkat tapi diem?|哥，刚才怎么接了又不说话？'},
-     {k:'scap',when:'flag:call_answered',t:'Dia menatapku. Sedetik.|他看了我一眼。一秒。'},
-     {k:'scap',glimpse:1,t:'Udah. Dari tadi.|睡了。早睡了。'}]},
-   {t:'Tanya dia|问他',flag:'asked',re:[
-     {k:'scene',clock:'22.48',tag:'22.48 · Dia keluar|22:48 · 他出来了',tint:'night',img:'p-ask.webp',lines:['Handuk di leher.|毛巾搭在脖子上。','Dia lihat HP-nya dulu, baru aku.|他先看手机，再看我。']},
-     {k:'say',who:'L',t:'Mas, Pak Budi itu siapa?|Pak Budi是谁？'},
-     {k:'say',who:'D',t:'Supplier kain.|布料供应商。'},
-     {k:'say',who:'L',t:'Supplier nanya aku udah tidur?|供应商会问我睡了没？'},
-     {k:'scap',t:'Dia tersenyum. Di depanku, dia ganti kode HP-nya.|他笑了。当着我的面，改了手机密码。'},
-     {k:'say',who:'D',t:'Kamu kebanyakan mikir, Rumah.|你想太多了，“家”。'}]}]},
- // ---------- 23.40 my phone ----------
- {k:'scene',clock:'23.40',tag:'23.40 · Kamar tidur|23:40 · 卧室',tint:'night',img:'p-bed2.webp',lines:['Dia mendengkur.|他打起了呼噜。','HP-ku di bawah selimut.|我的手机藏在被子里。']},
- {k:'myshot',ref:'callScr'},
- {k:'contact',num:NUM,name:'Pak Budi|Pak Budi'},
- {k:'act',key:'save',mode:'tap',in:'contact',btn:'Simpan|保存'},
- {k:'contact',num:NUM,name:'Pak Budi|Pak Budi',res:'S…|S……',fx:'shake'},
+ {k:'scene',clock:'22.48',tag:'22.48 · Kamar tidur|22:48 · 卧室',tint:'night',img:'p-ask.webp',lines:['Pintu kamar mandi terbuka.|浴室门开了。','Dia mengeringkan rambut. Mengambil HP-nya.|他擦着头发，拿起手机。','Dia menatap layarnya.|他盯着屏幕。']},
+ {k:'scene',clock:'22.49',tag:'22.49 · Kamar tidur|22:49 · 卧室',tint:'night',img:'p-stare.webp',opos:'50% 0%',lines:['Lalu dia menoleh ke arahku.|然后他转过头，看着我。']},
+ {k:'say',who:'D',t:'Kamu buka HP-ku?|你动我手机了？'},
+ {k:'act',key:'hook',mode:'hold'},
  {k:'dark',cut:1,t:'',sub:''},
- {k:'epend',ep:1,tease:'Episode 2: Kamis malam, lantai 17.|第2集：星期四晚上，十七楼。'}
+ {k:'epend',ep:1}
 ];
-const IMAGES=['p-bed.webp','p-dinner.webp','p-laundry.webp','p-album.webp','p-rooftop.webp','p-g-roll.webp','p-g-nayla-food.webp','p-g-bengkel.webp','p-g-sewing.webp','p-g-slip.webp','p-g-swatch.webp','p-g-food.webp','p-dressed.webp','p-apt.webp','p-door.webp','p-ask.webp','p-bed2.webp','p-wall.webp','p-hisphone.webp','av-L.webp','av-D.webp'];
+const IMAGES=['p-bed.webp','p-dinner.webp','p-laundry.webp','p-album.webp','p-rooftop.webp','p-g-roll.webp','p-g-nayla-food.webp','p-g-bengkel.webp','p-g-sewing.webp','p-g-slip.webp','p-g-swatch.webp','p-g-food.webp','p-dressed.webp','p-apt.webp','p-ask.webp','p-stare.webp','p-wall.webp','p-hisphone.webp','av-L.webp','av-D.webp'];
 const UI={
  paused:'Dijeda|已暂停',menu:'Menu|菜单',reset:'Mulai ulang dari awal|从头开始',resetQ:'Mulai ulang? Progres & pilihan dihapus.|重新开始？进度和选择都会被删除。',yes:'Ya, mulai ulang|确定重置',no:'Batal|取消',
  innerL:'suara hatiku|我的心声',tr:'Transkrip|转写',vn:'Pesan suara|语音消息',zoomHint:'ketuk untuk perbesar|点开看大图',gallery:'Galeri|相册',gRecent:'Terbaru|最近项目',gRsv:'Reservasi|预订',gDel3:'Baru dihapus · 3|最近删除 · 3',rFrom:'Dijemput|上车',rTo:'Tiba|到达',rFare:'Tarif|车费',rDone:'Selesai|已完成',mUnread:'Tandai belum dibaca|标为未读',mUnpin:'Lepas sematan|取消置顶',mArch:'Arsipkan|归档',mDelChat:'Hapus chat|删除聊天',gDel:'Baru dihapus|最近删除',gDays:'29 hari|29天',gDaysL:'29 hari lagi dihapus permanen|29天后永久删除',gRestore:'Pulihkan|恢复',gDelete:'Hapus|删除',me:'Aku|我',
- end1:'Bersambung|未完待续',again:'Ulangi dari awal|从头再看',
+ end1:'Bersambung|未完待续',gTmD:'Senin, 12 Okt 2026|2026年10月12日 周一',again:'Ulangi dari awal|从头再看',
  tkDay:'HARI|星期',tkDate:'TANGGAL|日期',tkTime:'JAM|时间',tkSeat:'KURSI|座位',
  pinWrong:'Kode salah|密码错误',pinEnter:'Masukkan kode sandi|输入密码',ticketTap:'ketuk tiketnya|点一下票根',
  now:'sekarang|现在',chats:'Chat|聊天',earlier:'Sebelumnya|更早',epDone:'Episode 1 · selesai|第1集 · 完',lockDate:'Rabu, 21 Oktober|10月21日 星期三',

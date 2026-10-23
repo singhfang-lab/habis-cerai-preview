@@ -39,7 +39,7 @@ function build(){
    if(b.shower!=null){st.shower=b.shower;if(b.shower)st.fixed=null}
    switch(b.k){
     case 'dark':base({k:'dark',title:b.title,day:b.day,t:b.t,sub:b.sub,cut:b.cut,stop:b.shower===2});push(b,{txt:(b.t||'')+(b.sub&&b.sub!=='{t}'?b.sub:'')});break;
-    case 'scene':base({k:'scene',img:b.img,tag:b.tag,tint:b.tint,caps:b.lines.map(t=>({t,line:1}))});push(b,{txt:b.lines.join(' ')});break;
+    case 'scene':base({k:'scene',img:b.img,focus:b.opos,tag:b.tag,tint:b.tint,caps:b.lines.map(t=>({t,line:1}))});push(b,{txt:b.lines.join(' ')});break;
     case 'scap':case 'say':{if(st.view.k!=='scene')base({k:'scene',caps:[]});st.view.caps.forEach(c=>c.old=1);
       st.view.caps.push(b.k==='say'?{say:b.who,t:b.t}:{t:b.t,bn:b.bn,from:b.from,time:b.time,ticket:b.ticket,glimpse:b.glimpse});st.ov=[];push(b,{txt:b.t});break}
     case 'pop':st.ov=st.ov.filter(o=>o.k!=='pop'&&o.k!=='inner');st.ov.push({k:'pop',style:b.style,ic:b.ic,from:b.from,t:b.t});push(b,{txt:b.t});break;
@@ -121,7 +121,7 @@ function viewHTML(f){
     if(c.glimpse)return `<div class="glimpse cap${nw}"><small>${T(UI.hisPhone)}</small><span class="gb">${T(c.t)}</span></div>`;
     if(c.ticket)return `<div class="cap${nw} tkwrap">${ticketHTML('')}<p>${T(c.t)}</p></div>`;
     return `<p class="cap line${fresh?' l':''}${nw}"${st}>${T(c.t)}</p>`}).join('');
-   return `<div class="app scene${v.tint==='fb'?' fbt':''}${all.length>=4?' many':''}">${v.img?`<div class="simg"><img src="assets/${v.img}" alt=""><span class="stag">${T(v.tag)}</span>${v.tint==='fb'?`<span class="fbchip">${T(UI.fbL)}</span>`:''}</div>`:''}<div class="scaps">${caps}</div></div>`}
+   return `<div class="app scene${v.tint==='fb'?' fbt':''}${all.length>=4?' many':''}">${v.img?`<div class="simg"><img src="assets/${v.img}" alt=""${v.focus?` style="object-position:${v.focus}"`:''}><span class="stag">${T(v.tag)}</span>${v.tint==='fb'?`<span class="fbchip">${T(UI.fbL)}</span>`:''}</div>`:''}<div class="scaps">${caps}</div></div>`}
   case 'lock':{
    if(v.pin)return `<div class="app lock pinning"><img class="wallimg" src="assets/p-wall.webp" alt="">${sbHTML(f,1)}<div class="pinbox">${f.b.ticketTop?`<div class="pintk"><p class="pincap">${T(f.b.cap)}</p><div class="tkmini" id="tkmini">${ticketHTML('mini')}<small id="tkhint"></small></div></div>`:''}<div class="pinl">🔒 ${T(UI.pinEnter)}</div><div class="dots6" id="dots">${'<i></i>'.repeat(6)}</div><div class="pinmsg" id="pinmsg"></div><div class="pad" id="pad">${[1,2,3,4,5,6,7,8,9,'',0,'⌫'].map(k=>k===''?'<span></span>':`<button class="key" data-k="${k}">${k}</button>`).join('')}</div><div class="pinhelp" id="pinhelp"></div></div></div>`;
    return `<div class="app lock"><img class="wallimg" src="assets/p-wall.webp" alt="">${sbHTML(f,1)}<div class="lk-t">${esc(f.clock.replace('.',':'))}</div><div class="lk-d">${T(UI.lockDate)}</div><div class="lk-n">${v.notifs.map((n,i)=>`<div class="ln${i===0&&f.b.k==='lock'?' new':''}"><span class="la">💬 ${esc(n.app)} · ${T(n.title)}</span><p>${T(n.t)}</p><span class="lt">${T(UI.now)}</span></div>`).join('')}</div></div>`}
@@ -158,17 +158,17 @@ function viewHTML(f){
     const secs=GDAYS.map(d=>`<div class="gsec" data-day="${d.id}"><div class="gday">${T(d.d)}</div><div class="ggrid">${d.ph.map(p=>tile(p)).join('')}</div></div>`).join('');
     return `<div class="app gal2">${sbHTML(f,0)}<div class="gh2"><b>${T(UI.gRecent)}</b></div><div class="gscroll" id="gscroll" data-tgt="scroll">${secs}<div class="gorow gdrow" data-tgt="del"><span>🗑</span><b>${T(UI.gDel3)}</b><small>›</small></div><div class="gend"></div></div></div>`}
    if(v.m==='del'){
-    const ts=GDEL.map((g,i)=>`<span class="gtile del" data-tgt="p${i}">${g.img?`<img src="assets/${g.img}" alt="">`:shotUI(g,1)}<i>${T(UI.gDays)}</i></span>`).join('');
+    const ts=GDEL.map((g,i)=>`<span class="gtile del" data-tgt="p${i}">${g.img?`<img src="assets/${g.img}" alt="">`:shotUI(g,1)}<b class="gtt">${T(g.tm)}</b><i>${T(UI.gDays)}</i></span>`).join('');
     return `<div class="app gal2">${sbHTML(f,0)}<div class="gh2"><span class="bk">‹</span><b>${T(UI.gDel)}</b></div><div class="gnote">${T(UI.gDaysL)}</div><div class="ggrid big">${ts}</div></div>`}
    const g=GDEL[v.i];
-   return `<div class="app gal2">${sbHTML(f,0)}<div class="gh2"><span class="bk">‹</span><b>${T(UI.gDel)}</b><small>${v.i+1}/3</small></div><div class="gph" data-tgt="ph">${g.img?`<img src="assets/${g.img}" alt="">`:shotUI(g)}</div><div class="gcap">ⓘ ${T(g.cap)}</div><div class="gdl">🗑 ${T(UI.gDaysL)}</div><div class="gbtns"><span>${T(UI.gRestore)}</span><span class="r">${T(UI.gDelete)}</span></div></div>`}
+   return `<div class="app gal2">${sbHTML(f,0)}<div class="gh2"><span class="bk">‹</span><b>${T(UI.gDel)}</b><small>${v.i+1}/3</small></div><div class="gtm"><b>${T(g.tm)}</b><small>${T(UI.gTmD)}</small></div><div class="gph" data-tgt="ph">${g.img?`<img src="assets/${g.img}" alt="">`:shotUI(g)}</div><div class="gcap">ⓘ ${T(g.cap)}</div><div class="gdl">🗑 ${T(UI.gDaysL)}</div><div class="gbtns"><span>${T(UI.gRestore)}</span><span class="r">${T(UI.gDelete)}</span></div></div>`}
   case 'myshot':{
    const inner=viewHTML({v:v.src,clock:v.at,left:v.left,shower:0,b:{k:'x'},ov:[],got:[],flags:{},noLabel:1});
    return `<div class="app mygal">${sbHTML(f)}<div class="gh"><span class="bk">‹</span><b>${T(UI.myGal)}</b></div><div class="shotph"><div class="shotin">${inner}</div><i class="glare"></i></div><div class="gcap">📷 ${esc(String(v.at).replace('.',':'))}</div></div>`}
   case 'contact':
    return `<div class="app contact">${sbHTML(f)}<div class="lh"><b>${T(UI.cNew)}</b></div><div class="cform"><label>${T(UI.cNum)}</label><div class="cf">${esc(v.num)}</div><label>${T(UI.cName)}</label><div class="cf typed">${T(v.name)}<i class="caret"></i></div></div>${v.res?`<div class="cdup"><small>${T(UI.cDup)}</small><b>${T(v.res)}</b></div>`:''}</div>`;
   case 'epend':
-   return `<div class="app epv"><div class="epc"><small>${T(UI.epDone)}</small><h2>${T(v.tease)}</h2><p class="bers">${T(UI.end1)}</p><button class="again" id="again">${T(UI.again)}</button></div></div>`;
+   return `<div class="app epv"><div class="epc"><small>${T(UI.epDone)}</small>${v.tease?`<h2>${T(v.tease)}</h2>`:''}<p class="bers">${T(UI.end1)}</p><button class="again" id="again">${T(UI.again)}</button></div></div>`;
  }
  return '<div class="app dark"></div>'}
 function ticketHTML(cls){const t=TICKET;return `<div class="ticket ${cls||''}"><div class="tk-l"><small>${esc(t.cin)}</small><b>${esc(t.film)}</b><div class="tkg"><span><small>${T(UI.tkDay)}</small>${T(t.day)}</span><span><small>${T(UI.tkDate)}</small><em class="tk-date">${esc(t.date)}</em></span><span><small>${T(UI.tkTime)}</small>${esc(t.time)}</span><span><small>STUDIO</small>${esc(t.studio)}</span><span><small>${T(UI.tkSeat)}</small>${esc(t.seat)}</span></div></div><div class="tk-r">🎟</div></div>`}
@@ -269,7 +269,7 @@ function resolve(key,val){const f=F[pos];if(!f||f.wait!==key||f.done)return;
 function animEnd(f){const k=f.b.k;if(k==='scene')return 700*(f.b.lines.length-1)+700;if(k==='ride')return 1250;if(k==='bank')return 1400;if(f.v.k==='dark'&&f.v.title)return 2100;if(k==='dark')return 1400;if(k==='list'&&f.v.hold)return 1500;if(k==='list'&&f.v.title)return 1000;if(k==='gallery'&&f.v.zoomed)return 950;if(k==='snap')return 900;if(k==='gal2'&&f.v.at)return 1200;if(k==='gal2'&&f.v.m==='albums')return 1200;return 450}
 let revealAt=0;
 scr.addEventListener('click',()=>{
- const f=F[pos];if(f.wait&&!f.done)return;
+ const f=F[pos];if(f.wait&&!f.done){if(f.b.k==='act'&&f.b.mode==='hold'&&performance.now()-shownAt>1000)resolve(f.wait,true);return}
  const now=performance.now(),age=now-shownAt;
  if(!revealed&&age<animEnd(f)){revealed=true;revealAt=now;scr.classList.add('rev');return}
  if(now-Math.max(shownAt,revealAt)<MINVIS)return;

@@ -314,3 +314,8 @@ b.miss{color:#d0342c}
 .hub.end .cost{display:none}
 .hub.end .hubic .ai{filter:brightness(.6)}
 .hub.end .hubic.tgt .ai{filter:none;animation:glow 1.8s ease-in-out infinite}.hub.end .hubic.tgt{cursor:pointer}
+
+/* v9: big timestamps in Recently Deleted */
+.gtile.del{position:relative}.gtile.del .gtt{position:absolute;left:6px;top:6px;z-index:2;font:800 15px/1 ui-monospace,Menlo,monospace;color:#fff;background:rgba(0,0,0,.62);padding:4px 7px;border-radius:7px;letter-spacing:.5px}
+.gal2 .gtm{display:flex;align-items:baseline;justify-content:center;gap:10px;margin:8px 14px 2px}
+.gal2 .gtm b{font:800 34px/1 ui-monospace,Menlo,monospace;color:#111;letter-spacing:1px}.gal2 .gtm small{font-size:13px;color:#555}

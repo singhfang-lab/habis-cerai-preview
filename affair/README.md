@@ -28,3 +28,8 @@ Checks: `node /workspace/affair-tools/validate.js`; `node smoke/play4.js URL OUT
 - Galeri: satu scroll (Terbaru → 12 Okt → Baru dihapus · 3), foto baru kasual tanpa duplikat; 3 foto terhapus diambil diam-diam.
 - Jalanku: 4 perjalanan → baris 12 Okt → detail → tombol kembali (menunggu pembaca). Arta: tombol kembali.
 - Air berhenti: Chat → Pak Budi → Tandai belum dibaca → badge 2 → Rumah (dilewati jika Chat tidak dibuka).
+
+## v9 (24 Oct 2026)
+- Gallery opens on inner "Tanggal 12… ulang tahun pernikahan kami."; Recently Deleted in time order 17.52 / 21.03 / 21.26 with large timestamps.
+- Flashback: black caption card "12 Oktober · 18.40", scene tagged HP-ku, banner holds until tap (act mode hold).
+- New ending: bathroom door opens → he stares → "Kamu buka HP-ku?" (holds until tap) → Bersambung + replay. Night choice, 23.40 save-number and ep2 tease removed; no flags except unread.
