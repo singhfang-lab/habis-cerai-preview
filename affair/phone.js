@@ -56,7 +56,7 @@ function build(){
     case 'clog':base({k:'clog',row:b.row,swipe:b.swipe,gone:b.gone,at:st.last&&st.last.callAt});push(b,{txt:b.gone?UI.deleted:(b.row&&b.row.t)});break;
     case 'contact':base({k:'contact',num:b.num,name:b.name,res:b.res});push(b,{txt:b.res?UI.cDup:''});break;
     case 'gal2':base({k:'gal2',m:b.m,at:b.at,i:b.i});push(b,{txt:b.m==='photo'?'x'.repeat(50):''});break;
-    case 'home':base({k:'hub'});push(b);break;
+    case 'home':base({k:'hub',end:b.end});push(b);break;
     case 'snap':st.ov=st.ov.filter(o=>o.k!=='pop'&&o.k!=='inner');st.ov.push({k:'snap',t:b.t});push(b,{txt:b.t});break;
     case 'myshot':{const src=F.find(f=>f.b.id===b.ref);if(src){base({k:'myshot',src:{...clone(src.v),hl:1},at:src.clock,shower:src.shower,left:src.left})}push(b,{txt:'x'.repeat(30)});break}
     case 'epend':base({k:'epend',tease:b.tease});push(b,{wait:'end'});st.stop=true;return;
@@ -132,7 +132,7 @@ function viewHTML(f){
   case 'thread':{
    const th=TH[v.th];
    const ms=v.msgs.map(m=>m.k==='sys'?`<div class="sysm">🧹 ${T(m.t)}</div>`:m.vn?`<div class="m them"><div class="mb"><div class="vnm${v.tr?'':' pulse'}"><i>▶</i>${'<s></s>'.repeat(24)}<small>${esc(m.vn)}</small></div>${v.tr?`<span class="vt new"><small>${T(UI.tr)}</small>${T(v.tr)}</span>`:''}<span class="mt">${esc(m.time)}</span></div></div>`:`<div class="m them"><div class="mb${L(m.t)==='❤️'?' emo':''}">${T(m.t)}<span class="mt">${esc(m.time)}</span></div></div>`).join('');
-   return `<div class="app chat">${sbHTML(f)}<div class="ch"><span class="bk">‹</span>${av('B')}<div><b>${T(th.name)}</b><small>${esc(th.sub)}</small></div><span class="ci">📞</span></div><div class="msgs">${ms}</div></div>`}
+   return `<div class="app chat">${sbHTML(f)}<div class="ch"><span class="bk" data-tgt="back">‹</span>${av('B')}<div><b>${T(th.name)}</b><small>${esc(th.sub)}</small></div><span class="ci">📞</span></div><div class="msgs">${ms}</div></div>`}
   case 'gallery':
    return `<div class="app gallery">${sbHTML(f,0)}<div class="gh"><span class="bk">‹</span><b>${T(UI.gallery)}</b></div><div class="gt">🔒 ${T(v.t)}</div><div class="gfocus${v.zoomed?' zoomed':''}"><img src="assets/${v.focus}" alt=""></div><div class="gcap">ⓘ ${T(v.cap)}</div></div>`;
   case 'ride':
@@ -147,9 +147,9 @@ function viewHTML(f){
    return `<div class="app clog">${sbHTML(f)}<div class="lh"><b>${T(UI.clogT)}</b></div><div class="csec">${T(UI.today)}</div>${row}${v.gone?`<div class="toast">🗑 ${T(UI.deleted)}</div>`:''}<div class="csec">${T(UI.earlier)}</div>${CLOG_OLD.map(r=>`<div class="crow old"><div class="crin"><span class="pav c3">${esc(L(r.name)[0])}</span><div class="lmid"><b class="${r.miss?'miss':''}">${T(r.name)}</b><p>${T(r.t)}</p></div><small>${T(r.time)}</small></div></div>`).join('')}</div>`}
   case 'hub':{
    const ic=APPS.map(a=>{const done=f.got.includes(a.id);const can=!done&&a.cost<=f.left&&!v.peek;
-     return `<button class="hubic ${done?'done':can?'can':'cant'}" data-app="${a.id}"${can&&f.b.wait!==undefined?'':''}><span class="ai" style="background:${a.col}">${a.ic}</span><small>${T(a.name)}</small><em class="cost">${done?'✓':(can?'':'✕ ')+a.cost+' '+T(UI.min)}</em></button>`}).join('');
+     return `<button class="hubic ${v.end?'':done?'done':can?'can':'cant'}" data-app="${a.id}" data-tgt="app-${a.id}"${can&&f.b.wait!==undefined?'':''}><span class="ai" style="background:${a.col}">${a.ic}</span><small>${T(a.name)}</small><em class="cost">${done?'✓':(can?'':'✕ ')+a.cost+' '+T(UI.min)}</em></button>`}).join('');
    const dc=DECOR.map(d=>`<span class="hubic decor"><span class="ai">${d.ic}</span><small>${T(d.name)}</small></span>`).join('');
-   return `<div class="app hub"><img class="wallimg" src="assets/p-wall.webp" alt="">${sbHTML(f,1)}<div class="hubgrid">${ic}${dc}</div></div>`}
+   return `<div class="app hub${v.end?' end':''}"><img class="wallimg" src="assets/p-wall.webp" alt="">${sbHTML(f,1)}<div class="hubgrid">${ic}${dc}</div></div>`}
   case 'gal2':{
    const ss=(k)=>{const a=GSHOTS[k];return `<div class="gss"><small>${T(a[0])}</small><b>${T(a[1])}</b><p>${T(a[2])}</p><em>${T(a[3])}</em></div>`};
    const tile=(p)=>p[0][0]==='@'?`<span class="gtile ss">${ss(p[0].slice(1))}<i>${esc(p[3])}</i></span>`:`<span class="gtile"><img src="assets/${p[0]}.webp" alt="" style="object-position:${p[1]};transform:scale(${p[2]})"><i>${esc(p[3])}</i></span>`;

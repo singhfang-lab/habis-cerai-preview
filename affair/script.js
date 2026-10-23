@@ -68,7 +68,8 @@ const APPS=[
      {t:'Mas, barang besok tetap ya?|哥，明天的货照旧吧？',time:'22.31'},
      {t:'Istrimu udah tidur?|你老婆睡了没？',time:'22.31'}]},
    {k:'act',key:'trans',mode:'tap',in:'chat',btn:'📝 Ubah suara ke teks|📝 语音转文字'},
-   {k:'replay',th:'budi',tr:VN_TR}]},
+   {k:'replay',th:'budi',tr:VN_TR},
+   {k:'act',key:'cback',mode:'target',tgt:'back'}]},
  {id:'gal',name:'Galeri|相册',ic:'🖼',col:'#d98a1c',cost:4,re:[
    {k:'gal2',m:'grid'},
    {k:'inner',t:'Malam tanggal 12 itu, dia ngapain?|12号那天晚上，他在干嘛？'},
@@ -152,6 +153,9 @@ const BEATS=[
  // ---------- the water stops ----------
  {k:'dark',shower:2,fx:'shake',t:'Air berhenti.|水停了。',sub:'{t}'},
  {k:'inner',when:'got:chat',t:'Pesannya udah kebaca. Dia bakal tahu.|消息已经被我看成已读了。他会发现的。'},
+ {k:'inner',when:'!got:chat',t:'Lihat sekali aja…|……就看一眼。'},
+ {k:'home',when:'!got:chat',end:1},
+ {k:'act',when:'!got:chat',key:'ochat',mode:'target',tgt:'app-chat'},
  {k:'list',at:'top',back:1},
  {k:'act',when:'got:chat',key:'mk1',mode:'target',in:'list',tgt:'budi'},
  {k:'list',when:'got:chat',at:'top',menu:1},

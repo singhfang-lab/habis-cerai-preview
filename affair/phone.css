@@ -308,3 +308,9 @@ b.miss{color:#d0342c}
 .lmenu .tgt{cursor:pointer;animation:tglow 1.6s ease-in-out infinite}
 .lrt em.rp{animation:pop .5s both}
 .still .rrow,.still .brow,.still .bdet,.still .rdet,.still .lmenu,.still .lrt em{animation:none}.still .rrow.tgt,.still .lmenu .tgt{animation:gtg 1.6s ease-in-out infinite}.still .lmenu .tgt{animation-name:tglow}
+/* v8 */
+.chat .bk.tgt{cursor:pointer;border-radius:10px;padding:0 6px;animation:gtg 1.6s ease-in-out infinite}
+.still .vt.new{animation:none}
+.hub.end .cost{display:none}
+.hub.end .hubic .ai{filter:brightness(.6)}
+.hub.end .hubic.tgt .ai{filter:none;animation:glow 1.8s ease-in-out infinite}.hub.end .hubic.tgt{cursor:pointer}
