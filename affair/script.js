@@ -173,6 +173,8 @@ const BEATS=[
  {k:'say',who:'L',t:'Iya, Mas.|好，老公。'},
  {k:'status',clock:'07.10',from:'Sari 🌸|Sari 🌸',t:'Kamis, hari favoritku 🤍|星期四，我最喜欢的一天🤍'},
  {k:'scene',clock:'19.30',tag:'19.30 · Griya Sentosa · kafe lobi|19:30 · Griya Sentosa · 大堂咖啡角',tint:'night',img:'p-lobby.webp',lines:['Nayla kutitip ke Bi Inah.|Nayla 托给了 Bi Inah。','Aku duduk membelakangi pintu, melihat dari pantulan kaca.|我背对门坐，从玻璃反光里看。']},
+ {k:'pop',style:'mine',clock:'19.38',ic:'💬',from:'HP-ku · Mas Dimas ❤️|我的手机 · Mas Dimas ❤️',t:'Masih di gudang, Ras. Stok opname. Jangan ditunggu ya.|还在仓库，Ras。盘点。别等我。'},
+ {k:'inner',t:'Gudang Cempaka. Empat puluh menit dari sini.|Cempaka仓库。离这里四十分钟。'},
  {k:'scap',clock:'19.41',img:'p-ojek.webp',t:'19.41. Ojek berhenti. Mas Dimas turun, masih pakai helm ojek.|19:41，一辆摩的停下。老公下车，还戴着摩的头盔。'},
  {k:'fb',ref:['callA','callB','callC']},
  {k:'scap',img:'p-lift.webp',t:'Lift terbuka. Sari. Kardigan krem, di bawahnya satin dusty pink.|电梯门开。Sari，米色开衫，里面是烟粉色缎面。'},
