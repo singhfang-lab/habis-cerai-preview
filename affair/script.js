@@ -2,7 +2,7 @@
 // Every reader-facing string is 'id|zh' (exactly one '|'). Flags: only 'unread' (list badge).
 // Facts: Wed 21 Oct 2026. Shower starts 22.31, he always takes 15 min → countdown 15:00 at unlock (22.31).
 // Married 12 Oct 2019 (old code 121019). Ticket Thu 19.06.25 21.10 Studio 2 F7 F8 → code 190625.
-// Apps cost 4 min each, 3 fit. Call after the first app: Angkat +1 / Tolak +1. 15→11→10→6→2 → peek drains 2:00→1:00 fast, then the last minute over ~12 s (red edge), water stops 22.46.
+// Apps cost 4 min each, 3 fit. Call after the first app: Angkat +1 / Tolak +1. 15→11→10→6→2 → the last 2 min (cost 2): one look at Chat ('Rumah'), close recents, lock → water stops 22.46. Budi's 22.47 message (ep2) is the trace she can't erase.
 (function(root){
 const TITLE={t:'Di HP-nya, Namaku Cuma “Rumah”|在他手机里，我只是“家”',sub:'Tujuh tahun menikah. Lima belas menit untuk tahu semuanya.|结婚七年。十五分钟，看清一切。'};
 const ANSWER='190625';
@@ -146,11 +146,9 @@ const BEATS=[
  {k:'hub',key:'h2'},
  {k:'hub',key:'h3'},
  {k:'hub',key:'h4'},
- {k:'hub',peek:1},
- // ---------- the water stops ----------
- {k:'dark',shower:2,fx:'shake',t:'Air berhenti.|水停了。',sub:'{t}'},
- {k:'inner',when:'got:chat',t:'Pesannya udah kebaca. Dia bakal tahu.|消息已经被我看成已读了。他会发现的。'},
- {k:'inner',when:'!got:chat',t:'Lihat sekali aja…|……就看一眼。'},
+ // ---------- the last two minutes: one look, then cover the tracks (water still running) ----------
+ {k:'inner',when:'got:chat',cost:2,t:'Pesannya udah kebaca. Dia bakal tahu.|消息已经被我看成已读了。他会发现的。'},
+ {k:'inner',when:'!got:chat',cost:2,t:'Lihat sekali aja…|……就看一眼。'},
  {k:'home',when:'!got:chat',end:1},
  {k:'act',when:'!got:chat',key:'ochat',mode:'target',tgt:'app-chat'},
  {k:'list',at:'top',back:1},
@@ -160,7 +158,13 @@ const BEATS=[
  {k:'list',when:'got:chat',at:'top',flag:'unread'},
  {k:'list',at:'rumah',hold:1},
  {k:'list',at:'rumah',title:1},
- {k:'dark',shower:0,t:'Kukunci. Kutaruh di kasur, seperti tadi.|锁屏。放回床上，和刚才一样。',sub:'Aku berbaring.|我躺下。'},
+ {k:'recents'},
+ {k:'act',key:'clr',mode:'target',in:'recents',tgt:'clr'},
+ {k:'home',end:1,pwr:1},
+ {k:'act',key:'lock',mode:'target',in:'hub',tgt:'pwr'},
+ // ---------- the water stops right as the screen goes dark ----------
+ {k:'dark',shower:2,fx:'shake',t:'Air berhenti.|水停了。',sub:'{t}'},
+ {k:'dark',shower:0,t:'Kutaruh di kasur, seperti tadi.|放回床上，和刚才一样。',sub:'Aku berbaring.|我躺下。'},
  {k:'scene',clock:'22.48',tag:'22.48 · Kamar tidur|22:48 · 卧室',tint:'night',img:'p-ask.webp',lines:['Pintu kamar mandi terbuka.|浴室门开了。','Dia mengeringkan rambut. Mengambil HP-nya.|他擦着头发，拿起手机。','Dia menatap layarnya.|他盯着屏幕。']},
  {k:'scene',clock:'22.49',tag:'22.49 · Kamar tidur|22:49 · 卧室',tint:'night',img:'p-stare.webp',opos:'50% 0%',lines:['Lalu dia menoleh ke arahku.|然后他转过头，看着我。']},
  {k:'say',who:'D',t:'Kamu buka HP-ku?|你动我手机了？'},
@@ -182,7 +186,7 @@ const UI={
  incoming:'Panggilan masuk…|来电……',oncall:'Tersambung · aku diam|已接通 · 我没出声',callEnd:'Panggilan berakhir|通话结束',
  clogT:'Telepon · Terbaru|电话 · 最近通话',today:'Hari ini|今天',del:'Hapus|删除',deleted:'1 riwayat dihapus|已删除1条记录',
  cNew:'Kontak baru · HP-ku|新建联系人 · 我的手机',cNum:'Nomor|号码',cName:'Nama|名字',cDup:'Nomor ini sudah tersimpan sebagai:|这个号码已保存为：',
- fbL:'kilas balik|闪回',nextEp:'Lanjut Episode 2 ›|继续第2集 ›'
+ fbL:'kilas balik|闪回',clrAll:'Tutup semua|全部关闭',nextEp:'Lanjut Episode 2 ›|继续第2集 ›'
 };
 const EP=1,NEXT=2;
 const api={EP,NEXT,GDAYS,GSHOTS,GDEL,TITLE,TH,SAY,BEATS,UI,TICKET,ANSWER,IMAGES,LIST,APPS,DECOR,CLOG_OLD,NUM};if(typeof module!=='undefined')module.exports=api;else root.PHONE=api;

@@ -63,7 +63,8 @@ function build(plan){
     case 'rbook':base({k:'rbook',a:b.a,b:b.b,img:b.img,fare:b.fare,eta:b.eta,on:b.on});push(b,{txt:'x'.repeat(40)});break;
     case 'cmp':base({k:'cmp',l:b.l,r:b.r});push(b,{txt:'x'.repeat(60)});break;
     case 'gal2':base({k:'gal2',m:b.m,at:b.at,i:b.i});push(b,{txt:b.m==='photo'?'x'.repeat(50):''});break;
-    case 'home':base({k:'hub',end:b.end});push(b);break;
+    case 'home':base({k:'hub',end:b.end,pwr:b.pwr});push(b);break;
+    case 'recents':{const ids=['chat',...st.got.filter(x=>x!=='chat')];base({k:'recents',apps:ids,tel:1});push(b,{txt:'x'.repeat(20)});break}
     case 'snap':st.ov=st.ov.filter(o=>o.k!=='pop'&&o.k!=='inner');st.ov.push({k:'snap',t:b.t});push(b,{txt:b.t});break;
     case 'myshot':{if(b.src){base({k:'myshot',src:b.src,at:b.at});push(b,{txt:'x'.repeat(30)});break}const src=F.find(f=>f.b.id===b.ref);if(src){base({k:'myshot',src:{...clone(src.v),hl:1},at:src.clock,shower:src.shower,left:src.left})}push(b,{txt:'x'.repeat(30)});break}
     case 'epend':base({k:'epend',tease:b.tease,ep:b.ep});push(b,{wait:'end'});st.stop=true;return;
@@ -105,6 +106,7 @@ function build(plan){
   let j=i;while(j<F.length&&F[j].shower===1&&F[j].drainFrom==null&&F[j].left===f.left)j++;
   const n=j-i,a=prevEnd;let b=f.left*60;if(b>=a)b=a-Math.min(24,6*n);
   for(let k=i;k<j;k++){F[k].s0=Math.round(a-(a-b)*(k-i)/n);F[k].s1=Math.round(a-(a-b)*(k-i+1)/n)}
+  if(b===0&&F[j-1].wait)F[j-1].s1=Math.min(F[j-1].s0,3); // the last tap stops the water: never sit at 00:00 waiting
   prevEnd=b;i=j}
  return F;
 }
@@ -112,7 +114,7 @@ function build(plan){
 const scr=$('#screen'),phone=$('#phone');
 let F=build(),pos=Math.min(store.get(sk('pos'),0),F.length-1),shownAt=0,timer=null,paused=false,speed=store.get('speed',1),revealed=false;
 window.__LOG=[];
-const HIS=P.HIS||['lock','hub','list','thread','gallery','gal2','ride','bank','call','clog'];const WALL=P.WALL||'p-wall.webp';
+const HIS=P.HIS||['lock','hub','recents','list','thread','gallery','gal2','ride','bank','call','clog'];const WALL=P.WALL||'p-wall.webp';
 const secClock=s=>fmtClock(START+Math.floor((TOTAL*60-s)/60));
 const sbHTML=(f,light,clock)=>`<div class="sb${light?' light':''}"><b class="sbt">${esc(String(clock||(f.s0!=null?secClock(f.s0):f.clock)).replace('.',':'))}</b><span class="isl">${HIS.includes(f.v.k)&&!f.noLabel?`<em class="hisl">📱 ${T(UI.hisPhone)}</em>`:''}</span><span class="sig">▂▄▆█</span><small>4G</small><span class="bat"><i style="width:${f.shower?54:62}%"></i></span></div>`;
 const cdHidden=f=>!f.shower||(f.v.k==='dark'&&f.v.stop)||!!f.v.fbl||f.v.k==='cmp'||!!f.v.fbk;
@@ -164,7 +166,10 @@ function viewHTML(f){
    const ic=APPS.map(a=>{const done=f.got.includes(a.id);const can=!done&&a.cost<=f.left&&!v.peek;
      return `<button class="hubic ${v.end?'':done?'done':can?'can':'cant'}" data-app="${a.id}" data-tgt="app-${a.id}"${can&&f.b.wait!==undefined?'':''}><span class="ai" style="background:${a.col}">${a.ic}</span><small>${T(a.name)}</small><em class="cost">${done?'✓':(can?'':'✕ ')+a.cost+' '+T(UI.min)}</em></button>`}).join('');
    const dc=DECOR.map(d=>`<span class="hubic decor"><span class="ai">${d.ic}</span><small>${T(d.name)}</small></span>`).join('');
-   return `<div class="app hub${v.end?' end':''}"><img class="wallimg" src="assets/${WALL}" alt="">${sbHTML(f,1)}<div class="hubgrid">${ic}${dc}</div></div>`}
+   return `<div class="app hub${v.end?' end':''}"><img class="wallimg" src="assets/${WALL}" alt="">${sbHTML(f,1)}<div class="hubgrid">${ic}${dc}</div>${v.pwr?`<span class="pwr" data-tgt="pwr"><i></i></span>`:''}</div>`}
+  case 'recents':{
+   const cards=v.apps.map(id=>APPS.find(a=>a.id===id)).filter(Boolean).map(a=>({ic:a.ic,name:a.name,col:a.col}));if(v.tel)cards.push({ic:'📞',name:DECOR[0].name,col:'#3b6fd6'});
+   return `<div class="app recents"><img class="wallimg" src="assets/${WALL}" alt="">${sbHTML(f,1)}<div class="rcards">${cards.map((c,i)=>`<div class="rcard" style="--i:${i}"><div class="rch"><span class="ai" style="background:${c.col}">${c.ic}</span><b>${T(c.name)}</b></div><div class="rcb" style="background:linear-gradient(160deg,${c.col}33,#f4f4f6 40%)"><i></i><i></i><i></i></div></div>`).join('')}</div><button class="rclr" data-tgt="clr">${T(UI.clrAll)}</button></div>`}
   case 'gal2':{
    const ss=(k)=>{const a=GSHOTS[k];return `<div class="gss"><small>${T(a[0])}</small><b>${T(a[1])}</b><p>${T(a[2])}</p><em>${T(a[3])}</em></div>`};
    const tile=(p)=>p[0][0]==='@'?`<span class="gtile ss">${ss(p[0].slice(1))}<i>${esc(p[3])}</i></span>`:`<span class="gtile"><img src="assets/${p[0]}.webp" alt="" style="object-position:${p[1]};transform:scale(${p[2]})"><i>${esc(p[3])}</i></span>`;
@@ -257,7 +262,9 @@ function startTick(f){clearInterval(tick);const stop=f.shower===2||(f.v.k==='dar
  const rate=waitF?3*speed:(span>0?span/Math.max(.6,d*0.9):0);let last=performance.now();
  const paint=()=>{const s=Math.max(f.s1,Math.ceil(cur));const el=$('#cdt');if(el)el.textContent=fmtLeft(s);const sb=scr.querySelector('.sbt');if(sb&&!f.v.src)sb.textContent=secClock(s).replace('.',':');const cd=$('#cd');if(cd)cd.classList.toggle('low',s<=180);phone.classList.toggle('edge',s<=60)};
  paint();tick=setInterval(()=>{if(F[pos]!==f){clearInterval(tick);return}const now=performance.now();if(!paused)cur=Math.max(f.s1,cur-rate*(now-last)/1000);last=now;paint()},200)}
-function armHint(f){clearTimeout(hintT);scr.querySelectorAll('.ihint').forEach(x=>x.remove());if(!(f.wait&&!f.done)||f.wait==='end')return;
+function armHint(f){clearTimeout(hintT);scr.querySelectorAll('.ihint').forEach(x=>x.remove());
+ if(f.drainFrom!=null){hintT=setTimeout(()=>{if(F[pos]!==f)return;const h=document.createElement('div');h.className='ihint hold';h.style.left=scr.offsetWidth/2+'px';h.style.top=scr.offsetHeight*.8+'px';h.innerHTML='<i></i><b>👆</b>';scr.appendChild(h)},3000/speed);return}
+if(!(f.wait&&!f.done)||f.wait==='end')return;
  const go=()=>{if(F[pos]!==f||f.done)return;const b=f.b;let el=null,hold=b.k==='act'&&b.mode==='hold';
   if(b.k==='act'&&b.mode==='tap')el=$('#actbtn');else if(b.k==='act'&&b.mode==='target')el=scr.querySelector('.tgt');
   else if(b.k==='act'&&b.mode==='pin')el=scr.querySelector('#tkmini.tgt')||(b.fill?scr.querySelector('.key[data-k="1"]'):null);
@@ -270,7 +277,7 @@ function armHint(f){clearTimeout(hintT);scr.querySelectorAll('.ihint').forEach(x
 function smoothScroll(el,to,ms){const from=el.scrollTop,t0=performance.now();(function st(){const k=Math.min(1,(performance.now()-t0)/ms);el.scrollTop=from+(to-from)*(1-Math.pow(1-k,3));if(k<1)requestAnimationFrame(st)})()}
 const DR1=1400,DR2=11000;
 function drain(f){const el=$('#cdt'),sb=scr.querySelector('.sbt');const s0=f.drainFrom*60,a=Math.max(0,s0-60),m1=(a>0?DR1:0)/speed,m2=DR2*Math.min(60,s0)/60/speed,t0=performance.now();
- (function st(){const e=performance.now()-t0;const s=e<m1?Math.round(s0-a*e/m1):Math.max(0,Math.round(Math.min(60,s0)*(1-(e-m1)/m2)));const k=e>=m1+m2?1:0;if(el)el.textContent=fmtLeft(s);if(sb)sb.textContent=secClock(s).replace('.',':');const cd=$('#cd');if(cd)cd.classList.toggle('low',s<=180);phone.classList.toggle('edge',s<=60&&s>0);if(k<1&&F[pos]===f)requestAnimationFrame(st)})()}
+ (function st(){if(F[pos]!==f)return;const e=performance.now()-t0;const s=e<m1?Math.round(s0-a*e/m1):Math.max(0,Math.round(Math.min(60,s0)*(1-(e-m1)/m2)));const k=e>=m1+m2?1:0;if(el)el.textContent=fmtLeft(s);if(sb)sb.textContent=secClock(s).replace('.',':');const cd=$('#cd');if(cd)cd.classList.toggle('low',s<=180);phone.classList.toggle('edge',s<=60&&s>0);if(k<1&&F[pos]===f)requestAnimationFrame(st)})()}
 // ---------------- pin pad ----------------
 function armPin(b){
  let code='';const dots=$('#dots'),msg=$('#pinmsg'),help=$('#pinhelp');let wrong=0;
@@ -316,7 +323,7 @@ let revealAt=0;
 scr.addEventListener('click',()=>{
  const f=F[pos];if(f.wait&&!f.done){if(f.b.k==='act'&&f.b.mode==='hold'&&performance.now()-shownAt>1000)resolve(f.wait,true);return}
  const now=performance.now(),age=now-shownAt;
- if(f.drainFrom!=null&&age<(DR1+DR2)/speed)return; // the last minute plays out, taps can't skip it
+ if(f.drainFrom!=null&&age<700)return; // the last minute: one tap skips it, but taps carried over from the previous screen don't
  if(!revealed&&age<animEnd(f)){revealed=true;revealAt=now;scr.classList.add('rev');return}
  if(now-Math.max(shownAt,revealAt)<MINVIS)return;
  advance()});

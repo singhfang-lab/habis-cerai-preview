@@ -407,3 +407,15 @@ b.miss{color:#d0342c}
 /* v10.1 countdown returns after flashback */
 .cd.back{animation:cdback 1.1s ease-out}
 @keyframes cdback{0%{transform:scale(1.08);box-shadow:0 0 0 0 rgba(255,107,107,.8)}60%{box-shadow:0 0 0 10px rgba(255,107,107,0)}100%{transform:none}}
+/* v10.2 cleanup: recents + lock button */
+.recents{background:#0e0c14}.recents .wallimg{filter:blur(14px) brightness(.45)}
+.rcards{position:relative;z-index:2;flex:1;display:flex;gap:12px;overflow:hidden;padding:20px 16px 0;align-items:flex-start}
+.rcard{flex:none;width:58%;border-radius:18px;overflow:hidden;background:#f4f4f6;box-shadow:0 10px 30px rgba(0,0,0,.5);animation:pop .45s both;animation-delay:calc(var(--i)*.08s)}
+.rch{display:flex;align-items:center;gap:8px;padding:10px 12px;background:#fff;color:#111;font-size:16px}.rch .ai{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:17px}
+.rcb{height:300px;display:flex;flex-direction:column;gap:10px;padding:14px}.rcb i{display:block;height:14px;border-radius:7px;background:rgba(0,0,0,.08)}.rcb i:nth-child(2){width:70%}.rcb i:nth-child(3){width:85%}
+.rclr{position:absolute;z-index:3;left:50%;bottom:34px;transform:translateX(-50%);min-height:54px;padding:0 30px;border:0;border-radius:999px;background:#fff;color:#111;font:700 18.5px/1 inherit;font-family:inherit}
+.hub>.pwr{position:absolute;z-index:6;right:0;top:56%;width:56px;height:110px;display:flex;align-items:center;justify-content:flex-end;cursor:pointer}
+.pwr i{display:block;width:18px;height:90px;border-radius:8px 0 0 8px;background:linear-gradient(90deg,#d9d9de,#9a9aa3)}
+.pwr.tgt i{background:linear-gradient(90deg,#fff,#ffe9a8);box-shadow:0 0 0 3px rgba(255,190,40,.7),0 0 18px 6px rgba(255,190,40,.6);animation:pwrg 1.2s ease-in-out infinite}
+@keyframes pwrg{50%{box-shadow:0 0 0 6px rgba(255,190,40,.3),0 0 26px 10px rgba(255,190,40,.35)}}
+.rclr.tgt{animation:rclrg 1.6s ease-in-out infinite;cursor:pointer}@keyframes rclrg{50%{box-shadow:0 0 0 4px rgba(255,190,40,.9),0 0 22px 6px rgba(255,190,40,.5)}}
