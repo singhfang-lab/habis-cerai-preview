@@ -1,10 +1,9 @@
-// Di HP-nya, Namaku Cuma "Rumah" — Episode 3 (her phone, Sari moves in).
+// Di HP-nya, Namaku Cuma "Rumah" — Episode 3 (revised)
 // Every reader-facing string is 'id|zh' (exactly one '|').
-// Facts: Fri 23 Oct 07:10 Sari arrives. Dinner rings. Sat 04:18 fingerprint unlock (12 min to alarm).
-// KamuCam banner foreshadow. Hook: pregnancy test two lines.
+// Clearer pacing: one thing per page. No abrupt factory line. Camera is phone notification only.
 (function(root){
 const TITLE={t:'Di HP-nya, Namaku Cuma “Rumah”|在他手机里，我只是“家”',sub:''};
-const SAY={L:{name:'Aku|我',me:true,img:'av-L.webp'},D:{name:'Mas Dimas|Dimas',img:'av-D.webp'},S:{name:'Sari|Sari',img:'av-S.webp'},N:{name:'Nayla|Nayla',ini:'N'}};
+const SAY={L:{name:'Aku|我',me:true,img:'av-L.webp'},D:{name:'Mas Dimas|Dimas',img:'av-D.webp'},S:{name:'Sari|Sari',img:'av-S.webp'}};
 const BEATS=[
  {k:'dark',title:1,clock:'07.12',day:'Episode 3 · Jumat, 23 Oktober|第3集 · 10月23日 星期五',t:'Satu atap|同一屋檐下',sub:'07.12|07:12'},
  {k:'scene',clock:'07.12',tag:'07.12 · Pintu depan|07:12 · 家门口',img:'p2-door.webp',lines:['Tangannya masih di bahuku.|他的手还搭在我肩上。']},
@@ -20,14 +19,14 @@ const BEATS=[
  {k:'scene',clock:'19.30',tag:'19.30 · Meja makan|19:30 · 餐桌',img:'p2-breakfast.webp',lines:['Sari masak rendang.|Sari 做了仁当。']},
  {k:'say',who:'D',t:'Pedasnya pas.|辣得刚好。'},
  {k:'inner',t:'Tujuh tahun dia bilang masakanku kurang pedas.|七年来他总说我做的不够辣。'},
- {k:'cmp',l:{h:'Tangan Sari|Sari 的手',img:'p-album.webp',t:'Cincin emas tipis|细金戒'},r:{h:'Tanganku|我的手',img:'p-album.webp',t:'Cincin yang sama|一模一样'}},
+ {k:'scene',clock:'19.32',tag:'19.32 · Meja makan|19:32 · 餐桌',img:'p-album.webp',opos:'50% 60%',lines:['Kami berdua mengulurkan tangan bersamaan.|我们同时伸手。','Dua cincin emas tipis, berdampingan.|两枚细金戒，并排。']},
  {k:'act',key:'rings',mode:'hold'},
  {k:'say',who:'S',t:'Beli online. Murah.|网上买的，很便宜。'},
- {k:'inner',t:'Itu pabrik ayahku. Dia cuma yang ngurus.|那是我爸的厂。他只是替我管着。'},
+ {k:'scap',t:'Dia tidak mengangkat kepala.|他没抬头。'},
  {k:'dark',t:'04.18|04:18',sub:'Sabtu. Dia tidur.|周六。他睡着了。'},
  {k:'scene',clock:'04.18',tag:'04.18 · Kamar tidur|04:18 · 卧室',tint:'night',img:'p-bed2.webp',lines:['Jempolnya menggantung di tepi kasur.|他的拇指垂在床边。']},
  {k:'act',key:'fp',mode:'tap',btn:'Pakai sidik jarinya.|用他的指纹解锁。'},
- {k:'scene',clock:'04.20',tag:'04.20 · Kamar Nayla|04:20 · Nayla 的房间',tint:'night',img:'p-wall.webp',lines:['Aku bersembunyi di sini.|我躲到这里。','Di rak, titik biru kecil menyala.|书架上，一个小蓝点亮着。']},
+ {k:'scene',clock:'04.20',tag:'04.20 · Kamar Nayla|04:20 · Nayla 的房间',tint:'night',img:'p-wall.webp',lines:['Aku bersembunyi di sini.|我躲到这里。']},
  {k:'thread',th:'sari',msgs:[
    {t:'Kamu di sebelah, tapi jauh banget.|你就在隔壁，却离我好远。',time:'22.14'},
    {me:1,t:'Di sini lebih aman. Dia udah buka HP-ku.|在这儿更安全。她已经翻过我手机了。',time:'22.16'},
