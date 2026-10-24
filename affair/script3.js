@@ -1,5 +1,5 @@
 // Di HP-nya, Namaku Cuma "Rumah" — Episode 3
-// Continues directly from Ep2 door. One clear beat at a time.
+// Continues directly from Ep2 door. One clear beat at a time. Taps ~9.
 (function(root){
 const TITLE={t:'Di HP-nya, Namaku Cuma “Rumah”|在他手机里，我只是“家”',sub:''};
 const SAY={L:{name:'Aku|我',me:true,img:'av-L.webp'},D:{name:'Mas Dimas|Dimas',img:'av-D.webp'},S:{name:'Sari|Sari',img:'av-S.webp'}};
@@ -21,6 +21,8 @@ const BEATS=[
  {k:'scene',clock:'19.30',tag:'19.30 · Meja makan|19:30 · 餐桌',img:'p2-breakfast.webp',lines:['Sari masak rendang.|Sari 做了仁当。']},
  {k:'say',who:'D',t:'Pedasnya pas.|辣得刚好。'},
  {k:'inner',t:'Tujuh tahun dia bilang masakanku kurang pedas.|七年来他总说我做的不够辣。'},
+ {k:'say',who:'S',t:'Sekarang Mas udah jadi bos konveksi. Nanti pabriknya nggak perlu Kak urus lagi.|哥现在是服装厂老板了，以后厂里的事就不用姐操心了。'},
+ {k:'inner',t:'Itu pabrik ayahku.|那是我爸的厂。'},
  {k:'scene',clock:'19.32',tag:'19.32 · Meja makan|19:32 · 餐桌',img:'p-album.webp',opos:'50% 60%',lines:['Kami berdua mengulurkan tangan bersamaan.|我们同时伸手。']},
  {k:'inner',t:'Cincin di jarinya… sama dengan milikku.|她手上的戒指……跟我的一样。'},
  {k:'act',key:'rings',mode:'hold'},
@@ -39,12 +41,12 @@ const BEATS=[
  {k:'scap',bn:1,from:'Griya Sentosa|Griya Sentosa',time:'23.40',t:'Unit 17 sudah dikosongkan. Kunci di satpam. Biaya tetap dipotong.|17号单位已清空。钥匙在保安那儿。费用照扣。'},
  {k:'inner',t:'Tidak kebanjiran. Dia sudah pindah.|根本没被淹。她早就搬走了。'},
  {k:'scap',bn:1,from:'KamuCam|KamuCam',time:'04.22',t:'Gerakan terdeteksi di kamar Nayla. Rekaman otomatis tersimpan.|Nayla 的房间检测到画面移动。已自动保存录像。'},
- {k:'act',key:'cam',mode:'tap',btn:'Geser.|划掉。'},
- // ---------- last minutes ----------
+ {k:'act',key:'cam',mode:'tap',btn:'Geser.| 划掉。'},
  {k:'choice',key:'c3',opts:[
    {t:'📸 Foto dengan HP-ku|📸 用我的手机拍下来',re:[{k:'snap',t:'Tersimpan di galeri|已保存到相册'}]},
    {t:'➡️ Teruskan ke nomorku, lalu hapus|➡️ 转发到我号码再删',re:[{k:'scap',t:'Diteruskan. Riwayat dihapus.|已转发。记录已删。'}]}]},
- {k:'act',key:'lock',mode:'tap',btn:'Kunci layar. Taruh kembali.|锁屏。放回去。'},
+ {k:'act',key:'close',mode:'tap',btn:'Tutup semua aplikasi.|关掉所有应用。'},
+ {k:'act',key:'lock',mode:'tap',btn:'Kunci layar dan taruh kembali.|锁屏并放回去。'},
  {k:'dark',t:'Alarm berbunyi.|闹钟响了。',sub:'Dia mengangkat HP-nya. Lama.|他拿起手机。看了很久。'},
  {k:'inner',t:'Dia tahu aku buka HP-nya.|他知道我动过他的手机。'},
  // ---------- hook ----------
