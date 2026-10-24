@@ -69,14 +69,15 @@ const BEATS=[
  {k:'dark',shower:2,t:'Sampai.|到了。',sub:'{t}'},
  // ---------- Kopi Senja ----------
  {k:'scene',shower:0,clock:'19.40',tag:'19.40 · Kopi Senja|19:40 · Kopi Senja',tint:'night',img:'p-lobby.webp',lines:['Di seberang jalan: lobi Tower B.|马路对面：B座的大堂。','Aku pesan es kopi. Tidak kuminum.|我点了冰咖啡。一口没喝。']},
- {k:'scene',clock:'19.44',tag:'19.44 · Kopi Senja|19:44 · Kopi Senja',tint:'night',img:'p2-embrace.webp',lines:['Sebuah Jalanku berhenti. Dia turun.|一辆Jalanku停下。他下了车。','Seseorang lari dari lobi, langsung ke pelukannya.|有人从大堂跑出来，直接扑进他怀里。']},
+ {k:'scene',clock:'19.44',tag:'19.44 · Kopi Senja|19:44 · Kopi Senja',tint:'night',img:'p2-arrive.webp',opos:'center 30%',lines:['Motor Jalanku berhenti. Dia turun.|一辆Jalanku摩托停下。他下了车。']},
+ {k:'scene',clock:'19.44',tag:'19.44 · Kopi Senja|19:44 · Kopi Senja',tint:'night',img:'p2-hug.webp',opos:'center 30%',lines:['Seseorang lari dari lobi, langsung ke pelukannya.|有人从大堂跑出来，直接扑进他怀里。']},
  {k:'scap',t:'Sari.|Sari。'},
  {k:'choice',key:'c2',opts:[
    {t:'📹 Rekam|📹 录下来',re:[
      {k:'snap',t:'VID_20261022_1944 · 0:38 tersimpan|VID_20261022_1944 · 0:38 已保存'}]},
    {t:'📞 Telepon dia|📞 打给他',flag:'called',re:[
      {k:'call',clock:'19.45',who:'D',name:'Mas Dimas ❤️|Mas Dimas ❤️',num:'+62 811-2093-4417',sub:'Memanggil…|正在呼叫……'},
-     {k:'scene',clock:'19.45',tag:'19.45 · Kopi Senja|19:45 · Kopi Senja',tint:'night',img:'p2-embrace.webp',lines:['Dia melihat layarnya. Menolak.|他看了一眼屏幕。挂断了。']},
+     {k:'scene',clock:'19.45',tag:'19.45 · Kopi Senja|19:45 · Kopi Senja',tint:'night',img:'p2-hug.webp',opos:'center 30%',lines:['Dia melihat layarnya. Menolak.|他看了一眼屏幕。挂断了。']},
      {k:'scap',bn:1,from:'Mas Dimas ❤️|Mas Dimas ❤️',time:'19.45',t:'Lagi meeting sama supplier.|在跟供应商开会。'}]}]},
  {k:'scap',t:'Mereka masuk lift bersama.|他们一起进了电梯。'},
  // ---------- 23.30 ----------
@@ -93,7 +94,7 @@ const BEATS=[
  {k:'dark',cut:1,t:'',sub:''},
  {k:'epend',ep:2}
 ];
-const IMAGES=['p-stare.webp','p-ask.webp','p-bed2.webp','p2-breakfast.webp','p2-igstory.webp','p-rooftop.webp','p2-sisters.webp','p-apt.webp','p-lobby.webp','p2-embrace.webp','p2-return.webp','p2-door.webp','p2-sari-face.webp','p-wall.webp','av-L.webp','av-D.webp','av-S.webp','av-Dn.webp'];
+const IMAGES=['p-stare.webp','p-ask.webp','p-bed2.webp','p2-breakfast.webp','p2-igstory.webp','p-rooftop.webp','p2-sisters.webp','p-apt.webp','p-lobby.webp','p2-arrive.webp','p2-hug.webp','p2-return.webp','p2-door.webp','p2-sari-face.webp','p-wall.webp','av-L.webp','av-D.webp','av-S.webp','av-Dn.webp'];
 const UI={
  paused:'Dijeda|已暂停',menu:'Menu|菜单',resetQ:'Mulai ulang? Progres & pilihan dihapus.|重新开始？进度和选择都会被删除。',yes:'Ya, mulai ulang|确定重置',no:'Batal|取消',
  innerL:'suara hatiku|我的心声',tr:'Transkrip|转写',me:'Aku|我',

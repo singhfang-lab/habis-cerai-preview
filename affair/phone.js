@@ -40,7 +40,7 @@ function build(plan){
    if(b.cost){st.used+=b.cost;st.jump=b.cost}
    if(b.shower!=null){st.shower=b.shower;if(b.shower)st.fixed=null}
    switch(b.k){
-    case 'dark':base({k:'dark',title:b.title,day:b.day,t:b.t,sub:b.sub,cut:b.cut,stop:b.shower===2});push(b,{txt:(b.t||'')+(b.sub&&b.sub!=='{t}'?b.sub:'')});break;
+    case 'dark':base({k:'dark',title:b.title,day:b.day,t:b.t,sub:b.sub,cut:b.cut,stop:b.shower===2,fbk:b.fbk});push(b,{txt:(b.t||'')+(b.sub&&b.sub!=='{t}'?b.sub:'')});break;
     case 'scene':base({k:'scene',img:b.img,focus:b.opos,tag:b.tag,tint:b.tint,fbl:b.fbl,caps:b.lines.map(t=>({t,line:1}))});push(b,{txt:b.lines.join(' ')});break;
     case 'scap':case 'say':{if(st.view.k!=='scene')base({k:'scene',caps:[]});st.view.caps.forEach(c=>c.old=1);
       st.view.caps.push(b.k==='say'?{say:b.who,t:b.t}:{t:b.t,bn:b.bn,from:b.from,time:b.time,ticket:b.ticket,glimpse:b.glimpse});st.ov=[];push(b,{txt:b.t});break}
@@ -115,8 +115,9 @@ window.__LOG=[];
 const HIS=P.HIS||['lock','hub','list','thread','gallery','gal2','ride','bank','call','clog'];const WALL=P.WALL||'p-wall.webp';
 const secClock=s=>fmtClock(START+Math.floor((TOTAL*60-s)/60));
 const sbHTML=(f,light,clock)=>`<div class="sb${light?' light':''}"><b class="sbt">${esc(String(clock||(f.s0!=null?secClock(f.s0):f.clock)).replace('.',':'))}</b><span class="isl">${HIS.includes(f.v.k)&&!f.noLabel?`<em class="hisl">📱 ${T(UI.hisPhone)}</em>`:''}</span><span class="sig">▂▄▆█</span><small>4G</small><span class="bat"><i style="width:${f.shower?54:62}%"></i></span></div>`;
+const cdHidden=f=>!f.shower||(f.v.k==='dark'&&f.v.stop)||!!f.v.fbl||f.v.k==='cmp'||!!f.v.fbk;
 function chipHTML(f){
- if(!f.shower||(f.v.k==='dark'&&f.v.stop))return'';const stop=f.shower===2||(f.v.k==='dark'&&f.v.stop);const s=stop?0:f.drainFrom!=null?f.drainFrom*60:(f.s0!=null?f.s0:f.left*60);
+ if(cdHidden(f))return'';const stop=f.shower===2||(f.v.k==='dark'&&f.v.stop);const s=stop?0:f.drainFrom!=null?f.drainFrom*60:(f.s0!=null?f.s0:f.left*60);
  return `<div class="cd${stop?' stop':''}${!stop&&s<=180?' low':''}" id="cd"><span class="cdi">${CLK.ic}</span><span class="cdl">${T(stop?CLK.stop:CLK.label)}</span>${stop?'':`<b id="cdt">${fmtLeft(s)}</b>`}</div>`}
 function av(who,big){if(who==='B')return `<span class="pav c-b${big?' big':''}">B</span>`;const s=SAY[who];return s&&s.img?`<span class="pav${big?' big':''}"><img src="assets/${s.img}" alt=""></span>`:s&&s.ini?`<span class="pav c${s.c||2}${big?' big':''}">${esc(s.ini)}</span>`:`<span class="pav">?</span>`}
 function viewHTML(f){
@@ -192,7 +193,7 @@ function viewHTML(f){
   case 'rbook':
    return `<div class="app ride rbook">${sbHTML(f)}<div class="ah"><b>🛵 Jalanku</b><small>${T(v.on?UI.rbOn:UI.rbNew)}</small></div><div class="rmap"><img src="assets/${v.img}" alt=""><span class="rpin">📍 ${T(v.b)}</span></div><div class="rdet"><div class="rst"><i class="a"></i><div><small>${T(UI.rFrom)}</small><b>${T(v.a)}</b></div></div><div class="rst"><i class="b"></i><div><small>${T(UI.rTo)}</small><b>${T(v.b)}</b></div></div><div class="rfare"><span>${T(UI.rFare)}</span><b>${esc(v.fare)}</b></div>${v.on?`<div class="rdone">🛵 ${T(UI.rbDrv)}</div>`:''}</div></div>`;
   case 'cmp':
-   return `<div class="app cmp"><div class="cmpc"><div class="cmpk l"><small>${T(v.l.h)}</small><b>${esc(v.l.tm)}</b><div class="cmpb"><em>${T(v.l.from)}</em>${T(v.l.t)}</div></div><div class="cmpk r"><small>${T(v.r.h)}</small><b>${esc(v.r.tm)}</b><img src="assets/${v.r.img}" alt=""><em>${T(v.r.t)}</em></div></div></div>`;
+   return `<div class="app cmp">${sbHTML(f,1)}<div class="cmpw"><div class="cmpc"><div class="cmpk l"><small>${T(v.l.h)}</small><b>${esc(v.l.tm)}</b><div class="cmpb"><em>${T(v.l.from)}</em>${T(v.l.t)}</div></div><div class="cmpk r"><small>${T(v.r.h)}</small><b>${esc(v.r.tm)}</b><img src="assets/${v.r.img}" alt=""><em>${T(v.r.t)}</em></div></div></div></div>`;
  }
  return '<div class="app dark"></div>'}
 function ticketHTML(cls){const t=TICKET;return `<div class="ticket ${cls||''}"><div class="tk-l"><small>${esc(t.cin)}</small><b>${esc(t.film)}</b><div class="tkg"><span><small>${T(UI.tkDay)}</small>${T(t.day)}</span><span><small>${T(UI.tkDate)}</small><em class="tk-date">${esc(t.date)}</em></span><span><small>${T(UI.tkTime)}</small>${esc(t.time)}</span><span><small>STUDIO</small>${esc(t.studio)}</span><span><small>${T(UI.tkSeat)}</small>${esc(t.seat)}</span></div></div><div class="tk-r">🎟</div></div>`}
@@ -215,6 +216,7 @@ function render(anim){
  const changed=vk!==lastViewKey;lastViewKey=vk;
  phone.dataset.view=f.v.k;
  scr.innerHTML=viewHTML(f)+chipHTML(f)+ovHTML(f);
+ {const pf=F[pos-1];const cd=$('#cd');if(cd&&anim&&pf&&pf.shower&&cdHidden(pf)){cd.classList.add('back');cd.addEventListener('animationend',()=>cd.classList.remove('back'),{once:true})}}
  scr.dataset.frame=pos;scr.dataset.k=f.b.k;scr.dataset.wait=(f.wait&&!f.done)?f.wait:'';
  scr.dataset.left=f.left;scr.dataset.clock=f.clock;
  const app=scr.querySelector('.app');if(app&&changed&&anim)app.classList.add('enter');
@@ -266,8 +268,9 @@ function armHint(f){clearTimeout(hintT);scr.querySelectorAll('.ihint').forEach(x
   const h=document.createElement('div');h.className='ihint'+(hold?' hold':'');h.style.left=x+'px';h.style.top=y+'px';h.innerHTML='<i></i><b>👆</b>';scr.appendChild(h)};
  hintT=setTimeout(go,5000)}
 function smoothScroll(el,to,ms){const from=el.scrollTop,t0=performance.now();(function st(){const k=Math.min(1,(performance.now()-t0)/ms);el.scrollTop=from+(to-from)*(1-Math.pow(1-k,3));if(k<1)requestAnimationFrame(st)})()}
-function drain(f){const el=$('#cdt'),sb=scr.querySelector('.sbt');const s0=f.drainFrom*60,ms=3600/speed,t0=performance.now();
- (function st(){const k=Math.min(1,(performance.now()-t0)/ms);const s=Math.round(s0*(1-k));if(el)el.textContent=fmtLeft(s);if(sb)sb.textContent=secClock(s).replace('.',':');const cd=$('#cd');if(cd)cd.classList.toggle('low',s<=180);phone.classList.toggle('edge',s<=60&&s>0);if(k<1&&F[pos]===f)requestAnimationFrame(st)})()}
+const DR1=1400,DR2=11000;
+function drain(f){const el=$('#cdt'),sb=scr.querySelector('.sbt');const s0=f.drainFrom*60,a=Math.max(0,s0-60),m1=(a>0?DR1:0)/speed,m2=DR2*Math.min(60,s0)/60/speed,t0=performance.now();
+ (function st(){const e=performance.now()-t0;const s=e<m1?Math.round(s0-a*e/m1):Math.max(0,Math.round(Math.min(60,s0)*(1-(e-m1)/m2)));const k=e>=m1+m2?1:0;if(el)el.textContent=fmtLeft(s);if(sb)sb.textContent=secClock(s).replace('.',':');const cd=$('#cd');if(cd)cd.classList.toggle('low',s<=180);phone.classList.toggle('edge',s<=60&&s>0);if(k<1&&F[pos]===f)requestAnimationFrame(st)})()}
 // ---------------- pin pad ----------------
 function armPin(b){
  let code='';const dots=$('#dots'),msg=$('#pinmsg'),help=$('#pinhelp');let wrong=0;
@@ -292,7 +295,7 @@ function dwell(f){
  if(v.k==='list'&&v.title)return 2800;
  if(v.k==='list'&&v.back)return 1800;
  if(v.k==='list')return 2200;
- if(f.drainFrom!=null)return 4600;
+ if(f.drainFrom!=null)return DR1+DR2+900;
  if(v.k==='dark'&&v.cut)return 1100;
  if(v.k==='dark'&&v.title)return 5200;
  if(b.k==='fb')return 2800;
@@ -313,6 +316,7 @@ let revealAt=0;
 scr.addEventListener('click',()=>{
  const f=F[pos];if(f.wait&&!f.done){if(f.b.k==='act'&&f.b.mode==='hold'&&performance.now()-shownAt>1000)resolve(f.wait,true);return}
  const now=performance.now(),age=now-shownAt;
+ if(f.drainFrom!=null&&age<(DR1+DR2)/speed)return; // the last minute plays out, taps can't skip it
  if(!revealed&&age<animEnd(f)){revealed=true;revealAt=now;scr.classList.add('rev');return}
  if(now-Math.max(shownAt,revealAt)<MINVIS)return;
  advance()});

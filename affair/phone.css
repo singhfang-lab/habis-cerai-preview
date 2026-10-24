@@ -352,8 +352,9 @@ b.miss{color:#d0342c}
 .fbx .nb{background:#f4ead8}
 .fblbl{position:absolute;left:0;right:0;top:34px;z-index:5;text-align:center;font-size:21px;font-weight:800;letter-spacing:.5px;color:#ffe2b0;text-shadow:0 2px 8px rgba(0,0,0,.8);padding:6px 10px;background:linear-gradient(rgba(40,25,5,.75),rgba(40,25,5,0))}
 /* compare card */
-.cmp{background:#120d14;display:flex;align-items:center;justify-content:center;padding:0 10px}
-.cmpc{display:flex;gap:10px;width:100%;margin-top:-40px}
+.cmp{background:#120d14;display:flex;flex-direction:column}
+.cmpw{flex:1;display:flex;align-items:center;padding:0 10px}
+.cmpc{display:flex;gap:10px;width:100%;margin-top:-60px}
 .cmpk{flex:1;min-width:0;border-radius:16px;padding:12px 10px;display:flex;flex-direction:column;gap:6px;animation:pop .6s both}
 .cmpk.r{animation-delay:.5s}
 .cmpk small{font-size:13px;font-weight:700;opacity:.8}
@@ -402,3 +403,7 @@ b.miss{color:#d0342c}
 #screen:has(#cd) .fblbl{top:80px}
 .cd~.pop{top:86px}
 .scene.many2 .simg{height:30%}
+
+/* v10.1 countdown returns after flashback */
+.cd.back{animation:cdback 1.1s ease-out}
+@keyframes cdback{0%{transform:scale(1.08);box-shadow:0 0 0 0 rgba(255,107,107,.8)}60%{box-shadow:0 0 0 10px rgba(255,107,107,0)}100%{transform:none}}

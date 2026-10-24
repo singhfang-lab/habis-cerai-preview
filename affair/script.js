@@ -2,7 +2,7 @@
 // Every reader-facing string is 'id|zh' (exactly one '|'). Flags: only 'unread' (list badge).
 // Facts: Wed 21 Oct 2026. Shower starts 22.31, he always takes 15 min → countdown 15:00 at unlock (22.31).
 // Married 12 Oct 2019 (old code 121019). Ticket Thu 19.06.25 21.10 Studio 2 F7 F8 → code 190625.
-// Apps cost 4 min each, 3 fit. Call after the first app: Angkat +1 / Tolak +1. 15→11→10→6→2 → peek drains the last 2 min, water stops 22.46.
+// Apps cost 4 min each, 3 fit. Call after the first app: Angkat +1 / Tolak +1. 15→11→10→6→2 → peek drains 2:00→1:00 fast, then the last minute over ~12 s (red edge), water stops 22.46.
 (function(root){
 const TITLE={t:'Di HP-nya, Namaku Cuma “Rumah”|在他手机里，我只是“家”',sub:'Tujuh tahun menikah. Lima belas menit untuk tahu semuanya.|结婚七年。十五分钟，看清一切。'};
 const ANSWER='190625';
@@ -81,7 +81,7 @@ const APPS=[
    {k:'gal2',m:'photo',i:0},
    {k:'gal2',m:'photo',i:1},
    {k:'gal2',m:'photo',i:2},
-   {k:'dark',t:'Kenangan · 12 Oktober|回忆 · 10月12日',sub:'18.40|18:40'},
+   {k:'dark',fbk:1,t:'Kenangan · 12 Oktober|回忆 · 10月12日',sub:'18.40|18:40'},
    {k:'scene',tint:'fb',fbl:'Kenangan · 12 Oktober|回忆 · 10月12日',tag:'HP-ku · Senin, 12 Okt · 18.40|我的手机 · 10月12日 周一 · 18:40',img:'p-dressed.webp',lines:['Aku sudah dandan.|我已经化好了妆。','HP-ku bergetar.|我的手机震了。']},
    {k:'scap',bn:1,from:'Mas Dimas ❤️|Mas Dimas ❤️',time:'18.40',t:'Sayang, maaf, malam ini lembur. Anniversary-nya kita rayain weekend ya|宝贝，对不起，今晚加班。纪念日我们周末再过哈'},
    {k:'cmp',l:{h:'HP-ku · 12 Okt|我的手机 · 10月12日',tm:'18:40',from:'Mas Dimas ❤️|Mas Dimas ❤️',t:'“…malam ini lembur.”|“……今晚加班。”'},r:{h:'HP-nya · Baru dihapus|他的手机 · 最近删除',tm:'21:03',img:'p-rooftop.webp',t:'Rumah Langit|Rumah Langit'}},
