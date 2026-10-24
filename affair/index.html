@@ -10,6 +10,6 @@
 <div class="rbar"><button id="btnBack" aria-label="back">‹</button><div class="pg"><i id="prog"></i><span id="rb-hint"></span></div><button id="btnPause" aria-label="pause">❚❚</button><button id="btnSpeed" aria-label="speed">1×</button><button id="btnLang">ID</button><button id="btnMenu" aria-label="menu">☰</button></div>
 <div id="sheet" class="sheet" hidden></div>
 <script src="phone-store.js"></script>
-<script>document.write('<script src="'+(new URLSearchParams(location.search).get('ep')==='2'?'script2.js':'script.js')+'"><\/script>')</script>
+<script>document.write('<script src="'+(function(){const e=new URLSearchParams(location.search).get('ep');return e==='2'?'script2.js':e==='3'?'script3.js':'script.js'})()+'"><\/script>')</script>
 <script src="phone.js"></script>
 </body></html>
