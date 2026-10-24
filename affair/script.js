@@ -2,7 +2,7 @@
 // Every reader-facing string is 'id|zh' (exactly one '|'). Flags: only 'unread' (list badge).
 // Facts: Wed 21 Oct 2026. Shower starts 22.31, he always takes 15 min → countdown 15:00 at unlock (22.31).
 // Married 12 Oct 2019 (old code 121019). Ticket Thu 19.06.25 21.10 Studio 2 F7 F8 → code 190625.
-// Apps cost 4 min each, 3 fit. Call after the first app: Angkat +0 / Tolak +1 (delete). 15→11→(11|10)→(7|6)→(3|2).
+// Apps cost 4 min each, 3 fit. Call after the first app: Angkat +1 / Tolak +1. 15→11→10→6→2 → peek drains the last 2 min, water stops 22.46.
 (function(root){
 const TITLE={t:'Di HP-nya, Namaku Cuma “Rumah”|在他手机里，我只是“家”',sub:'Tujuh tahun menikah. Lima belas menit untuk tahu semuanya.|结婚七年。十五分钟，看清一切。'};
 const ANSWER='190625';
@@ -68,8 +68,7 @@ const APPS=[
      {t:'Mas, barang besok tetap ya?|哥，明天的货照旧吧？',time:'22.31'},
      {t:'Istrimu udah tidur?|你老婆睡了没？',time:'22.31'}]},
    {k:'act',key:'trans',mode:'tap',in:'chat',btn:'📝 Ubah suara ke teks|📝 语音转文字'},
-   {k:'replay',th:'budi',tr:VN_TR},
-   {k:'act',key:'cback',mode:'target',tgt:'back'}]},
+   {k:'replay',th:'budi',tr:VN_TR}]},
  {id:'gal',name:'Galeri|相册',ic:'🖼',col:'#d98a1c',cost:4,re:[
    {k:'gal2',m:'grid'},
    {k:'inner',t:'Tanggal 12… ulang tahun pernikahan kami.|12号……我们的结婚纪念日。'},
@@ -80,29 +79,26 @@ const APPS=[
    {k:'gal2',m:'del'},
    {k:'act',key:'gp1',mode:'target',tgt:'p0'},
    {k:'gal2',m:'photo',i:0},
-   {k:'act',key:'gp2',mode:'target',tgt:'ph'},
    {k:'gal2',m:'photo',i:1},
-   {k:'act',key:'gp3',mode:'target',tgt:'ph'},
    {k:'gal2',m:'photo',i:2},
-   {k:'act',key:'gp4',mode:'target',tgt:'ph'},
-   {k:'dark',t:'12 Oktober · 18.40|10月12日 · 18:40'},
-   {k:'scene',tint:'fb',tag:'HP-ku · Senin, 12 Okt · 18.40|我的手机 · 10月12日 周一 · 18:40',img:'p-dressed.webp',lines:['Aku sudah dandan.|我已经化好了妆。','HP-ku bergetar.|我的手机震了。']},
+   {k:'dark',t:'Kenangan · 12 Oktober|回忆 · 10月12日',sub:'18.40|18:40'},
+   {k:'scene',tint:'fb',fbl:'Kenangan · 12 Oktober|回忆 · 10月12日',tag:'HP-ku · Senin, 12 Okt · 18.40|我的手机 · 10月12日 周一 · 18:40',img:'p-dressed.webp',lines:['Aku sudah dandan.|我已经化好了妆。','HP-ku bergetar.|我的手机震了。']},
    {k:'scap',bn:1,from:'Mas Dimas ❤️|Mas Dimas ❤️',time:'18.40',t:'Sayang, maaf, malam ini lembur. Anniversary-nya kita rayain weekend ya|宝贝，对不起，今晚加班。纪念日我们周末再过哈'},
-   {k:'act',key:'gfb',mode:'hold'}]},
+   {k:'cmp',l:{h:'HP-ku · 12 Okt|我的手机 · 10月12日',tm:'18:40',from:'Mas Dimas ❤️|Mas Dimas ❤️',t:'“…malam ini lembur.”|“……今晚加班。”'},r:{h:'HP-nya · Baru dihapus|他的手机 · 最近删除',tm:'21:03',img:'p-rooftop.webp',t:'Rumah Langit|Rumah Langit'}},
+   {k:'act',key:'cmpH',mode:'hold'},
+   {k:'inner',t:'Dia bilang lembur.|他说他在加班。'}]},
  {id:'ride',name:'Jalanku|Jalanku',ic:'🛵',col:'#0b8f62',cost:4,re:[
    {k:'ride',t:'Riwayat perjalanan|行程记录',img:'p-apt.webp',cap:'Griya Sentosa Tower B|Griya Sentosa B座',rows:RIDES},
    {k:'inner',t:'Tiap Kamis.|每个星期四。'},
    {k:'act',key:'rd',mode:'target',tgt:'r1'},
    {k:'ride',t:'Detail perjalanan|行程详情',img:'p-apt.webp',cap:'Griya Sentosa Tower B|Griya Sentosa B座',rows:RIDES,det:{d:'Senin, 12 Okt 2026|2026年10月12日 周一',a:ROUTE_A,ta:'20.08',b:ROUTE_B,tb:'20.35',fare:'Rp41.000'}},
-   {k:'inner',t:'Malam ulang tahun kami.|纪念日那天晚上。'},
-   {k:'act',key:'rback',mode:'target',tgt:'back'}]},
+   {k:'inner',t:'Malam ulang tahun kami.|纪念日那天晚上。'}]},
  {id:'bank',name:'Arta|Arta银行',ic:'🏦',col:'#2357c9',cost:4,re:[
    {k:'bank',t:'Mutasi rekening · 3 bulan|账户明细 · 近3个月',amt:'−Rp8.500.000',rows:[
      ['05 Okt 2026|2026年10月5日','Transfer · sewa unit 17|转账 · sewa unit 17'],
      ['05 Sep 2026|2026年9月5日','Transfer · sewa unit 17|转账 · sewa unit 17'],
      ['05 Agu 2026|2026年8月5日','Transfer · sewa unit 17|转账 · sewa unit 17']],
-    det:[['Penerima|收款方','PT GRIYA SENTOSA PROPERTI|PT GRIYA SENTOSA PROPERTI'],['Berita|备注','sewa unit 17|sewa unit 17',1],['Jumlah|金额','Rp8.500.000|Rp8.500.000']]},
-   {k:'act',key:'bback',mode:'target',tgt:'back'}]}
+    det:[['Penerima|收款方','PT GRIYA SENTOSA PROPERTI|PT GRIYA SENTOSA PROPERTI'],['Berita|备注','sewa unit 17|sewa unit 17',1],['Jumlah|金额','Rp8.500.000|Rp8.500.000']]}]}
 ];
 const DECOR=[{ic:'📞',name:'Telepon|电话'},{ic:'📷',name:'Kamera|相机'},{ic:'⚙️',name:'Setelan|设置'},{ic:'🗓',name:'Kalender|日历'}];
 const CLOG_OLD=[
@@ -122,9 +118,9 @@ const BEATS=[
  // ---------- passcode ----------
  {k:'act',key:'pin1',mode:'pin',in:'lock',fail:1,fill:'121019'},
  {k:'inner',t:'Dulu ini kodenya.|以前就是这个。'},
- {k:'scene',tint:'fb',tag:'21.20 · Meja makan · tadi|21:20 · 餐桌 · 今晚早些时候',img:'p-dinner.webp',lines:['Dia membuka HP-nya, layarnya dimiringkan dariku.|他解锁手机时，把屏幕斜着避开我。','Yang sempat kulihat: 1, lalu 9.|我只看见：1，然后是9。']},
+ {k:'scene',tint:'fb',fbl:'Kenangan · tadi, 21.20|回忆 · 今晚 21:20',tag:'21.20 · Meja makan · tadi|21:20 · 餐桌 · 今晚早些时候',img:'p-dinner.webp',lines:['Dia membuka HP-nya, layarnya dimiringkan dariku.|他解锁手机时，把屏幕斜着避开我。','Yang sempat kulihat: 1, lalu 9.|我只看见：1，然后是9。']},
  {k:'inner',t:'19…|19……'},
- {k:'scene',tint:'fb',tag:'Juni 2025 · Ruang cuci|2025年6月 · 洗衣间',img:'p-laundry.webp',lines:['Malam itu katanya dia lembur.|那天晚上，他说在加班。']},
+ {k:'scene',tint:'fb',fbl:'Kenangan · Juni 2025|回忆 · 2025年6月',tag:'Juni 2025 · Ruang cuci|2025年6月 · 洗衣间',img:'p-laundry.webp',lines:['Malam itu katanya dia lembur.|那天晚上，他说在加班。']},
  {k:'scap',ticket:1,t:'Aku nggak nanya. Tiketnya kuselipkan di dompetku.|我没问。把票夹进了自己的钱包。'},
  {k:'act',key:'pin2',mode:'pin',in:'lock',final:1,ticketTop:1,cap:'Kuambil dari dompetku.|我从钱包里抽出那张票。',ticketAfter:9000},
  // ---------- unlocked: his home screen ----------
@@ -136,7 +132,7 @@ const BEATS=[
  {k:'snap',t:'Kufoto layarnya pakai HP-ku.|我用自己的手机拍下了来电屏幕。'},
  {k:'choice',key:'call',in:'call',opts:[
    {t:'Angkat|接听',set:{on:1},re:[
-     {k:'line',who:'W',t:'Mas? …Mas?|哥？……哥？'},
+     {k:'line',who:'W',cost:1,t:'Mas? …Mas?|哥？……哥？'},
      {k:'pop',style:'shout',fx:'shake',ic:'🚪',from:'Kamar mandi|浴室',t:'Gagang pintunya bergerak.|门把手动了一下。'},
      {k:'act',key:'hang',mode:'tap',in:'call',btn:'Tutup|挂断',red:1},
      {k:'clog',row:{t:'Panggilan masuk · 0:09|来电 · 0:09'},swipe:1},
@@ -144,9 +140,9 @@ const BEATS=[
      {k:'clog',row:{t:'Panggilan masuk · 0:09|来电 · 0:09'}},
      {k:'pop',style:'shout',ic:'🚿',from:'Kamar mandi|浴室',t:'Airnya masih menyala.|水还在流。'}]},
    {t:'Tolak|拒接',re:[
-     {k:'clog',row:{t:'Panggilan ditolak|已拒接',miss:1}},
+     {k:'clog',cost:1,row:{t:'Panggilan ditolak|已拒接',miss:1}},
      {k:'act',key:'del',mode:'tap',in:'clog',btn:'Hapus dari riwayat|从记录里删掉'},
-     {k:'clog',cost:1,gone:1}]}]},
+     {k:'clog',gone:1}]}]},
  {k:'hub',key:'h2'},
  {k:'hub',key:'h3'},
  {k:'hub',key:'h4'},
@@ -186,7 +182,8 @@ const UI={
  incoming:'Panggilan masuk…|来电……',oncall:'Tersambung · aku diam|已接通 · 我没出声',callEnd:'Panggilan berakhir|通话结束',
  clogT:'Telepon · Terbaru|电话 · 最近通话',today:'Hari ini|今天',del:'Hapus|删除',deleted:'1 riwayat dihapus|已删除1条记录',
  cNew:'Kontak baru · HP-ku|新建联系人 · 我的手机',cNum:'Nomor|号码',cName:'Nama|名字',cDup:'Nomor ini sudah tersimpan sebagai:|这个号码已保存为：',
- fbL:'kilas balik|闪回'
+ fbL:'kilas balik|闪回',nextEp:'Lanjut Episode 2 ›|继续第2集 ›'
 };
-const api={GDAYS,GSHOTS,GDEL,TITLE,TH,SAY,BEATS,UI,TICKET,ANSWER,IMAGES,LIST,APPS,DECOR,CLOG_OLD,NUM};if(typeof module!=='undefined')module.exports=api;else root.PHONE=api;
+const EP=1,NEXT=2;
+const api={EP,NEXT,GDAYS,GSHOTS,GDEL,TITLE,TH,SAY,BEATS,UI,TICKET,ANSWER,IMAGES,LIST,APPS,DECOR,CLOG_OLD,NUM};if(typeof module!=='undefined')module.exports=api;else root.PHONE=api;
 })(this);
