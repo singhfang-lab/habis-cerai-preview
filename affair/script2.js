@@ -98,7 +98,7 @@ const IMAGES=['p-stare.webp','p-ask.webp','p-bed2.webp','p2-breakfast.webp','p2-
 const UI={
  paused:'Dijeda|已暂停',menu:'Menu|菜单',resetQ:'Mulai ulang? Progres & pilihan dihapus.|重新开始？进度和选择都会被删除。',yes:'Ya, mulai ulang|确定重置',no:'Batal|取消',
  innerL:'suara hatiku|我的心声',tr:'Transkrip|转写',me:'Aku|我',
- end1:'Bersambung|未完待续',again:'Ulangi dari awal|从头再看',epDone:'Episode 2 · selesai|第2集 · 完',
+ end1:'Bersambung|未完待续',again:'Ulangi dari awal|从头再看',epDone:'Episode 2 · selesai|第2集 · 完',nextEp:'Lanjut Episode 3 ›|继续第3集 ›',
  now:'sekarang|现在',lockDate:'Kamis, 22 Oktober|10月22日 星期四',hisPhone:'HP Mas Dimas|Dimas的手机',myGal:'Galeri · HP-ku|相册 · 我的手机',
  min:'mnt|分钟',oncall:'Tersambung|通话中',
  cNew:'Kontak baru · HP-ku|新建联系人 · 我的手机',cNum:'Nomor|号码',cName:'Nama|名字',cDup:'Nomor ini sudah tersimpan sebagai:|这个号码已保存为：',
@@ -106,6 +106,6 @@ const UI={
  posts:'Postingan|帖子',fbL:'kilas balik|闪回'
 };
 const CLOCK={start:'19.26',total:14,ic:'🛵',label:'Jalanku tiba dalam|Jalanku到达还有',stop:'Sudah sampai|到了'};
-const EP=2,NEXT=0,HIS=[],WALL='p-wall.webp',APPS=[],LIST=[],GDAYS=[],GSHOTS={},GDEL=[],DECOR=[],CLOG_OLD=[],TICKET={},ANSWER='';
+const EP=2,NEXT=3,HIS=[],WALL='p-wall.webp',APPS=[],LIST=[],GDAYS=[],GSHOTS={},GDEL=[],DECOR=[],CLOG_OLD=[],TICKET={},ANSWER='';
 const api={EP,NEXT,HIS,WALL,CLOCK,GDAYS,GSHOTS,GDEL,TITLE,TH,SAY,BEATS,UI,TICKET,ANSWER,IMAGES,LIST,APPS,DECOR,CLOG_OLD,NUM};if(typeof module!=='undefined')module.exports=api;else root.PHONE=api;
 })(typeof window!=='undefined'?window:this);
